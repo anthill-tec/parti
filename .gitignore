@@ -1,0 +1,9 @@
+# Machine-local overlay (values that stay on this machine) — never committed.
+.env.local
+
+# CR worktrees live inside the repo (inheriting Pi's project trust).
+.worktrees/
+
+# Tooling debris.
+__pycache__/
+test-reports/
