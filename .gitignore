@@ -8,6 +8,9 @@
 # CR worktrees live inside the repo (inheriting Pi's project trust).
 .worktrees/
 
+# Review pages (Lavish): machine-local working records; decisions live in docs/.
+.lavish/
+
 # Services ledger (parti-services skill) — machine-local run state.
 .run/
 

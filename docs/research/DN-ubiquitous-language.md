@@ -32,8 +32,12 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Surface | One face of an element that can take a finish (a wall face, a floor). | Building |
 | Zone | A part of a surface, described by numbers. Zones come in kinds: area, panel, band (by height), border, … | Design |
 | Layer | One kind of information placed on the building: finishes, furniture and cabinetry, electrical, plumbing, … | Design |
-| Design | The user's layer planning for the building: one plan per layer, with its schemes and shortlist. What the user is making. (Not the architect's design of the building, which is "the building".) | Design |
-| Plan | The placements of one layer within a design (the finishes plan, the furniture plan). | Design |
+| Design | The user's layer planning for the building: one plan per layer, with its schemes and shortlist. What the user is making. (Not the architect's design of the building, which is "the building".) The business word; in code, each layer's plan is a `LayerPlan`. | Design |
+| Plan | The placements of one layer within a design (the finishes plan, the furniture plan). In code: `LayerPlan`. | Design |
+| Revision | A numbered state of the building, of a plan or of a scenario (D19). | each owning context |
+| Stale | Downstream of a change and not yet brought up to date (D19). | Workflow |
+| Follow-up action | One thing to do to bring something stale up to date: re-check placements, recompute quantities, rebuild the scene (D19). | Workflow |
+| Orphaned placement | A placement whose zone or surface is gone; flagged for the user to re-place or drop (D19). | Design |
 | Placement | A product put on an element, a surface or a zone, with its details (for a finish: laying pattern, grout, offset, rotation). (Generalises "assignment".) | Design |
 | Scheme | A named, saved set of placements that can be applied again ("Bath 1, scheme A"). | Design |
 | Shortlist | Products set aside, each with a note on where it is meant to go. | Design |
@@ -44,6 +48,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Quantity | How much of a product a plan needs, wastage included. | Quantities |
 | Bill of materials | The quantities of one or more plans, grouped for one work-contract role. | Quantities |
 | Work-contract role | A trade engaged on the building project: tiling contractor, painter, carpenter, electrician, plumber, furniture supplier. | Quantities |
+| Cost estimate | The price of a bill of materials, computed once price data exists. Later. | Quantities |
 | World builder | The module that, once the building is modelled in CAD and brought into Unreal, creates a world there with the building at the centre of all activity, and stages it as an experience (D18). | World builder |
 | Scenario | One way of experiencing the building: which layers and schemes show, the setting, the experience mode, the routes. | World builder |
 | Setting | The state of the world around the building: time of day, date, weather simulation, light, site. (Replaces "Presentation".) | World builder |
@@ -62,3 +67,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Date | Change |
 |---|---|
 | 2026-11-22 | First version, from the architecture review. Owner's names: Zone kept (kinds: area, panel, …); Design kept (character: layer planning; Layer and Plan as terms); Session kept. |
+| 2026-11-22 | Added Revision, Stale, Follow-up action, Orphaned placement (D19) and Cost estimate (D17). Design is the business word; `LayerPlan` is its name in code (owner). |

@@ -69,7 +69,7 @@ Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the 
 | **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
 | **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
 | **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
-| **Quantities** | Quantities per plan; bill of materials per work-contract role | (queries) quantities, bill of materials | — (derived from plans) |
+| **Quantities** (computational module) | Quantities per plan; bill of materials per work-contract role; cost estimates later | (queries) quantities, bill of materials | — (derived from plans) |
 | **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
 | **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
 | **Asset delivery** | Mapping from a product to what a scene can draw | prepare product for a scene | product ready / failed |
@@ -153,6 +153,11 @@ also connects it to the target's Unreal project.
 | `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
 | `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
 | `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
+| `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
+
+**Order of the design work.** 1. This architecture, reviewed. 2. The glossary (`research/DN-ubiquitous-language.md`).
+3. The domain PRD, then the other per-area PRDs, each with its review page. 4. CRs, filed on the Crucible board,
+last: each implements settled requirements.
 
 ## 11. System-design terms
 
