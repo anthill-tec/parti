@@ -33,7 +33,7 @@ Pre-wave tasks — not a wave; a wave is a grouping of CRs.
 - [x] Create the python test interpreter: from the project root, run `uv venv --python 3.14`, then `uv pip install unittest-xml-reporting coverage` — the python client runs the tests under `.venv/bin/python` when it exists; `coverage` is needed for `regression --coverage` — 2026-11-22 (Python 3.14.10, coverage 7.17.4, unittest-xml-reporting 4.0.0; `.venv/` gitignored)
 - [x] Commit `bun.lock` — the release workflow's `test-bun` job installs from the frozen lockfile — 2026-11-22 (minimal private root `package.json`, dev dep `@types/bun`; workspaces are the first code CR's)
 - [x] Add a `tests/` package holding the project's unittest modules — the release workflow's `test-python` job discovers its tests there — 2026-11-22 (empty package; first tests come with the first CR)
-- [ ] Add the `RELEASE_PAT` repository secret, a token with `contents: write` — the release workflow's `create-release` job creates the release with it, so the release fires the publish run
+- [x] Add the `RELEASE_PAT` repository secret, a token with `contents: write` — the release workflow's `create-release` job creates the release with it, so the release fires the publish run — 2026-11-22 (set by the owner; confirmed with `gh secret list`)
 - [x] Confirm the remote owner matches `REPO_OWNER` in `.env` before the first wave-boundary gate — 2026-11-22 (`origin` = `anthill-tec/parti`, private; gh login `antojk`)
 
 ## Skill freeze (derived from --stacks: bun, python)
