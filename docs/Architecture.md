@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** DRAFT for the owner's review. Structure is settled where a decision number (D…) from `research/PRD-parti.md` §3 is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -103,7 +103,7 @@ The repository layout that realises this (workspace packages, test folders) is t
 Assigning a finish, version one:
 
 1. The user picks a zone in the scene. The scene adapter sends *selection requested*; Session produces *selection changed*; page and scene both show it.
-2. The user chooses a finish in the page. The page sends *assign finish* with the design's expected version and a command id.
+2. The user chooses a finish in the page. The page sends *place finish* with the design's expected version and a command id.
 3. The gateway validates the message, loads the design's state, calls Design's `decide`. It refuses (unknown zone, finish not valid for this surface, stale version) or returns *finish assigned*.
 4. The event is appended through the design store, then sent to every link.
 5. The scene adapter asks asset delivery for the finish in drawable form and updates the zone. The page updates through its projection.
@@ -148,7 +148,7 @@ also connects it to the target's Unreal project.
 | Document | Holds |
 |---|---|
 | `Architecture.md` (this) | The overview. |
-| `research/PRD-parti.md` | The suite's design contract: decisions, requirements, stages, open questions. |
+| `research/PRD-parti.md` | Parti's design contract: decisions, requirements, stages, open questions. |
 | `research/DN-ubiquitous-language.md` | The living glossary: the business language shared with architects, designers and users. |
 | `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain: building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface; (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets. `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
 | `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |

@@ -1,8 +1,8 @@
 # PRD — Parti: a guided workflow from drawings to an Unreal walkthrough
 
-**Version:** 0.1 (draft for the owner's review)
+**Version:** 0.2 (architecture review applied, 22 November 2026)
 **Date:** 2026-11-22
-**Status:** DRAFT. Decisions marked "decided" are the owner's; items marked "proposed" or "open" are not yet confirmed.
+**Status:** DRAFT, reviewed with the architecture on 22 November 2026. Decisions in §3 are the owner's; items marked "proposed" or "open" are not yet confirmed. Detailed sections move to the per-area PRDs as they are written.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 **Builds on:** `DN-founding-design-record.md` (the discussion these requirements come from)
@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-22 | Terms aligned with the glossary across §4, §7 and §9 (Building, placement, setting); Stage D notes the migration trigger (D9); version 0.2. Requirement ids unchanged. |
 | 2026-11-22 | Architecture review, owner-approved: D19 (versioning, changes flow forward; breaking changes allowed and flagged); D17 adds Quantities as a computational module (cost estimates later). |
 | 2026-11-22 | Architecture review, owner-approved: D16 (agents through AXI), D17 (building with layers), D18 (world builder); FR-AXI-8, FR-AXI-9; §2 replaced by the glossary `DN-ubiquitous-language.md`; §6 contexts revised; §10 and Q9 amended. |
 
@@ -97,16 +98,16 @@ floor, the field, a border inset or a rectangle (shower area).
 - **FR-CAT-5** Paint is a second kind of finish (colour, sheen). No paint data exists yet; the model must allow it without redesign.
 - **FR-CAT-6** A finish can be valid for a surface or not (a wall-only tile on a floor is refused). The rule lives in the domain.
 
-### 4.2 Model: surfaces and zones
+### 4.2 Building: surfaces and zones
 
-- **FR-MOD-1** A target project declares its rooms and its surfaces, each with a stable id, a kind (wall, floor, feature), its room, and its size.
+- **FR-MOD-1** A target project declares its rooms and its surfaces, each with a stable id, a kind (wall, floor, feature), its room, and its size. (The building's labelled elements and their 3D and 2D references, D17, and ids that stay stable across CAD revisions, D19, are detailed in the domain PRD.)
 - **FR-MOD-2** A surface is divided into zones by numbers: wall bands by height and rectangles; floor field, border inset and rectangles. Zones on one surface do not overlap.
 - **FR-MOD-3** The user can define, resize and remove zones from the interface (drag a band height, draw a rectangle).
 
 ### 4.3 Design
 
-- **FR-DES-1** Commands: define zone, resize zone, remove zone, assign finish to a zone, clear a zone, save a scheme, apply a scheme. Each either produces events or is refused with a stated reason.
-- **FR-DES-2** An assignment carries: finish id, laying pattern, grout width and colour, offset, rotation.
+- **FR-DES-1** Commands: define zone, resize zone, remove zone, place a finish on a zone, clear a zone, save a scheme, apply a scheme. Each either produces events or is refused with a stated reason.
+- **FR-DES-2** A placement carries: finish id, laying pattern, grout width and colour, offset, rotation.
 - **FR-DES-3** A design is saved to a file and loaded again, giving the same scene. The file can be carried to other tools (for JohnnyHouse: replayed in Blender for stills).
 - **FR-DES-4** Undo and redo of design changes within a session.
 - **FR-DES-5** A shortlist: finishes the user has set aside, each with a note saying where it is meant to go.
@@ -117,7 +118,7 @@ floor, the field, a border inset or a rectangle (shower area).
 - **FR-SEL-2** Wider picks: all walls of this room; all floors of this room; every zone carrying the same finish.
 - **FR-SEL-3** Selection made in the scene appears in the page, and selection made in the page appears in the scene.
 
-### 4.5 Presentation
+### 4.5 Setting (world builder, D18)
 
 - **FR-PRE-1** Time of day: the sun position through the day for a given date and place, and interior lights at night.
 - **FR-PRE-2** Weather scenarios: clear, overcast and rain at the least.
@@ -132,7 +133,7 @@ floor, the field, a border inset or a rectangle (shower area).
 ### 4.7 Scene adapters
 
 - **FR-SCN-1** A **mock scene** adapter, in this repository, that implements the scene side of the message schema without Unreal (a simple 2D or 3D drawing of surfaces and zones in a browser is enough). It is the test partner for the page and the gateway, and it is what makes a release possible before the C++ plugin exists.
-- **FR-SCN-2** The **Unreal plugin** (deferred, D5): connects to the gateway; reports surfaces; does the crosshair pick; draws zones through one master material per surface (face texture, true tile size in world space from the size in millimetres, grout, laying pattern, shine from the finish class); applies assignments; applies presentation settings; shows the page as an overlay.
+- **FR-SCN-2** The **Unreal plugin** (deferred, D5): connects to the gateway; reports surfaces; does the crosshair pick; draws zones through one master material per surface (face texture, true tile size in world space from the size in millimetres, grout, laying pattern, shine from the finish class); applies placements; applies the setting; shows the page as an overlay.
 - **FR-SCN-3** Finishes reach Unreal as assets (D6, D7): the core catalogue through Unreal's import pipeline as textures, material instances and one finish data asset per finish, with the filter fields as Asset Registry tags; run-time finishes created from files using the same master material.
 
 ## 5. Quality requirements
@@ -175,11 +176,12 @@ The page, the gateway's connections and the scene adapters are adapters, not con
 | Domain | TypeScript | Pure rules per context (NFR-1). |
 | Gateway | Bun | Local server: serves the page, holds the WebSocket connections of the page and the scene adapter, runs the domain, uses the ports. |
 | Local adapters | TypeScript | Catalogue from files, designs to a file. |
-| Page | TypeScript, VanJS | Catalogue browser, finish detail, shortlist, zone editing, presentation controls. Prior art: the JohnnyHouse tile browser (see the consumer note). |
+| Page | TypeScript, VanJS | Catalogue browser, finish detail, shortlist, zone editing, setting controls. Prior art: the JohnnyHouse tile browser (see the consumer note). |
 | Mock scene | TypeScript | FR-SCN-1. |
-| Installer and agent CLI | Python (run as a `uv` tool) | §8. |
+| Installer and agent CLI | Python (run as a `uv` tool) | §8, including the agent session (FR-AXI-8) and the Pi plugin (FR-AXI-9). |
 | Catalogue tools | Python | Build a catalogue from a target project's finish records and images (thumbnails, colour tags); later, the Unreal editor scripts that import finishes (Unreal's Python runs in the editor only). |
-| Unreal plugin | C++ | Deferred (D5). |
+| Pipeline tools | Python | The workflow's toolbase (§8A): data tables to commands for the CAD and rendering applications, with expected-result checks. |
+| Unreal plugin | C++ | Deferred (D5). Also the Unreal side of the world builder (D18). |
 
 ## 8. Installer and agent interface (D12)
 
@@ -225,10 +227,10 @@ installed and used inside JohnnyHouse.
 
 | Stage | Contents | Depends on |
 |---|---|---|
-| A. First release (Bun and Python only) | Message schema; domain (Design, Catalogue, Model, Presentation, Session); gateway; local adapters; page; mock scene; installer and agent CLI; catalogue tools. Demonstrated end to end on JohnnyHouse data with the mock scene: browse, filter, select a surface and a zone, define zones, assign, save, reload, set time of day and weather (as state), all through the page and through the CLI. | Nothing outside this repository. |
-| B. Unreal | C++ plugin (FR-SCN-2, FR-SCN-3), overlay, finish assets, the three trials of §11. | Model B support for a C++ stack. |
+| A. First release (Bun and Python only) | Message schema; domain (Building, Design, Catalogue, Session; the setting held as state); gateway; local adapters; page; mock scene; installer and agent CLI; catalogue tools. Demonstrated end to end on JohnnyHouse data with the mock scene: browse, filter, select a surface and a zone, define zones, place finishes, save, reload, set time of day and weather (as state), all through the page and through the CLI. | Nothing outside this repository. |
+| B. Unreal | C++ plugin (FR-SCN-2, FR-SCN-3), overlay, finish assets, the three trials of §11; the world builder (D18), detailed in its own PRD. | Model B support for a C++ stack. |
 | C. VR panel | The page as an interactive surface in the 3D scene. | B. |
-| D. Data service | Catalogue, users, saved designs served to installed apps; EntityStore as system of record; Nai for pipelines, sessions and embeddings. | Requests to the Nai team (see the founding record). |
+| D. Data service | Catalogue, users, saved designs served to installed apps; EntityStore as system of record; Nai for pipelines, sessions and embeddings. | Requests to the Nai team (see the founding record). Taken on with the multi-user, multi-session implementation (D9). |
 | E. Streamed Unreal | Unreal running on servers, shown in a browser, with the same page around it. | D. |
 
 Which CRs make up Stage A, and their order, is the orchestrator's proposal to the owner at wave-open; it is not
