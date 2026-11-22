@@ -1,6 +1,6 @@
 # Parti
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 **A guided workflow that takes a building from the architect's drawings to an interactive Unreal Engine
 walkthrough, worked through by a person and an AI agent together.**
@@ -125,6 +125,8 @@ CRs.
 
 ## Licence
 
-Parti is open source under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE).
+Parti is free software under the [GNU General Public License v3.0](LICENSE) only (SPDX: `GPL-3.0-only`).
+You may use, study, change and share it. If you distribute Parti or a work based on it, you must do so
+under the same licence and make the complete source available.
 
 Copyright 2026 [anthill-tec](https://github.com/anthill-tec).
