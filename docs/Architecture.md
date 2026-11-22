@@ -11,11 +11,14 @@ repeat them.
 
 ## 1. What Parti is
 
-A suite installed into a *target project* (a project that owns a building model). It has three parts:
+Parti is a guided workflow, installed into a *target project* (a project that owns a building model), that
+takes a building from the architect's drawings to a CAD model, a rendered Blender scene and an Unreal
+walkthrough. A user and an agent work through its steps together, and each step has tested tools (owner,
+22 November 2026). It has three parts:
 
-1. **Finish tool.** Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
-2. **Pipeline workflow and toolbase.** A guided sequence of steps, with tested tools, that takes an agent from drawings to CAD model, Blender scene and Unreal walkthrough.
-3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and lets an agent do everything a person can.
+1. **Guided workflow and toolbase** (the goal). A guided sequence of steps, each with tested tools, from drawings to CAD model, Blender scene and Unreal walkthrough.
+2. **Finish tool** (its first major feature). Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
+3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do.
 
 ## 2. The whole in one picture
 
@@ -67,10 +70,13 @@ A suite installed into a *target project* (a project that owns a building model)
 | **Session** | Session: participants, selection, viewpoint | select surface / zone / group; clear selection | selection changed |
 | **Asset delivery** | Mapping from finish to what a scene can draw | prepare finish for a scene | finish ready / failed |
 | **Identity** (service stage) | Users, access | — | — |
-| **Workflow** (suite) | Pipeline: steps, their inputs, outputs, checks, gates; a target project's progress | start step; record check; pass gate; checkpoint | step started / checked / completed |
+| **Workflow** (frames the others) | Pipeline: steps, their inputs, outputs, checks, gates; a target project's progress | start step; record check; pass gate; checkpoint | step started / checked / completed |
 
 Design refers to finishes and surfaces by id; it asks Catalogue and Model whether an assignment is allowed
 through their published facts, never by reading their storage.
+
+Workflow frames the other contexts: a step's outputs (a model, a design) are what the later steps, and the
+finish tool, work on.
 
 ## 5. Components
 

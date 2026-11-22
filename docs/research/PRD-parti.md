@@ -1,4 +1,4 @@
-# PRD — Parti: finishes and scene settings for an Unreal walkthrough
+# PRD — Parti: a guided workflow from drawings to an Unreal walkthrough
 
 **Version:** 0.1 (draft for the owner's review)
 **Date:** 2026-11-22
@@ -13,24 +13,31 @@
 | Date | Change |
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
+| 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
 
 ## 1. Purpose
 
-A person walking through a building in an Unreal Engine application should be able to point at a wall, a floor
-or part of one, browse a catalogue of finishes (tiles first, paints later), apply a finish, and change the scene
-settings (time of day, weather), all through one interface that stays in step with the scene.
+Parti is a guided workflow that takes a building from the architect's drawings to a CAD model, a rendered
+Blender scene and an Unreal walkthrough. A user and an agent work through its steps together, and each step has
+tested tools (owner, 22 November 2026).
 
-Parti is that tool, built as a product separate from any one building. It is installed into a *target project*
+**Its first major feature is the finish tool.** A person walking through a building in an Unreal Engine
+application should be able to point at a wall, a floor or part of one, browse a catalogue of finishes (tiles
+first, paints later), apply a finish, and change the scene settings (time of day, weather), all through one
+interface that stays in step with the scene.
+
+Parti is built as a product separate from any one building. It is installed into a *target project*
 (a project that owns a building model, an Unreal project and its finish data). The first target project is
 JohnnyHouse; its agent is the first consumer of Parti. Parti is developed by its own orchestrator and must reach
 a release without help from the JohnnyHouse session.
 
 Why not Blender: Blender gives pre-rendered stills and films only. The interactive part belongs in Unreal.
 
-**Parti is a suite, and the finish tool above is its first module** (owner, 22 November 2026). JohnnyHouse was
+**Why a workflow, and the finish tool first** (owner, 22 November 2026). JohnnyHouse was
 run as a prototype, without Model B, and the path from an architect's drawings to a CAD model, a rendered
 Blender scene and an Unreal walkthrough was worked out there by hand, with custom scripts and a runbook. The
-deliverables and the pipeline are now clear enough to turn into a product. So Parti also provides (§8A):
+deliverables and the pipeline are now clear enough to turn into a product. So, around the finish tool, Parti
+provides (§8A):
 
 - a **guided workflow** that leads an agent through those pipeline steps in a new target project, and
 - a **toolbase**: the maintained, tested replacements for the one-off scripts the JohnnyHouse agent wrote.
@@ -78,7 +85,7 @@ tried in the prototype is marked "proposed" or "open".
 | D10 | The pure domain logic is TypeScript, run by Bun. |
 | D11 | Parti has its own repository (this one), its own orchestrator registered on Sandesh, and is dog-fooded with JohnnyHouse data. |
 | D12 | Parti ships its own scaffold installer, in the manner of `modelb-axi`, so that an AI agent can install it into a target project and work with it (see §8). |
-| D14 | Parti is a suite. Besides the finish tool it carries a guided workflow for agents covering the pipeline steps of the JohnnyHouse runbook, and the toolbase that replaces JohnnyHouse's custom scripts (§8A). JohnnyHouse stays a prototype outside Model B; Parti is the Model B project. |
+| D14 | Parti is a guided workflow, worked through by a user and an agent together, covering the pipeline steps of the JohnnyHouse runbook, with the toolbase that replaces JohnnyHouse's custom scripts (§8A). The finish tool is its first major feature (restated 22 November 2026: the workflow is the goal). JohnnyHouse stays a prototype outside Model B; Parti is the Model B project. |
 | D15 | Stacks of this repository: Bun and Python. The project is registered with Crucible (test reporting and the CR queue) and on Sandesh. |
 | D13 | Whether to replace Unreal's built-in browser with another embedded browser is decided after a trial (see §11, T1). |
 
