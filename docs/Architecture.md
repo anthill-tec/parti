@@ -132,7 +132,8 @@ do (D16). The backend may move to Nai (D9).
 - **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness.
 
 What Nai lacks today for the interactive loop, and the requests this makes to its team, are listed in
-`research/DN-founding-design-record.md`. Neither is used in version one (D9). Parti migrates to them when it takes on the
+`research/DN-founding-design-record.md`. The owner's assessment (22 November 2026): a WebSocket connector is not a
+major issue, since Nai already has HTTP in and out connectors. Neither is used in version one (D9). Parti migrates to them when it takes on the
 multi-user, multi-session implementation; until then only the local adapters exist.
 
 ## 9. Installing into a target project
