@@ -61,6 +61,19 @@ session is already gone — confirm its port answers nothing), then start a fres
 | Service | Kind | Check | Start | Stop (only if `started`) |
 | --- | --- | --- | --- | --- |
 | Parti's served components (`gateway`, `mock-scene`, …) | `process` tool | none yet: no served component exists | — | — |
+| Lavish review session, one per active review artifact | `lavish-axi` session | the artifact is listed in `.run/reviews.json` | `npx -y lavish-axi <file> --no-open` (add `--reopen` only if the owner ended it from the browser and asked for it back); its printed `url:` is the tab to open | `npx -y lavish-axi end <file>` |
+| Lavish feedback poll, one per open review session | `process` tool | `pgrep -af 'lavish-axi poll <file>'` shows none | `process start name=lavish-poll-<stem> command="npx -y lavish-axi poll <abs-file>"` | `process kill lavish-poll-<stem>` |
+
+**Lavish review artifacts.** A review surface the orchestrator builds for the owner (for example
+`.lavish/architecture.html`) is one of Parti's services while the review is active. The active list is
+`.run/reviews.json` (`[{"file": ".lavish/architecture.html", "since": "2026-11-22"}]`): an artifact
+is added when the orchestrator opens it and removed when the owner ends it (`Send & End`) or says the
+review is done. It persists across shutdowns, so the next bootstrap reopens the same reviews. The
+Lavish **server** (`127.0.0.1:4387`) is system-level and shared with other projects: never
+`lavish-axi stop`; it stops itself when idle. Exactly one poll per session (never a second listener);
+the poll returns on feedback, so after acting on it start the next poll with
+`--agent-reply "<message>"`. A poll that returns `browser_disconnected` is not restarted: ask the
+owner whether to reopen or end that review.
 
 **Adding a served component.** The CR that introduces a served Parti component (the `gateway` Bun
 process serving the page, the `mock-scene`, …) adds its row here in the same change: process name
@@ -76,15 +89,16 @@ NFR-8), and its page URL for the Chrome step. Its start is
    it, record `started` immediately, then re-check until it answers. A service that will not come
    up is reported to the user with its `process output` lines;
    bootstrap continues and the status report says what is down.
-3. **Chrome — Parti's web interface, through `chrome-ui-relay`.** When no served component exists
-   yet, there is no page: record `bridge: none`, start no bridge, and say so in the report.
+3. **Chrome — Parti's web interface, through `chrome-ui-relay`.** When there is no page to open
+   (no served component and no active review), record `bridge: none`, start no bridge, and say so
+   in the report.
    Otherwise relay its warning to the user first (Chrome asks to accept the connection; accept
    within about a minute), then its **Open**, with:
 
    | Input | Value |
    | --- | --- |
-   | URLs to open | each served component's page (the `gateway` page first) |
-   | Our URL patterns | each served component's origin, on `127.0.0.1` and on `localhost` |
+   | URLs to open | each served component's page (the `gateway` page first); then each active review's Lavish session `url:` |
+   | Our URL patterns | each served component's origin, on `127.0.0.1` and on `localhost`; each review session's exact `http://127.0.0.1:4387/session/<id>` |
    | Protected patterns | none beyond the relay's own rules: it only ever selects, evaluates or closes the tabs it recorded opening |
 
    Write the returned (id, URL) record and the `bridge` state to the ledger. If the user closes our
@@ -97,7 +111,8 @@ NFR-8), and its page URL for the Chrome step. Its start is
 1. **Chrome.** Run `chrome-ui-relay` — its warning, then its **Close** and `stop` — from the ledger's
    tab record, following its rules for a restarted bridge, `not-ready` and `no-session`. With
    `bridge: none`, run no browser call at all.
-2. **Services — the ledger's `started` entries, in reverse order.** Stop each with its table Stop,
+2. **Services — the ledger's `started` entries, in reverse order** (polls before their Lavish
+   sessions; `.run/reviews.json` is kept, so the reviews reopen at the next bootstrap). Stop each with its table Stop,
    then verify it is down (its kill line and its port answering nothing). `preexisting` entries are never touched.
 3. **Ledger.** Delete `.run/services.json` only when every `started` entry is verified down and the
    tabs are closed (or the relay's rules handed them to the user). Otherwise leave it, naming what
