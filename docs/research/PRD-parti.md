@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-22 | Architecture review, owner-approved: D16 (agents through AXI), D17 (building with layers), D18 (world builder); FR-AXI-8, FR-AXI-9; §2 replaced by the glossary `DN-ubiquitous-language.md`; §6 contexts revised; §10 and Q9 amended. |
 
 ## 1. Purpose
 
@@ -53,21 +54,12 @@ tried in the prototype is marked "proposed" or "open".
 
 ## 2. Terms
 
-| Term | Meaning |
-|---|---|
-| Target project | A project Parti is installed into. It supplies the model, the Unreal project and the finish data. |
-| Finish | Something applied to a surface: a tile or a paint. Identified by a finish id. |
-| Catalogue | The set of finishes available, with the fields used to filter them. |
-| Surface | One wall face or one floor that can take finishes. Has a stable id. |
-| Zone | A part of a surface, described by numbers (not by cutting the model): on a wall, bands by height (skirting, dado, border, upper) and rectangles (niche, feature panel); on a floor, the field, a border inset and rectangles (shower area). |
-| Assignment | The finish on one zone, with its laying pattern, grout, offset and rotation. |
-| Design | The assignments of all surfaces of a model, plus named saved schemes. This is what the user is making. |
-| Scheme | A named, saved set of assignments (for example "Bath 1, scheme A") that can be applied again. |
-| Presentation | Scene settings that are not part of the design: time of day, date, weather, lights. |
-| Session | One running use of the tool: who is connected, what is selected, the viewpoint. |
-| Page | The browser interface (TypeScript, VanJS). |
-| Gateway | The local Bun process that the page and the scene both connect to. |
-| Scene adapter | Whatever connects a 3D scene to the gateway: the Unreal plugin, or a mock scene for tests. |
+The business terms are defined in the living glossary, `DN-ubiquitous-language.md`, the project's Ubiquitous
+Language shared with architects, designers and users. System-design terms (page, gateway, scene adapter, …)
+are listed in `../Architecture.md` §11. Where an older term appears in this PRD, the glossary's replacement
+applies: *Model* → Building, *assignment* → placement, *Presentation* → setting (world builder). On a
+wall a zone is a band by height (skirting, dado, border, upper) or a rectangle (niche, feature panel); on a
+floor, the field, a border inset or a rectangle (shower area).
 
 ## 3. Decisions already taken (owner)
 
@@ -88,6 +80,9 @@ tried in the prototype is marked "proposed" or "open".
 | D14 | Parti is a guided workflow, worked through by a user and an agent together, covering the pipeline steps of the JohnnyHouse runbook, with the toolbase that replaces JohnnyHouse's custom scripts (§8A). The finish tool is its first major feature (restated 22 November 2026: the workflow is the goal). JohnnyHouse stays a prototype outside Model B; Parti is the Model B project. |
 | D15 | Stacks of this repository: Bun and Python. The project is registered with Crucible (test reporting and the CR queue) and on Sandesh. |
 | D13 | Whether to replace Unreal's built-in browser with another embedded browser is decided after a trial (see §11, T1). |
+| D16 | Agents work alongside the user through AXI: `parti-axi` lets an agent join a running session as a participant, and a Pi plugin wakes the agent when the user acts. No MCP server and no embedded agent harness for now. Whether this is in Stage A is decided with Q9. An agent is a session participant like a user, so the same model carries to several users and sessions, to a served Parti and to a Nai backend (D3, D9). |
+| D17 | The domain is a building with layers. The building is the base: its geometry, referenced through labelled elements (level, room, wall, floor, opening, …), each tied to its 3D object and to its 2D drawing elements. Layers sit on the building: finishes first (tiles, paints); furniture and cabinetry, electrical and plumbing later. Each layer places products from its catalogue onto the building under its own rules; a layer may change the model (cabinetry adds geometry). Each yields quantities, which roll up into bills of materials for each work-contract role. The finish tool is the finishes layer. |
+| D18 | The world builder is a module of Parti. Once the building is modelled in CAD and brought into Unreal Engine, it creates a world there with the building at the centre of all activity, and stages it as an experience. It holds Parti's own metadata over Unreal's data structures, so an architect or designer can change the experience: scenarios; setting state (time of day, date, weather simulation, light); animations of the moving parts of the building and its world; experience mode (VR, or a monitor with peripherals); routes and viewpoints. Parti exposes this state to the agents that run the pipeline, alongside Unreal's own MCP, through its agent interface (D16). The current focus is this part of the workflow, after the CAD model exists. The world builder has its own per-area PRD, together with the Unreal plugin and finish assets. |
 
 ## 4. Functional requirements
 
@@ -154,14 +149,18 @@ tried in the prototype is marked "proposed" or "open".
 
 ## 6. Bounded contexts (proposed)
 
+Revised in the architecture review (22 November 2026, D17, D18); names from `DN-ubiquitous-language.md`.
+
 | Context | Owns | Notes |
 |---|---|---|
-| Design (core) | Design aggregate: surfaces' zones, assignments, schemes | Rules: zones do not overlap; finish valid for the surface. Refers to Catalogue and Model by id. |
-| Catalogue | Finishes, makers, sets, colour classification, queries | One translator per maker feed. |
-| Model | Rooms and surfaces that can take a finish | Supplied by the target project. |
-| Presentation | Time of day, date, weather, lights | Not part of the design. |
-| Session | Who is connected, selection, viewpoint | One user now; several later. |
-| Asset delivery | Turning a finish into something a scene can draw | Built-in assets or run-time creation. |
+| Workflow | Steps, checks, gates, checkpoints; a target project's progress | Frames the other contexts. |
+| Building | Levels, rooms, elements, surfaces; each element's 3D and 2D references | Supplied by the target project. Was "Model". |
+| Design (core) | Layer planning: per layer a plan of zones and placements; schemes; shortlist | The finishes layer first. Rules: zones do not overlap; a product is valid for where it is placed. Refers to Catalogue and Building by id. |
+| Catalogue | Products of every layer, makers, sets, matching facts, queries | One translator per maker feed. Was finishes only. |
+| Quantities | Quantities per plan; bills of materials per work-contract role | New (D17). |
+| World builder | Scenarios, setting, moving parts, experience modes, routes | A module (D18). Was "Presentation" (scene settings). |
+| Session | Participants (users and agents), selection, viewpoint | One user now; several later (D3, D16). |
+| Asset delivery | Turning a product into something a scene can draw | Built-in assets or run-time creation. |
 | Identity | Users and access | Service stage only. Out of scope for version one. |
 
 The page, the gateway's connections and the scene adapters are adapters, not contexts.
@@ -194,6 +193,9 @@ The working name is `parti-axi`.
 - **FR-AXI-5 Operate.** Commands to: build or refresh the catalogue from the target project's records; start and stop the gateway; report health and versions (a "doctor"); read the current design and state; send a command (for example, assign a finish to a zone) and see the events or the refusal. An agent must be able to do through the CLI what a person does through the page.
 - **FR-AXI-6 Upgrade and removal.** Re-running the scaffold after a Parti upgrade refreshes the files Parti manages and leaves the consumer's own files alone. Removal lists what it would delete and asks first.
 - **FR-AXI-7 Unreal hook-up (when the plugin exists).** The scaffold adds the Parti plugin to the target's Unreal project. How (an `AdditionalPluginDirectories` entry in the `.uproject`, or a copy into `Plugins/`) is open and must be checked on Unreal 5.9.
+
+- **FR-AXI-8 Agent session (D16).** `parti-axi` joins a running session as a participant. It reads the current selection, design and scene settings. `watch` waits until the user acts, then returns the events, in the way `lavish-axi poll` does. Commands work as in FR-AXI-5. The gateway serves this through an agent API that is local only (NFR-8), uses the same schema, and runs commands through the same `decide` path as the page.
+- **FR-AXI-9 Pi plugin (D16).** A Pi extension turns `watch` into a wake-up for the agent's session, so the agent reacts to the user's actions without polling by hand. Plugins for other harnesses may follow.
 
 The first consumer's needs and data are in `DN-first-consumer-johnnyhouse.md`.
 
@@ -235,7 +237,8 @@ written here. The release label and date are the owner's call.
 - The C++ Unreal plugin and anything that needs it (deferred, not dropped).
 - Nai, EntityStore, users, access control, several users on one design.
 - Paint data. Relief and gloss maps for tiles (the images available are makers' web pictures of one tile face).
-- Moving parts of the building (doors, drawers, gate, louvres) and walking controls: these belong to the target project's Unreal work, not to Parti.
+- Moving parts of the building (doors, drawers, gate, louvres) and walking controls in the first release; the world builder holds them later (D18).
+- An MCP server for Parti, and an agent harness embedded in the page (for example Trueforge) as an in-page chat, so that Parti can become the main UI for the whole workflow. Possible later; not trialled now (D16).
 
 ## 11. Trials owed before or during Stage B
 
@@ -251,7 +254,7 @@ written here. The release label and date are the owner's call.
 4. **Variant Manager.** Whether saved schemes should also be Unreal variant sets (Stage B).
 5. **Responsiveness figure** for NFR-11.
 6. **Service-side confirmations.** NFR-7 (one WebSocket transport) and "Bun for the service side" were recommended to the owner and not objected to, but not explicitly confirmed.
-7. **Release targets and remote.** The scaffold recorded owner `anthill-tec` (taken from the sibling projects Crucible and Sandesh) and no release targets. The owner should confirm both; FR-AXI-1 implies at least one publishing target.
+7. **Release targets and remote.** The scaffold recorded owner `anthill-tec` (taken from the sibling projects Crucible and Sandesh) and no release targets. The owner confirmed `anthill-tec` (22 November 2026; remote `anthill-tec/parti`, private). Release targets remain open; FR-AXI-1 implies at least one publishing target.
 8. **Name clash.** "Parti" has not been checked against existing products or package names.
-9. **Workflow and toolbase in the first release.** §8A arrived after the stages of §9 were drafted. Which pipeline steps become Parti tools first, and whether any of them belongs in Stage A beside the finish tool, is not decided. Proposed: Stage A stays the finish tool plus the workflow skeleton (FR-WF-1, FR-WF-2, FR-WF-8, with the steps described but their tools not yet ported); the tools are ported step by step afterwards, starting with the steps JohnnyHouse still has ahead of it (interior finishes, Unreal export, print split).
+9. **Workflow and toolbase in the first release.** §8A arrived after the stages of §9 were drafted. Which pipeline steps become Parti tools first, and whether any of them belongs in Stage A beside the finish tool, is not decided. Proposed: Stage A stays the finish tool plus the workflow skeleton (FR-WF-1, FR-WF-2, FR-WF-8, with the steps described but their tools not yet ported); the tools are ported step by step afterwards, starting with the steps JohnnyHouse still has ahead of it (interior finishes, Unreal export, print split). The agent session (D16, FR-AXI-8, FR-AXI-9) is part of this decision, and so is the owner's current focus on the part of the workflow after the CAD model exists (D18).
 10. **Testing tools that drive applications.** How Crucible-reported tests cover tools whose effect is inside SolidCraft, Blender or Unreal (recorded command batches compared with expected ones, or the live application) is not designed.

@@ -18,7 +18,7 @@ walkthrough. A user and an agent work through its steps together, and each step 
 
 1. **Guided workflow and toolbase** (the goal). A guided sequence of steps, each with tested tools, from drawings to CAD model, Blender scene and Unreal walkthrough.
 2. **Finish tool** (its first major feature). Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
-3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do.
+3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do, including joining a live session alongside the user (D16).
 
 ## 2. The whole in one picture
 
@@ -29,13 +29,13 @@ walkthrough. A user and an agent work through its steps together, and each step 
  finish records + images ─────┐                                 catalogue, doctor, state, command,
  surface declarations ────────┤                                 workflow)
  saved designs  ◀─────────────┤                         │ starts / talks to
- pipeline data tables ────────┤                         ▼
+ pipeline data tables ────────┤                         ▼        ◀── agent (AXI session, Pi plugin, D16)
  step log, checkpoints ◀──────┘                  ┌──────────────── GATEWAY (Bun) ────────────────┐
-                                                 │  adapters in:  page link · scene link · CLI   │
+                                                 │  adapters in: page · scene · CLI · agent API  │
    PAGE (TypeScript, VanJS)  ◀── WebSocket ────▶ │  ───────────────────────────────────────────  │
    overlay · VR panel · browser                  │  DOMAIN (pure TypeScript)                     │
-                                                 │   Design · Catalogue · Model · Presentation   │
-   SCENE ADAPTER             ◀── WebSocket ────▶ │   · Session                                   │
+                                                 │   Building · Design · Catalogue · Quantities  │
+   SCENE ADAPTER             ◀── WebSocket ────▶ │   · World builder · Session · Workflow        │
    mock scene (now)                              │  ───────────────────────────────────────────  │
    Unreal C++ plugin (later)                     │  ports: catalogue store · design store ·      │
                                                  │         session channel · asset delivery      │
@@ -61,22 +61,25 @@ walkthrough. A user and an agent work through its steps together, and each step 
 
 ## 4. Contexts
 
+Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the architecture review, D17, D18).
+
 | Context | Aggregates and main data | Commands (examples) | Publishes |
 |---|---|---|---|
-| **Design** (core) | Design: per surface its zones; per zone its assignment; schemes | define, resize, remove zone; assign, clear finish; save, apply scheme | zone defined / resized / removed; finish assigned / cleared; scheme saved / applied |
-| **Catalogue** | Finish; maker; set; colour classification | (queries) filter, search, "goes with" | finish added / changed / withdrawn |
-| **Model** | Room; surface (id, kind, room, size) | declare, retire surface | surface declared / retired |
-| **Presentation** | Scene settings: date, time, place, weather, lights | set time; set weather; set lights | setting changed |
-| **Session** | Session: participants, selection, viewpoint | select surface / zone / group; clear selection | selection changed |
-| **Asset delivery** | Mapping from finish to what a scene can draw | prepare finish for a scene | finish ready / failed |
-| **Identity** (service stage) | Users, access | — | — |
 | **Workflow** (frames the others) | Pipeline: steps, their inputs, outputs, checks, gates; a target project's progress | start step; record check; pass gate; checkpoint | step started / checked / completed |
+| **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
+| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
+| **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
+| **Quantities** | Quantities per plan; bill of materials per work-contract role | (queries) quantities, bill of materials | — (derived from plans) |
+| **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
+| **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
+| **Asset delivery** | Mapping from a product to what a scene can draw | prepare product for a scene | product ready / failed |
+| **Identity** (service stage) | Users, access | — | — |
 
-Design refers to finishes and surfaces by id; it asks Catalogue and Model whether an assignment is allowed
-through their published facts, never by reading their storage.
+Design refers to products and to building elements by id; it asks Catalogue and Building whether a placement
+is allowed through their published facts, never by reading their storage.
 
-Workflow frames the other contexts: a step's outputs (a model, a design) are what the later steps, and the
-finish tool, work on.
+Workflow frames the other contexts: a step's outputs (a building, a design) are what the later steps, the
+finish tool and the world builder work on.
 
 ## 5. Components
 
@@ -86,12 +89,12 @@ finish tool, work on.
 | `domain` | TypeScript | `schema` types only | One module per context. No imports from anything else in the repository. |
 | `gateway` | Bun | `domain`, `schema`, ports | Serves the page; holds the WebSocket links; runs commands through the domain; stores events through the design store; fans events out. |
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
-| `page` | TypeScript, VanJS | `schema` | Catalogue browser, detail, shortlist, zone editor, presentation controls. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
+| `page` | TypeScript, VanJS | `schema` | Catalogue browser, detail, shortlist, zone editor, setting controls. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
-| `parti-axi` | Python (installed with `uv`) | gateway (over its local interface) | Installer, scaffold, agent commands, workflow guide. Structured output, dry run, a flag for every question. |
+| `parti-axi` | Python (installed with `uv`) | gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `catalogue-tools` | Python | — | Build a catalogue from a target project's records: thumbnails, colour tags, checks. Later: Unreal editor scripts for finish assets. |
 | `pipeline-tools` | Python | — | The toolbase of the workflow: data tables → commands for the CAD and rendering applications, with expected-result checks. One translator per application. |
-| `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay. |
+| `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
 
@@ -120,9 +123,12 @@ The same path serves the CLI: `parti-axi` sends the command and prints the event
 
 Only adapters change between stages. The domain, the schema and the page do not.
 
+In a served Parti (D, E) there are several users and sessions, and agents join a session the same way users
+do (D16). The backend may move to Nai (D9).
+
 ## 8. Later backends
 
-- **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Model and review records, behind the catalogue-store and design-store ports.
+- **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports.
 - **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness.
 
 What Nai lacks today for the interactive loop, and the requests this makes to its team, are listed in
@@ -141,8 +147,30 @@ also connects it to the target's Unreal project.
 |---|---|
 | `Architecture.md` (this) | The overview. |
 | `research/PRD-parti.md` | The suite's design contract: decisions, requirements, stages, open questions. |
-| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area. Expected: the message schema and state model; the finish tool's domain; the page; the installer and agent interface; the pipeline workflow and toolbase; the Unreal plugin and finish assets. `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
+| `research/DN-ubiquitous-language.md` | The living glossary: the business language shared with architects, designers and users. |
+| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain: building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface; (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets. `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
 | `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |
 | `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
 | `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
 | `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
+
+## 11. System-design terms
+
+The software's technical vocabulary. These words describe how Parti is built; they are not part of the
+business language (`research/DN-ubiquitous-language.md`) and are never needed to discuss the product with
+architects, designers or users.
+
+| Term | Meaning |
+|---|---|
+| Page | The browser interface (TypeScript, VanJS): overlay, VR panel or browser tab. |
+| Gateway | The local Bun process the page, the scene adapter, `parti-axi` and agents connect to. |
+| Scene adapter | Whatever connects a 3D scene to the gateway: the mock scene, or the Unreal plugin. |
+| Agent API | The gateway's local interface through which an agent takes part in a session (D16). |
+| Adapter | Code that connects the domain to one outside system; in (a link) or out (a store). |
+| Port | The domain-named interface an adapter sits behind. |
+| Translator | An adapter that maps an outside system's words and shapes into the domain's (anti-corruption layer). |
+| Schema | The versioned definition of every message: commands, events, queries, snapshots. |
+| Command, event, query | A request to change state; a recorded change; a request to read. |
+| Aggregate | A unit of state with its own id, changed only through `decide` and `evolve`. |
+| `decide`, `evolve` | `decide(state, command) → events`; `evolve(state, event) → state`. |
+| Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
