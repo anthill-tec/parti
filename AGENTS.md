@@ -17,6 +17,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 - Sandesh address: `SANDESH_ADDRESS` in `.env` is `Mainline - Parti`, loaded by direnv through `.envrc`; a Track launches with `env SANDESH_ADDRESS="Track <N> - Parti" pi`.
 
 ## Workflow rules
+- **Services extension of `/bootstrap` and `/shutdown`** (owner's directive): Mainline/Solo runs the `parti-services` skill (`.agents/skills/parti-services/`): Bring-up at bootstrap (Parti's own services, its web interface opened in Chrome via `chrome-ui-relay`), Teardown at shutdown. Every service the orchestrator starts, it stops; a pre-existing one it never stops (ledger: `.run/services.json`). **System-level services (Crucible, Sandesh, lean-ctx) are not managed by this project's orchestrator**: never checked, started, stopped or opened by the extension.
 - **git flow for all git workflow** (owner's directive): `git flow feature|bugfix|release|hotfix …`; never commit directly to `master`, nor code to `develop`. Exception: project meta/setup changes (`.env` registry, `AGENTS.md`, setup tooling config) are committed directly on `develop`. Initialized with defaults (`master`, `develop`, `feature/` `bugfix/` `release/` `hotfix/` `support/`, no version-tag prefix).
 - A **wave** is a grouping of CRs marking an execution boundary; setup tasks and releases are NOT waves.
 - The Crucible board holds the queue and the execution state (plans, cycles, milestones); `docs/changes/` holds the specs.

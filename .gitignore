@@ -4,6 +4,9 @@
 # CR worktrees live inside the repo (inheriting Pi's project trust).
 .worktrees/
 
+# Services ledger (parti-services skill) — machine-local run state.
+.run/
+
 # Tooling debris.
 __pycache__/
 test-reports/
