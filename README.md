@@ -1,5 +1,7 @@
 # Parti
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 **A guided workflow that takes a building from the architect's drawings to an interactive Unreal Engine
 walkthrough, worked through by a person and an AI agent together.**
 
@@ -121,7 +123,8 @@ CHANGELOG.md          release notes
 The workspace packages (schema, domain, gateway, page, mock scene, `parti-axi`, tools) arrive with the first
 CRs.
 
-## Ownership
+## Licence
 
-Parti is developed by [anthill-tec](https://github.com/anthill-tec). The repository is private, and no
-licence has been chosen yet.
+Parti is open source under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE).
+
+Copyright 2026 [anthill-tec](https://github.com/anthill-tec).
