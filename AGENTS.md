@@ -17,6 +17,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 - Sandesh address: `SANDESH_ADDRESS` in `.env` is `Mainline - Parti`, loaded by direnv through `.envrc`; a Track launches with `env SANDESH_ADDRESS="Track <N> - Parti" pi`.
 
 ## Workflow rules
+- **git flow for all git workflow** (owner's directive): `git flow feature|bugfix|release|hotfix …`; never commit directly to `master`, nor code to `develop`. Exception: project meta/setup changes (`.env` registry, `AGENTS.md`, setup tooling config) are committed directly on `develop`. Initialized with defaults (`master`, `develop`, `feature/` `bugfix/` `release/` `hotfix/` `support/`, no version-tag prefix).
 - A **wave** is a grouping of CRs marking an execution boundary; setup tasks and releases are NOT waves.
 - The Crucible board holds the queue and the execution state (plans, cycles, milestones); `docs/changes/` holds the specs.
 - Run context (post-036): workflow cycle context is attached by the tooling at ingest time — never hand-export cycle identifiers into the environment or into this file.
@@ -26,13 +27,13 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 Pre-wave tasks — not a wave; a wave is a grouping of CRs.
 
 - [x] Scaffold via `modelb-axi init` — 2026-11-22
-- [ ] Register the project in Crucible and paste the key into `.env` (`CRUCIBLE_PROJECT_KEY=`) — manual step (registrations are manual in scaffold v1)
-- [ ] Once the key is filled, register the orchestrator (`register --agent vidushi-parti --role ORCHESTRATOR`), then mirror the root `.env`'s keys, except `CRUCIBLE_PROJECT_KEY`, with `project-meta --set KEY=VALUE … --agent vidushi-parti`; re-run it whenever `.env` changes
+- [x] Register the project in Crucible and paste the key into `.env` (`CRUCIBLE_PROJECT_KEY=`) — manual step (registrations are manual in scaffold v1) — 2026-11-22 (`project-create --write-env`)
+- [x] Once the key is filled, register the orchestrator (`register --agent vidushi-parti --role ORCHESTRATOR`), then mirror the root `.env`'s keys, except `CRUCIBLE_PROJECT_KEY`, with `project-meta --set KEY=VALUE … --agent vidushi-parti`; re-run it whenever `.env` changes
 - [ ] Create the python test interpreter: from the project root, run `uv venv --python 3.14`, then `uv pip install unittest-xml-reporting coverage` — the python client runs the tests under `.venv/bin/python` when it exists; `coverage` is needed for `regression --coverage`
 - [ ] Commit `bun.lock` — the release workflow's `test-bun` job installs from the frozen lockfile
 - [ ] Add a `tests/` package holding the project's unittest modules — the release workflow's `test-python` job discovers its tests there
 - [ ] Add the `RELEASE_PAT` repository secret, a token with `contents: write` — the release workflow's `create-release` job creates the release with it, so the release fires the publish run
-- [ ] Confirm the remote owner matches `REPO_OWNER` in `.env` before the first wave-boundary gate
+- [x] Confirm the remote owner matches `REPO_OWNER` in `.env` before the first wave-boundary gate — 2026-11-22 (`origin` = `anthill-tec/parti`, private; gh login `antojk`)
 
 ## Skill freeze (derived from --stacks: bun, python)
 - bun: use the generated RED/GREEN/VERIFY/FIX agents, rendered at scaffold time; re-render them with `modelb-axi agents`.
