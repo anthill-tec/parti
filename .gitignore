@@ -11,6 +11,10 @@
 # Services ledger (parti-services skill) — machine-local run state.
 .run/
 
+# Toolchains: the python test interpreter (uv venv) and bun's installed packages.
+.venv/
+node_modules/
+
 # Tooling debris.
 __pycache__/
 test-reports/
