@@ -3,8 +3,10 @@
 Project-level conventions for every session/agent working this repo. Scaffolded by `modelb-axi init`.
 
 ## Design references
-- Design contract: _fill in (`docs/research/PRD-….md`)_
-- Evidence base: _fill in_
+- Architecture (system overview): `docs/Architecture.md`
+- Design contract: `docs/research/PRD-parti.md` (suite contract; per-area PRDs to follow, listed in `docs/Architecture.md` §10)
+- Evidence base: `docs/research/DN-founding-design-record.md`, `docs/research/DN-first-consumer-johnnyhouse.md`, `docs/research/DN-pipeline-prototype-johnnyhouse.md`
+- First consumer: JohnnyHouse (`/home/antonyj/Documents/bals/JohnnyHouse`, read only for this project's agents)
 - Ontology: `~/.agents/skills/model-b/SKILL.md`
 
 ## Identity & naming (registry: `.env` at the project root)
