@@ -74,7 +74,7 @@ floor, the field, a border inset or a rectangle (shower area).
 | D6 | Finishes are Unreal assets when applied. A core catalogue is built into the app as Unreal assets; further finishes are created at run time from files, behind the same catalogue interface. |
 | D7 | The interface works with Unreal's own asset management (Interchange import, primary data assets, Asset Registry, Asset Manager). It does not run a parallel catalogue beside it inside the app. |
 | D8 | Domain-Driven Design, with domain boundaries and anti-corruption layers, so the same business logic can later move onto other backends. |
-| D9 | Version one has no Nai and no EntityStore. Later the backend migrates to Nai (pipelines in the Nai DSL, connectors, a custom provider if required) and EntityStore. Both are the owner's own projects. |
+| D9 | Version one has no Nai and no EntityStore. Later the backend migrates to Nai (pipelines in the Nai DSL, connectors, a custom provider if required) and EntityStore. Both are the owner's own projects. The migration is taken on together with the multi-user, multi-session implementation (confirmed by the owner, 22 November 2026); until then the local adapters serve. |
 | D10 | The pure domain logic is TypeScript, run by Bun. |
 | D11 | Parti has its own repository (this one), its own orchestrator registered on Sandesh, and is dog-fooded with JohnnyHouse data. |
 | D12 | Parti ships its own scaffold installer, in the manner of `modelb-axi`, so that an AI agent can install it into a target project and work with it (see §8). |
