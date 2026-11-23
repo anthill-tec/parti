@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | 8A: the workflow outline (13 steps and the print side branch, from the JohnnyHouse runbook), finishes chosen once in the design, design changes and world editing as separate chains. T4 (Unreal 5.9 import). |
 | 2026-11-23 | NFR-7 confirmed (WebSocket across network boundaries); Q10 answered by DN-test-strategy.md (approved). |
 | 2026-11-23 | Owner's answers: Q9 (0.1.0 scope), Q11 (JSON event store), Q7 (GitHub + parti-axi), Q8 (name check), Q1, Q2, Q12 (MIT lean for viewer and plugin), Q14; Q15 makers' terms; D22 delivery split; D23 owner represents stakeholders; NFR-10 synthetic fixtures. |
 | 2026-11-23 | Consistency pass after the review: §1 editions, §7 client viewer, §9 stages vs releases. |
@@ -236,7 +237,7 @@ The first consumer's needs and data are in `DN-first-consumer-johnnyhouse.md`.
 
 The prototype's pipeline, its tools, its scripts and what went wrong are described in
 `DN-pipeline-prototype-johnnyhouse.md`. The requirements below state what Parti must offer; which pipeline
-steps are taken up first, and in which release, is open (§12, question 9) and is the owner's call.
+steps are taken up first, and in which release, is the roadmap's (D23), approved by the owner.
 
 - **FR-WF-1 Steps.** The pipeline is a sequence of named steps (in the prototype: drawing intake; parametric shell build; openings and joinery; merge for render; CAD to Blender; reference materials; site and planting; interior furnishing; stills and lighting; movie production; print split; Unreal export). Each step states its inputs, its outputs, the numeric checks that prove it worked, and the owner review gate that follows it, if any.
 - **FR-WF-2 Guided.** For a target project, an agent can ask Parti: which step am I on, what does it need, what must I check, what is next. Parti records what was done (one line per step: what changed, how it was checked, what was produced) in the target project.
@@ -247,6 +248,41 @@ steps are taken up first, and in which release, is open (§12, question 9) and i
 - **FR-WF-7 Caveats travel with the step.** The faults found in the prototype (the DN lists them) are carried as checks or warnings in the step they belong to, not left in a document.
 - **FR-WF-8 Agent-facing form.** The workflow reaches an agent the same way the rest of Parti does (§8): through the scaffold (notes or skills written into the target project) and through `parti-axi` commands with structured results.
 - **FR-WF-9 Owner in the loop.** Where taste decides, the tool produces options to show (rendered views, boards), and the step waits for the owner's choice. Every change to materials, furniture or lighting is shown as a rendered view before the step moves on.
+**The workflow outline** (approved by the owner, 23 November 2026; derived from the JohnnyHouse runbook with that project's
+corrections, Sandesh #1633). The domain PRD's Workflow definition turns it into data. JohnnyHouse's candidate skills are
+sub-steps of these steps.
+
+| # | Step | Owner gate |
+|---|---|---|
+| 1 | Drawing intake: sheets, calibration, levels, grid, schedules, construction standards. Every view of an element is read before it is built. | Plan accuracy |
+| 2 | Parametric shell: massing, structure, walls, openings, stairs | Massing |
+| 3 | Facade and joinery | Facade |
+| 4 | Fitted interior: cabinets, kitchen, sanitary fixtures | — |
+| 5 | CAD ready for export: merge and overlap check, re-run after every CAD correction | The owner closes the CAD |
+| 6 | CAD to Blender, including re-import that keeps materials, lighting and the moving-parts rig | — |
+| 7 | Scene: reference cameras first, then materials, lighting, site, planting, furniture | A rendered view after every visual change |
+| 8 | Finish catalogue: makers' ranges, classification, boards, shortlist | The owner shortlists |
+| 9 | Interior finishes (the finish tool) | The owner chooses finishes |
+| 10 | Stills: quick, repeated after every change | — |
+| 11 | Films: hours of rendering, only once the scene is frozen | Route and test frames first |
+| 12 | Unreal export and world building | — |
+| 13 | Building and packaging the client viewer (D22) | — |
+| side | Print split: a 3D-printed scale model, branching from step 5 | Test print |
+
+Rules across every step: one checkpoint per feature group, with a numeric check and a log line; a checkpoint before any
+risky batch (long runs crashed both CAD and Blender); Blender scene checkpoints are defined by Parti (the prototype kept
+log rows only).
+
+**Finishes are chosen once, in the design** (owner, 23 November 2026): Blender and Unreal are two renderers of the same
+design, so the order of steps 9 and 12 does not affect the data. Before the Unreal plugin exists, finishes are chosen in
+the page against the mock scene, and Blender replays the saved design for stills. A design change (for example a
+scheme, a set of finishes, applied across many zones) is a new design revision that follows D19's forward chain:
+quantities are recomputed at once; the Unreal scene updates live where it is connected; affected stills, films and the
+client bundle are marked stale and their re-rendering or republishing is raised as follow-up actions, films (hours of
+rendering) behind an owner gate. **World editing is a separate chain:** the world (site, lighting, scenarios, moving
+parts) is built in the Unreal editor, with Parti collaborating through Unreal's MCP (D18, D21); how edits made directly
+in the editor reach Parti is for the world builder's PRD.
+
 - **FR-WF-10 Nothing of one house in the tools.** Names, dimensions and material choices of JohnnyHouse are data of that target project (NFR-10).
 
 ## 9. Stages and what a release means
@@ -280,6 +316,7 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
 - **T1** Unreal's built-in browser widget as an overlay in a packaged 5.9 build, on Linux (Windows later, D2), showing a page served from a local address. Reports (unverified on 5.9) say it long shipped an old Chromium, and that in packaged Linux builds it loaded web addresses but not local files. Outcome decides D13. This trial needs no C++ and can be run by the first consumer in the JohnnyHouse Unreal project at any time. It now also decides how the client viewer's in-world panel loads the page from its bundle (D22): through Unreal's browser from local files, or a small local web server inside the viewer.
 - **T2** A WebSocket connection between a C++ plugin and the gateway, exchanging the state.
 - **T3** Finish assets: Asset Registry tag queries in a packaged build (which tags survive packaging), thumbnails in a packaged build, and a finish created at run time from a file.
+- **T4** Importing the building into Unreal 5.9 (owner, 23 November 2026): FBX, USD, Datasmith or Interchange, compared on geometry, material slots, part names and scale. Blender's procedural materials need baking and its particle-based planting (creepers) needs converting to meshes first. No format has been tried yet.
 
 ## 12. Open questions
 
