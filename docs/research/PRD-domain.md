@@ -42,7 +42,7 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 - **Room:** a declared id (for example `FF_bath1`), a name, a level (storey) and its floor level; optionally its **use**
   (bedroom, bathroom, porch), **aliases** ("master bedroom") and its floor **outline**, which the assistant needs to resolve
   and measure rooms (PRD-parti D24). Cheap to declare now; required later.
-- **Site:** the building's geo-reference (latitude, longitude, elevation) and the angle from plan north (the world
+- **Site** (the first entries of the site and geospatial *information layer*, PRD-parti D17): the building's geo-reference (latitude, longitude, elevation) and the angle from plan north (the world
   frame's +Y) to true north; optional in 0.1.0, needed for compass questions, the sun position and map data (PRD-parti D24).
 - **Site area:** a part of the site outside the rooms (drive, garden, approach), with id, name, use and outline
   (optional in 0.1.0; for D24).

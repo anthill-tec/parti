@@ -40,7 +40,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Declaration | The file in which a target project declares its rooms, surfaces, openings and regions, in the format Parti defines; reading it again gives a building revision. | Building |
 | Zone | A part of a surface, described by numbers in its face frame. Kinds: field (the whole surface), band (a height range on a wall), panel (a rectangle on a wall), area (a rectangle on a floor), border (an edge inset on a floor). Zones lie in tiers; the upper shows. | Design |
 | Tier | The stacking order of zones on a surface: the field below, bands and borders above, panels and areas on top. Not to be confused with a layer. | Design |
-| Layer | One kind of information placed on the building: finishes, furniture and cabinetry, electrical, plumbing, … | Design |
+| Layer | One kind of information on the building. A *product layer* places products from a catalogue (finishes, furniture and cabinetry, electrical, plumbing) and yields quantities; an *information layer* describes the building's context and places no products (the site and geospatial layer). | Design |
 | Design | The user's layer planning for the building: one plan per layer, with its schemes and shortlist. What the user is making. (Not the architect's design of the building, which is "the building".) The business word; in code, each layer's plan is a `LayerPlan`. | Design |
 | Plan | The placements of one layer within a design (the finishes plan, the furniture plan). In code: `LayerPlan`. | Design |
 | Revision | A numbered state of the building, of a plan or of a scenario (D19). | each owning context |
@@ -116,3 +116,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Avatar (D18), Semantic search (D9). |
 | 2026-11-23 | Added Room use, Site area (D24). |
 | 2026-11-23 | Added True north (D24). |
+| 2026-11-23 | Layer: product layers and information layers (D17). |
