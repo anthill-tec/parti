@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | T4: a CAD sub-assembly as its own Unreal component, driven by a motion table from the CAD generators, works in trial form (#1640). |
 | 2026-11-23 | T4: STEP into Unreal on Linux crashes (#1639); per-part glTF from SolidCraft and moving sub-assemblies as Unreal components, to be tried. |
 | 2026-11-23 | T4 findings from JohnnyHouse (#1637, #1638), correcting the earlier "no Unreal import yet": glTF via Interchange works; only building and furniture travel; names not stable ids; re-import silently deletes actors; finishes as world-space materials. 8A steps 7 and 12 adjusted. |
 | 2026-11-23 | FR-MOD-1 points to the declaration format in the domain PRD (`PRD-domain.md`, draft). |
@@ -351,6 +352,18 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     Unreal component, inspected and operated on its own, then placed in the building from the CAD generators' placement
     tables, with its kinematics (blade pitch and pivots, worm ratio, sliding travel) from the same generators. This bears
     on the world builder's moving parts (D18) and its PRD.
+  - *A sub-assembly as its own Unreal component: works, in trial form (#1640, measured).* The demonstration louvre
+    window, written to glTF binary by SolidCraft and imported through Interchange **as assets**, arrived as 122 meshes in
+    the part's own frame, correctly sized, names kept (`" (7)"` becoming `__7_`). A **motion table**
+    (`<part>.kin.json`), computed from the same generators that build the part, groups the bodies as hinges (axis point,
+    axis direction, ratio to the input) or pin-followers, all driven by one input (blade angle 0 to 90 degrees, 5 crank
+    turns). A script assembles one pivot per group and sets the input; the pivots match the imported positions and the
+    blades and tilt bar move as one mechanism at 0, 35 and 90 degrees. Lessons for Parti's tools: per-part import keeps
+    the indexing the whole-building export loses; the motion data belongs with the CAD generator, never measured in
+    Unreal; the frame change is fixed (part mm x, y, z to Unreal cm x/10, -y/10, z/10) and the sign of a turn is settled
+    once by measurement; check motion with box centres, not bounds; merge the one-material-instance-per-body that
+    Interchange creates. Not yet done: a Blueprint form, interaction, placement at the ten windows, and leaving the
+    sub-assemblies out of the building export so they do not arrive twice.
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as

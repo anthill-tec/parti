@@ -64,6 +64,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Setting | The state of the world around the building: time of day, date, weather simulation, light, site. (Replaces "Presentation".) | World builder |
 | Site | The land and surroundings of the building in its world: terrain, neighbours, roads, vegetation, built from geospatial data and map providers. | World builder |
 | Moving part | A part of the building or its world that can be animated: door, drawer, gate, louvre. | World builder |
+| Sub-assembly | A moving part built as its own CAD part (a louvre window, a sliding door, the garage gate), brought into Unreal once as its own component and placed in the building from the CAD's placement tables. | World builder |
+| Motion table | The kinematics of a sub-assembly, computed from the same CAD generators that build it: which bodies turn or slide, about which axis, driven by one input. | World builder |
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
@@ -99,3 +101,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Smart menu (D22). |
 | 2026-11-23 | Step: building and packaging the client viewer is usually the last step. |
 | 2026-11-23 | From the domain PRD (draft): Room, Face frame, Opening, Region, Declaration, Tier, Laying pattern; Surface and Zone sharpened. |
+| 2026-11-23 | Added Sub-assembly, Motion table (T4 trial, JohnnyHouse #1640). |
