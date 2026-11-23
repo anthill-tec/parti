@@ -66,7 +66,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | UI helper | The client viewer's limited agent: it helps the client search and apply offered sets (tile sets, interior sets), and does nothing the client could not do. | Session |
 | Offer | What the designer lets the client decide, per zone or element: a set of options with a default. | Design |
 | Option | One choice within an offer: a placement or a whole scheme. | Design |
-| Client bundle | A filesystem package, published for one client project and revision, holding everything the client viewer needs to run: the building, the offer, the scenarios, the stills and films, and every asset they use. Delivered as a filesystem package (offline) or served remotely by Nai (online); the content is the same. | Asset delivery |
+| Client bundle | A filesystem package, published for one client project and revision, holding everything the client viewer needs to run: the building, the offer, the scenarios, the stills and films, and every asset they use. Delivered as a filesystem package (offline: asset files plus their metadata in SQLite) or served remotely by Nai (online); the content is the same. | Asset delivery |
 | Render | A still or a film made in the Blender part of the pipeline, for review and for the client viewer. | Workflow |
 | Client selection | The client's choices among the offered options, returned to the designer's project. | Design |
 | Session | One sitting in which participants work on the target project together. | Session |

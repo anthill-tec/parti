@@ -142,8 +142,8 @@ the rules are never copied.
 | Page (one page, D1) | Every data library; overlay or browser tab | Only the offered options, as a 2D panel rendered in the 3D world; VR interaction first; loaded from the bundle (PRD T1). Smart menus at the zone pointed at apply its bundled options in place |
 | Data | Target project files; later Nai and EntityStore | Its client bundle: a filesystem package (offline), or served by Nai as a client server (online, Stage D) |
 
-The designer publishes a **client bundle** per client project and revision: a filesystem package holding everything the
-viewer executable needs to run (the building, the offer, the scenarios, the stills and films, and every asset they use),
+The designer publishes a **client bundle** per client project and revision: a filesystem package (asset files, with their
+metadata in one SQLite database) holding everything the viewer executable needs to run (the building, the offer, the scenarios, the stills and films, and every asset they use),
 with no server or network. Alternatively Nai serves the same bundle remotely, as a client server, and receives the
 client's selections and telemetry live; the viewer reads its bundle through one port, so only its adapter differs. The viewer is packaged with its project's bundle; the client's choices return to the designer's
 project as a client selection. Proposed: options are validated before publishing and realised as Unreal variant sets,
