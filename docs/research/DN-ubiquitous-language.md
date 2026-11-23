@@ -58,7 +58,9 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Scheme | A named, saved set of placements that can be applied again ("Bath 1, scheme A"). | Design |
 | Shortlist | Products set aside, each with a note on where it is meant to go. | Design |
 | Product | Something a layer can place: a tile, a paint, a cabinet, a socket, a basin. Comes from a catalogue. | Catalogue |
-| Finish | A product of the finishes layer: a tile or a paint. | Catalogue |
+| Finish | A product of the finishes layer, of one kind: a tile, a wood veneer, a laminate or a paint. | Catalogue |
+| Source scan | The image a wood veneer or laminate is made from, with the real size it covers, its grain direction and its maps; one scan can back several finishes. | Catalogue |
+| Stain | A tint applied over a source scan; a finish is a scan plus its stain, and its colour is the colour after the stain. | Catalogue |
 | Catalogue | The products available to a layer, with the facts used to filter and match them. | Catalogue |
 | Suitable use | Where a product may be used: room use (bathroom, interior, outdoor) and surface kind (wall, floor). *Proposed*: the JohnnyHouse tile records call the room use `zone`; their translator maps it here. | Catalogue |
 | Quantity | How much of a product a plan needs, wastage included. | Quantities |
@@ -133,3 +135,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Measuring tape (D25). |
 | 2026-11-23 | Added Interactive tool (D18). |
 | 2026-11-23 | Added Calibration (D25). |
+| 2026-11-23 | Finish widened to four kinds; added Source scan and Stain (DM-8). |

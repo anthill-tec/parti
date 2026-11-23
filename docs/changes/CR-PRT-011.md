@@ -23,6 +23,14 @@ schema's `Product` shape: suitable use and surfaces from the maker's classificat
 picture orientation from the main image's aspect ratio (within 5 % of square → `square`), colour tags (main colour's
 hue, strength, lightness, warm or cool) computed from the main image, images as paths relative to the target project.
 
+### §S1a Finishes database (wood veneer, laminate, paint)
+
+`catalogue_tools.johnnyhouse.translate_finishes(finishes_dir)` reads JohnnyHouse's second database
+(`data/finishes.ndjson`, `swatches/<id>.jpg`, JohnnyHouse #1648) into finishes of kinds `wood-veneer`, `laminate` and
+`paint`: source and licence, source scan (real size, grain direction, maps), stain, sheen, Unreal asset references;
+ids (`WV-001`, `PT-001`) kept. `usage.json` is not read in 0.1.0 (DM-9). `translate` merges both sources into one
+`products.json`, refusing a duplicate id across them.
+
 ### §S2 Output
 
 `catalogue/products.json` in the folder the configuration names, plus `catalogue/report.json` listing every record
@@ -39,13 +47,15 @@ entries (product id, note), read once at import as PRD-domain §3.4 says.
 - [ ] A 600 × 600 image gives `square`, 600 × 300 `landscape`, 300 × 600 `portrait`; 600 × 580 `square`.
 - [ ] A record without a size and one with an unreadable image appear in `report.json` with `missing-field` and `unreadable-image`, and in no product.
 - [ ] A plain red image gives hue within 0 ± 5°, strength above the threshold, `warm`.
+- [ ] On a synthetic finishes folder in #1648's format, a stained veneer record yields a `wood-veneer` product whose main colour is the stain's, with its licence and scan; a paint record yields a `paint` with its sheen and no image.
+- [ ] An id present in both the tile and the finishes sources is reported as `duplicate-id` and neither is written.
 - [ ] (reviewed, not tested) A local run on JohnnyHouse's real records in place reports its counts; no file under the repository changes.
 - [ ] Caller-existence: `parti-axi catalogue build` calls `translate` (reviewed at CR-PRT-013 VERIFY).
 
 ## Estimated size
 
-5 points.
+8 points.
 
 ## Non-goals
 
-Other makers' feeds and paint (later); the makers' terms for redistributing images (Q15, an owner action).
+Other makers' feeds (later); JohnnyHouse's `usage.json` (with the world builder, DM-9); the makers' terms for redistributing images (Q15, an owner action).

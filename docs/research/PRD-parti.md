@@ -34,6 +34,7 @@
 | 2026-11-23 | D18: navigation in the world (fixed modes, per-project data derived from the building, checks, telemetry); Q16 covers navigation too. |
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
+| 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
 | 2026-11-23 | T4: the sub-assembly as a Blueprint built by script from its motion table; working rule for experimental editor tools (#1645). |
 | 2026-11-23 | T4: a CAD sub-assembly as its own Unreal component, driven by a motion table from the CAD generators, works in trial form (#1640). |
 | 2026-11-23 | T4: STEP into Unreal on Linux crashes (#1639); per-part glTF from SolidCraft and moving sub-assemblies as Unreal components, to be tried. |
@@ -152,7 +153,7 @@ floor, the field, a border inset or a rectangle (shower area).
 - **FR-CAT-2** The catalogue answers filter queries on: zone, surface, maker, main colour, colour strength, lightness, warm or cool, pattern, finish class, role in a set, size; plus free-text search on name, series and code; sorted (at least) round the colour wheel.
 - **FR-CAT-3** For a chosen finish the catalogue returns what goes with it: the maker's set and the pairs, and finishes of complementary colour.
 - **FR-CAT-4** Each maker's feed (and each target project's own records) is translated into the catalogue's finish by its own translation layer. Maker terms do not appear in the domain.
-- **FR-CAT-5** Paint is a second kind of finish (colour, sheen). No paint data exists yet; the model must allow it without redesign.
+- **FR-CAT-5** Finishes come in kinds: tile, wood veneer, laminate, paint (in 0.1.0, owner, 23 November 2026; JohnnyHouse #1648). A wood veneer or laminate is a source scan plus its stain, with its source and licence; a paint is a colour and a sheen (PRD-domain §4.1).
 - **FR-CAT-6** A finish can be valid for a surface or not (a wall-only tile on a floor is refused). The rule lives in the domain.
 
 ### 4.2 Building: surfaces and zones

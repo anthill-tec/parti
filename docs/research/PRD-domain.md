@@ -17,6 +17,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
+| 2026-11-23 | Non-tile finishes in 0.1.0: wood veneer, laminate, paint (owner); DM-8 finish = scan + stain, DM-9 placements on parts later (JohnnyHouse #1648). |
 | 2026-11-23 | Guides carry `towards`, the side where the fitting's area lies (JohnnyHouse #1644). |
 | 2026-11-23 | From JohnnyHouse's first declaration (#1642): anchor direction fixed in the example (start = left end seen from inside), B-4 added; quality objects; references.columns; floor side; guides; steps; DM-7 proposed. |
 | 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
@@ -205,7 +206,13 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 - **Validity (DM-2, recommended):** a product whose suitable surfaces exclude the zone's surface kind is **refused**
   (a wall-only tile on a floor, FR-CAT-6). A product whose **suitable use** is another room use (an outdoor tile in a
   bathroom) is **placed with a warning**, since a designer may choose it on purpose.
+- **By kind:** a tile takes the pattern, grout, offset and rotation above; a wood veneer or laminate takes a grain
+  direction (0 or 90 degrees) and an offset, no grout; a paint takes nothing more.
 - A zone holds at most one placement; placing again replaces it (the replaced placement stays in the history).
+- **Placements on parts come with the world builder** (DM-9, decided (owner, 23 November 2026)): a finish placed on a movable part (the
+  louvre's slats, JohnnyHouse #1648) applies to every instance of the part, with its grain in the part's own frame so it
+  follows a blade as it tilts. Parts arrive with their motion tables (PRD-parti D18); 0.1.0 places finishes on room
+  surfaces only. JohnnyHouse's record of where each finish is used (`usage.json`) is read then.
 
 ### 3.4 Schemes and the shortlist
 
@@ -226,7 +233,19 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 
 ### 4.1 Finishes
 
-In 0.1.0 the catalogue holds **finishes** (tiles; paint later, FR-CAT-5). A finish has the fields of FR-CAT-1.
+In 0.1.0 the catalogue holds **finishes** of four **kinds**: **tile**, **wood veneer**, **laminate** and **paint** (owner, 23 November 2026),
+from JohnnyHouse's second finishes database (#1648) beside its tiles. A finish has the fields of FR-CAT-1, and by kind:
+
+| Kind | Carries | Placed with |
+|---|---|---|
+| tile | maker, size, thickness, finish class, swatch and room images | laying pattern, grout, offset, rotation (§3.3) |
+| wood veneer, laminate | **source and licence** (library or maker, asset name, address, author, licence, date retrieved); the **source scan**: the real size the image covers (e.g. 1000 × 1000 mm), which way the grain runs in it, which maps exist (colour, roughness, relief) and which are used; the **stain** applied over the scan | grain direction (0 or 90 degrees in the face frame) and offset; no grout |
+| paint | a colour and a sheen (matt, eggshell, satin, gloss); a maker's code when there is one; no image | nothing more |
+
+**A finish is what is used: a source scan plus its stain** (DM-8, decided (owner, 23 November 2026)). Its colour is the colour after the
+stain, so the catalogue shows the stained look; one scan can back several finishes (a pale teak scan, and the same scan
+stained as smoked walnut). Where a finish's assets sit in Unreal (texture, material instance, master material) is kept
+as a **reference**, like CAD body names (§2.2).
 Products are **read-only** in Parti: the catalogue is built by importing records, never edited by the user.
 
 ### 4.2 Reading a target project's records (FR-CAT-4)
@@ -242,11 +261,12 @@ Notable mappings:
 | `classification.basis`, `.confidence` | how the suitable use was decided, and how sure | carried and shown, not hidden: 778 records were filed by a size rule |
 | `size_mm`, `thickness_mm`, `finish`, `finish_class`, `body`, `design`, `colour.*` | size, thickness, finish, finish class, body, design, colour description | |
 | `images.swatch`, `.room`, thumbnails | images | **referenced in place** in the target project, never copied (NFR-10) |
+| (finishes database, #1648) `finishes.ndjson`: kind, source, licence, scan, stain, sheen, Unreal assets | kind, source and licence, source scan, stain, sheen, asset references | a second translator input beside the tiles; ids `WV-`, `LM-`, `PT-` kept |
 | (missing) | **picture orientation** | `size_mm` does not say which way the swatch picture is laid (NW-021: 300 × 600, picture 1000 × 500 px, landscape). The translator derives it from the picture's pixel size and records it; a record whose picture and size disagree beyond a tolerance is flagged (JohnnyHouse #1638). |
 
 ### 4.3 Queries (FR-CAT-2, FR-CAT-3)
 
-Filter on: suitable use, surface, maker, main colour, colour strength, lightness, warm or cool, pattern, finish class,
+Filter on: kind, licence, suitable use, surface, maker, main colour, colour strength, lightness, warm or cool, pattern, finish class,
 role in a set, size; free text on name, series and code; sorted round the colour wheel (with the colour-strength filter
 the prototype found necessary). "Goes with": the maker's set and pairs, and finishes of complementary colour.
 
@@ -317,6 +337,8 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 | DM-4 | Laying patterns in 0.1.0 | **Decided (owner, 23 November 2026):** stack and offset bonds (half, third), at 0 or 90 degrees |
 | DM-5 | Scheme scope | **Decided (owner, 23 November 2026):** per room in 0.1.0; across rooms later |
 | DM-7 | A face that is not one plane (a step where a column meets a wall) | **Decided (owner, 23 November 2026):** declare one flat rectangle at the main plane with optional `steps`; Parti warns on the zones and placements crossing a step; layout on stepped faces later |
+| DM-8 | A stained veneer | **Decided (owner, 23 November 2026):** a finish is a source scan plus its stain; the catalogue shows the stained look; one scan can back several finishes |
+| DM-9 | Placements on parts | **Decided (owner, 23 November 2026):** with the world builder; 0.1.0 places finishes on room surfaces only |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 
 ## 10. Requirements traced
