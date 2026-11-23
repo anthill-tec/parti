@@ -1,0 +1,54 @@
+# CR-PRT-015 — Page: surfaces and zones
+
+**Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
+**Type:** feature
+**Priority:** High
+**Depends on:** CR-PRT-014
+**Labels:** page, ui, design
+**Phase:** 0.1.0 · wave 4
+**Design reference:** `docs/research/PRD-parti.md` FR-MOD-2, FR-DES-1 to FR-DES-4, FR-STA-1 to FR-STA-3, D25; `docs/research/PRD-domain.md` §3, §5, §6
+
+## Context
+
+The second half of the designer edition's page: choosing a surface, dividing it into zones, placing finishes, schemes,
+undo, the setting, and the follow-ups after a building change.
+
+## Scope
+
+### §S1 Surface view
+
+Rooms and their surfaces as a list; the selected surface drawn to scale in its face frame (SVG), with its openings,
+regions (keep-clear hatched), guides, steps and zones; room dimensions in feet and inches, areas in square feet (D25).
+
+### §S2 Zone editor
+
+Add a band (height range), a border (inset), a panel or area (rectangle, by dragging or by typed values in any unit
+`parseLength` accepts, converted to millimetres); resize; remove. Refusals show next to the zone.
+
+### §S3 Placing and schemes
+
+Place a product (from the browser or the shortlist) in the selected zone with pattern, rotation, grout and offset;
+clear; save and apply a scheme for the room; undo and redo. The zone's swatch fills it in the drawing. Warnings
+(`other-room-use`, `crosses-step`) show on the zone.
+
+### §S4 Setting and follow-ups
+
+Time, date and weather controls; a follow-ups list after a building change, each leading to its zone.
+
+## Acceptance criteria
+
+- [ ] (e2e) Selecting `oneBath`'s east wall draws it with its mirror region, and shows its width as feet and inches.
+- [ ] Typing a dado height of `4'` creates a band of 1219.2 mm (read back from the `design` query).
+- [ ] Placing a wall-only product on the floor shows the refusal `unsuitable-surface` on the zone, and the design is unchanged.
+- [ ] Saving a scheme, changing a placement, applying the scheme and pressing undo returns to the changed placement.
+- [ ] Setting the weather to rain in the page appears in the mock scene's status (with CR-PRT-016) and in `parti-axi state --query session`.
+- [ ] After re-importing the building without its floor, the follow-ups list shows the orphaned floor zones.
+- [ ] The surface view's area label for a 3048 × 3048 mm floor reads `100 sq ft`.
+
+## Estimated size
+
+8 points.
+
+## Non-goals
+
+3D views (the scene's job); tile set-out and cut pieces (later).
