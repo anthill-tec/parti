@@ -15,6 +15,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
+| 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
 | 2026-11-23 | Optional room use, aliases and outline, site areas, and the site's geo-reference and true north in the declaration (D24). |
 | 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
@@ -80,6 +81,13 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
   openings given in world coordinates can be converted.
 - **0.1.0 limits:** surfaces are rectangles (walls) or rectangles (floors); walls are vertical. Polygonal floors and
   sloped faces come later. JohnnyHouse's four bathrooms fit.
+
+### 2.3a Units (PRD-parti D25)
+
+Every length in the domain, in events and in the declaration is in **millimetres** (`"units": "mm"`); areas are derived.
+What the user sees follows the target project's display preferences: areas in square feet, room dimensions in feet and
+inches, component measurements in millimetres. A command may carry a length in another unit; it is converted on entry.
+The configuration written by `parti-axi init` holds the preferences, with those defaults.
 
 ### 2.4 The declaration file
 
