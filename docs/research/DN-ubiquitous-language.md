@@ -29,6 +29,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Target project | A building project Parti is installed into. It owns the building, its drawings, its Unreal project and its data. | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
+| Room use | What a room is for (bedroom, bathroom, porch, kitchen), with the names people call it by (aliases). | Building |
+| Site area | A part of the site outside the rooms: the drive, the garden, the approach. | Building |
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
@@ -111,3 +113,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Motion primitive, Motion library (D18 direction). |
 | 2026-11-23 | Added Navigation mode, Navigation data (D18). |
 | 2026-11-23 | Added Avatar (D18), Semantic search (D9). |
+| 2026-11-23 | Added Room use, Site area (D24). |

@@ -15,6 +15,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
+| 2026-11-23 | Optional room use, aliases and outline, site areas, and the world's north in the declaration (D24). |
 | 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
 
 ## 1. What 0.1.0 needs from the domain
@@ -38,7 +39,11 @@ All terms are the glossary's. A term used here and not yet in the glossary is ad
 The building's base for the finishes layer: **rooms**, and the **surfaces** that can take a finish, each with its
 **openings** and its **regions**.
 
-- **Room:** a declared id (for example `FF_bath1`), a name, a level (storey) and its floor level.
+- **Room:** a declared id (for example `FF_bath1`), a name, a level (storey) and its floor level; optionally its **use**
+  (bedroom, bathroom, porch), **aliases** ("master bedroom") and its floor **outline**, which the assistant needs to resolve
+  and measure rooms (PRD-parti D24). Cheap to declare now; required later.
+- **Site area:** a part of the site outside the rooms (drive, garden, approach), with id, name, use and outline
+  (optional in 0.1.0; for D24).
 - **Surface:** a face of a room that can take a finish, declared *from inside the room*: a wall face, a floor (a
   ceiling later). One CAD body may carry faces of several rooms, and one slab carries every floor of a storey, so a
   surface is never "one CAD object" (JohnnyHouse #1631 §2).
@@ -84,8 +89,10 @@ configuration names. Parti defines the format; the target project fills it; `par
   "format": "parti.building/1",
   "units": "mm",
   "world": "X east from the west face of column C1, Y north from the south face of the west block, Z up from the ground-floor finished floor",
+  "north": [0, 1],
   "rooms": [
-    { "id": "FF_bath1", "name": "First-floor bath 1", "level": "FF", "floor_z": 3100 }
+    { "id": "FF_bath1", "name": "First-floor bath 1", "level": "FF", "floor_z": 3100,
+      "use": "bathroom", "aliases": ["bath 1", "upstairs bathroom"] }
   ],
   "surfaces": [
     {
