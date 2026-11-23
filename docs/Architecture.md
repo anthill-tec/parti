@@ -146,7 +146,10 @@ implementation. Until then only the local adapters exist.
 |---|---|---|
 | Interaction (near real time) | The validation rules (the domain, R1), the agentic workflows and skills (D21), and the work with the CAD system, Blender and Unreal Engine | The applications' Python APIs, alongside their MCP servers, driven through the LangChain SDK |
 | Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
-| Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data | Nai and EntityStore |
+| Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data, telemetry events (usage, timings such as NFR-11's responsiveness, agent runs) | Nai and EntityStore |
+
+Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
+(R5, R6), so they map onto Nai's events directly, with no translation of meaning.
 
 How much of the static tooling otherwise written in Python can move to Nai is an open question (`research/PRD-parti.md`
 Q13).
