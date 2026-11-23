@@ -89,6 +89,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Client selection | The client's choices among the offered options, returned to the designer's project. | Design |
 | Session | One sitting in which participants work on the target project together. | Session |
 | Participant | A user or an agent taking part in a session. | Session |
+| Client review session | A session in which the client walks the building and decides among the offered options, guided by menus and by the assistant in chat or by voice; it ends in a client selection. | Session |
 | Selection | What a participant has picked: an element, a surface, a zone or a group. | Session |
 | Step | One stage of the guided workflow (drawing intake, shell build, …, finishes, world building, and usually last, building and packaging the client viewer). | Workflow |
 | Gate | A point where the owner decides before the workflow goes on. | Workflow |
@@ -117,3 +118,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Room use, Site area (D24). |
 | 2026-11-23 | Added True north (D24). |
 | 2026-11-23 | Layer: product layers and information layers (D17). |
+| 2026-11-23 | Added Client review session (D22). |
