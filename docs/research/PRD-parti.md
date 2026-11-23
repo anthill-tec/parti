@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-23 | T4: the per-part route repeated by script for three parts and eight placements; finishes on imported meshes are lost at re-import (#1649). |
 | 2026-11-23 | T4: the sub-assembly as a Blueprint built by script from its motion table; working rule for experimental editor tools (#1645). |
 | 2026-11-23 | T4: a CAD sub-assembly as its own Unreal component, driven by a motion table from the CAD generators, works in trial form (#1640). |
 | 2026-11-23 | T4: STEP into Unreal on Linux crashes (#1639); per-part glTF from SolidCraft and moving sub-assemblies as Unreal components, to be tried. |
@@ -399,6 +400,18 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     step; compile before referring to new members; one small step per call; never retry a crashed call unchanged.
     The graph tool's errors are precise and transactional; after an editor crash the connector's port stays held for a
     minute or more, so the agent waits before reconnecting.
+  - *The per-part route repeated by script for three more parts and eight placements (#1649, measured).* The CAD tool
+    writes each part to glTF; the generator writes its motion table and a **placements file** (part, origin in building
+    millimetres, turn about the vertical); the Unreal scripts import the part, build its Blueprint, write its graph,
+    match materials, put the chosen finishes on it, spawn it at each placement and hide the loose bodies of the
+    whole-building import. At all eight windows the Blueprint and the old loose frame coincide (0.0 cm apart, same
+    size); 1,358 loose bodies are now four Blueprints. Lessons for Parti's tools: a placement is an origin plus a turn
+    about the vertical, into Unreal (x/10, -y/10, (z + lift)/10) with yaw = minus the turn (D25's declared transform);
+    a part type placed several times needs the loose bodies of every placement hidden, and the building export should
+    leave them out; two mechanisms in one frame are one table with prefixed group ids; editor tools fail quietly while
+    play mode runs, so a tool checks for it first; and **finishes set on the building import's meshes are lost at the
+    next import and must be re-applied by rule**, whereas finishes on a part travel with it: the case for the design
+    holding the finishes and each renderer applying them (D17, PRD-domain §3).
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as
