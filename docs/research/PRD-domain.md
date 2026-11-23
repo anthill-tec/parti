@@ -14,6 +14,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | Date | Change |
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
+| 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
 
 ## 1. What 0.1.0 needs from the domain
@@ -65,7 +66,7 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 
 - **Face frame:** every surface has its own 2D frame: origin at its **bottom-left corner as seen from inside the
   room**, x along the face, y up (walls) or x east, y north (floors). Zones, openings and regions are rectangles in
-  this frame, in millimetres. (DM-6.)
+  this frame, in millimetres. (DM-6, decided.)
 - **World anchor:** each surface also records where it sits in the target project's world frame (for a wall, its two
   end points in plan and its floor level; for a floor, its outline), so the scene and Blender can find it and
   openings given in world coordinates can be converted.
@@ -76,7 +77,7 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 
 The building reaches Parti as a **declaration file** written by the target project (FR-MOD-1), JSON, in the folder the
 configuration names. Parti defines the format; the target project fills it; `parti-axi` checks it and imports it. In
-0.1.0 the file is the only source of the building: Parti does not edit it (DM-3).
+0.1.0 the file is the only source of the building: Parti does not edit it (DM-3, decided).
 
 ```json
 {
@@ -255,10 +256,10 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 |---|---|---|
 | DM-1 | Zone overlaps | Tiers: field, then bands and borders, then panels and areas; the upper shows; no overlaps within a tier |
 | DM-2 | Product not suited to the surface or the room | Refuse a wrong surface kind; warn on another room use |
-| DM-3 | Where the building comes from in 0.1.0 | The declaration file only; Parti reads it, never edits it |
+| DM-3 | Where the building comes from in 0.1.0 | **Decided (owner, 23 November 2026):** the declaration file only; Parti reads it, never edits it |
 | DM-4 | Laying patterns in 0.1.0 | Stack and offset bonds (half, third), at 0 or 90 degrees |
 | DM-5 | Scheme scope | Per room in 0.1.0; across rooms later |
-| DM-6 | Face frame origin | Bottom-left as seen from inside the room (JohnnyHouse's proposal) |
+| DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 
 ## 10. Requirements traced
 
