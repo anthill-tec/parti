@@ -55,6 +55,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Quantity | How much of a product a plan needs, wastage included. | Quantities |
 | Bill of materials | The quantities of one or more plans, grouped for one work-contract role. | Quantities |
 | Work-contract role | A trade engaged on the building project: tiling contractor, painter, carpenter, electrician, plumber, furniture supplier. | Quantities |
+| Semantic search | Finding products, rooms, design decisions or knowledge by meaning rather than by exact words ("warm matt tiles like this one"). | Catalogue |
 | Knowledge base | The project's lasting knowledge that agents draw on: workflow lessons, product knowledge, the trades' rules. | Workflow |
 | File catalogue | Every file Parti uses (drawings, models, textures, designs, exports), known by an id and its metadata rather than by a path on one machine. | Building |
 | Telemetry | Records of how Parti is used and how it performs: actions taken, timings, agent runs. Kept to improve the product, never part of a design. | Workflow |
@@ -71,6 +72,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
 | Navigation mode | A way of moving through the world: walk, teleport, orbit or fly, follow a route, jump to a viewpoint. | World builder |
+| Avatar | The user's presence in the walkthrough (a mannequin, or the first-person camera), which navigation moves, also on the agent's request. | World builder |
 | Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
@@ -108,3 +110,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Sub-assembly, Motion table (T4 trial, JohnnyHouse #1640). |
 | 2026-11-23 | Added Motion primitive, Motion library (D18 direction). |
 | 2026-11-23 | Added Navigation mode, Navigation data (D18). |
+| 2026-11-23 | Added Avatar (D18), Semantic search (D9). |
