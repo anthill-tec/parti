@@ -36,6 +36,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | World scale | The real size of the building. Parti keeps every length at world scale (1:1) in millimetres; each system it works with (CAD, Blender, Unreal, a printed model, the map) has its own declared units and scale. | — |
 | Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres; in bills of materials and estimates, square and running feet, SI for the rest (kg, litres, metres), pieces and boxes. Parti always stores millimetres. | — |
+| Measuring tape | The walkthrough's tool for measuring between two points or along a surface, read in feet and inches and in metres together. | World builder |
 | Running foot | A length of one foot along an edge (skirting, border, cornice), the usual unit for linear items in a bill of materials. | Quantities |
 | Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
 | Opening | A part of a surface that takes no finish: a door, a window, a ventilator, a niche. | Building |
@@ -127,3 +128,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Display units (D25). |
 | 2026-11-23 | Added World scale (D25). |
 | 2026-11-23 | Display units extended to bills of materials; added Running foot (D25). |
+| 2026-11-23 | Added Measuring tape (D25). |
