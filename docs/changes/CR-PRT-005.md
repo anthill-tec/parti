@@ -17,13 +17,15 @@ The catalogue holds finishes as read-only products and answers the browser's que
 ### §S1 Model
 
 `packages/domain/src/catalogue/`: type `Product` with the fields of FR-CAT-1 and PRD-domain §4.2's right-hand column,
-including `kind` (`tile` | `wood-veneer` | `laminate` | `paint` | `metal`), `suitableUse`, `suitableSurfaces`, `classification`
+including `kind` (`tile` | `wood-veneer` | `laminate` | `paint` | `metal` | `exposed` | `glaze`), `suitableUse`, `suitableSurfaces`, `classification`
 (basis, confidence), `pictureOrientation` (`landscape` | `portrait` | `square`) and `images` (references, never data);
 and by kind (PRD-domain §4.1): `source` (library or maker, asset, address, author, `licence`, retrieved date),
 `scan` (`id`, real `widthMm` and `heightMm`, `grain`: `along-x` | `along-y`, `maps` available and used) and `stain`
 (colour) for veneers and laminates; `colour`, `sheen` (`matt` | `eggshell` | `satin` | `gloss`) and an optional `effect` (`type`, `colours` [two],
 `patternSizeMm`) for paint; `treatment` (`plating` | `powder-coat` |
-`brushed` | `anodised`), `colour`, `metallic` and `roughness` (each 0 to 1) for metal;
+`brushed` | `anodised`), `colour`, `metallic` and `roughness` (each 0 to 1) for metal; `material` (`concrete` |
+`plaster` | `brick`), `colour` and `roughness` for exposed; `colour`, `sheen` for glaze (suitable for no wall or floor);
+`sizeIncludesJoint` and `piecesPerBox` (optional) for tiles;
 `assetRefs` (Unreal texture, material instance, master material) as references. A finish is a scan plus its stain
 (DM-8): its main colour is the colour after the stain. A veneer or laminate without `scan` is valid and has
 `provisional: true` (colour only, until a scan is chosen).

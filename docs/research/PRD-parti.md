@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-24 | T4: doors and French windows as Blueprints; agent-interface evidence recorded (#1655 to #1657); setting-out and quantities in 0.1.0 (#1658, owner). |
 | 2026-11-23 | T4 item 2: procedural materials arrive white through glTF; check after import; finishes rebuilt from the catalogue (#1653). |
 | 2026-11-23 | T4: the per-part route repeated by script for three parts and eight placements; finishes on imported meshes are lost at re-import (#1649). |
 | 2026-11-23 | T4: the sub-assembly as a Blueprint built by script from its motion table; working rule for experimental editor tools (#1645). |
@@ -155,7 +156,7 @@ floor, the field, a border inset or a rectangle (shower area).
 - **FR-CAT-2** The catalogue answers filter queries on: zone, surface, maker, main colour, colour strength, lightness, warm or cool, pattern, finish class, role in a set, size; plus free-text search on name, series and code; sorted (at least) round the colour wheel.
 - **FR-CAT-3** For a chosen finish the catalogue returns what goes with it: the maker's set and the pairs, and finishes of complementary colour.
 - **FR-CAT-4** Each maker's feed (and each target project's own records) is translated into the catalogue's finish by its own translation layer. Maker terms do not appear in the domain.
-- **FR-CAT-5** Finishes come in kinds: tile, wood veneer, laminate, paint, metal (in 0.1.0, owner, 23 November 2026; JohnnyHouse #1648). A wood veneer or laminate is a source scan plus its stain, with its source and licence; a paint is a colour and a sheen; a metal is a treatment, a colour, metallic and roughness (PRD-domain §4.1).
+- **FR-CAT-5** Finishes come in kinds: tile, wood veneer, laminate, paint, metal, exposed, glaze (in 0.1.0, owner, 23 November 2026; JohnnyHouse #1648). A wood veneer or laminate is a source scan plus its stain, with its source and licence; a paint is a colour and a sheen; a metal is a treatment, a colour, metallic and roughness (PRD-domain §4.1).
 - **FR-CAT-6** A finish can be valid for a surface or not (a wall-only tile on a floor is refused). The rule lives in the domain.
 
 ### 4.2 Building: surfaces and zones
@@ -423,6 +424,26 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     differ). For Parti: finishes are rebuilt in each renderer from the catalogue (PRD-domain §4.1), never carried
     through an export. Item 7 trap: a material node connected by a wrong pin name fails silently (the call returns
     false); the check is in the picture, not in any error, so editor tools verify results visually or by query.
+  - *Doors and French windows as Blueprints (#1655, measured):* eight more part files, 16 placements; with the louvres,
+    12 Blueprints at 24 positions, built and placed by script. A motion table has a mechanism (louvre, door) and groups
+    of three kinds (hinge, pin-follow, slide); one graph per mechanism acts on tags. A placement carries what differs
+    per instance (a hinged door's swing). Proven by comparing every body with the whole-building import (0.0 cm at all
+    16; handles and leaves are not symmetric, so position, turn and hand are settled in one test), opening each door
+    and measuring the leaf's travel, and moving each slide. Trap: changing an instance setting rebuilds the actor, so
+    an earlier component reference reports the old pose. **Owner's note:** placement and asset metadata kept as JSON
+    object references with words ("north jamb, opens west into the bedroom") is what Parti's future semantic search
+    over asset classes and placements works on (D24), instead of browsing the model.
+  - *What cost an agent the most tokens, and the agent API wanted (#1656, #1657; JohnnyHouse DN-010, recorded as
+    evidence, owner, 24 November 2026):* answer questions instead of making the agent browse; summaries by default
+    with filter, fields and limit, long output to a file; verification as one call returning pass or fail and the worst
+    offenders; numbers before pictures; working state kept on the tool's side and each system's transform owned by
+    the tool (D25); fail loudly with a named reason and report what was done in numbers; operations by rule with a
+    selector and a dry run; learned facts kept with their asset or operation (FR-WF-7); one stable id per element
+    (D19). Proposed verbs: find, describe, apply, check, diff, status, look. To be weighed when the agent harness and
+    the world builder's agent interface are specified.
+  - *Setting-out and quantities (#1658, measured):* 18 tiled rooms, 197.5 m²; the setting-out is per placement, and the
+    count needs each room's exact outline (a check: every door has a different room on each side). Taken into 0.1.0
+    (PRD-domain §3.3, §3.4a).
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as

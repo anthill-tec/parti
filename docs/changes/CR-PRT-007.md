@@ -22,8 +22,10 @@ user's own design changes. The domain is pure (R1): plain functions over plain d
 
 ### §S2 Shortlist
 
-`add-to-shortlist` (product, note), `remove-from-shortlist`; a product is on the list at most once (adding again
-updates the note).
+`add-to-shortlist` (product, note, optional `target`: room, surface, role `base` | `band` | `border` | `feature`),
+`remove-from-shortlist`; a product is on the list at most once per target (adding again updates the note). A target
+naming an unknown room or surface is refused with `unknown-target`. The `shortlist` query filters by room, surface
+and role.
 
 ### §S3 Undo and redo
 
@@ -37,7 +39,8 @@ redo stack. Applying a scheme is undone in one step.
 - [ ] Applying a scheme saved for `FF_bath1` to `FF_bath2` is refused with `other-room`.
 - [ ] Undo after `apply-scheme` restores every replaced placement in one step; redo re-applies it.
 - [ ] Undo with nothing to undo is refused with `nothing-to-undo`; a new change after an undo makes `redo` refuse with `nothing-to-redo`.
-- [ ] Adding a product twice keeps one entry with the second note.
+- [ ] Adding a product twice with the same target keeps one entry with the second note; with two targets, two entries.
+- [ ] Filtering the shortlist by room `FF_bath1` returns only entries targeting it.
 - [ ] Caller-existence: the four commands reach `decideDesign` from the gateway (reviewed at CR-PRT-012 VERIFY).
 
 ## Estimated size

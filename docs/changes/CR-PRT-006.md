@@ -46,6 +46,7 @@ the design's revision is refused with `stale-revision`). With DM-7, a placement 
 - [ ] A wall-only product placed on a floor zone is refused with `unsuitable-surface`; an outdoor product placed in a bathroom is placed and the event carries `warnings: ["other-room-use"]`.
 - [ ] A command with `expectedRevision` one below the design's is refused with `stale-revision`, and the state is unchanged.
 - [ ] Placing a second product in a zone replaces the first; the history (events) keeps both.
+- [ ] A glaze placed on any zone is refused with `unsuitable-surface`.
 - [ ] A veneer placed with `grain: 90` is accepted; a veneer placed with a grout width, or a paint with a pattern, is refused with `invalid-parameter`.
 - [ ] Caller-existence: `decideDesign` is called from `packages/gateway/src` (reviewed at CR-PRT-012 VERIFY).
 

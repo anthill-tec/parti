@@ -24,7 +24,8 @@ projection, and reconnects with backoff; a banner shows when disconnected.
 
 Filter panel with every filter of PRD-domain §4.3, kind first; free-text search; results as a grid of swatches sorted round the
 colour wheel by default; a detail view (images, size, uses, classification and its confidence, the set) with "Goes
-with"; add to and remove from the shortlist with a note; the shortlist view. Sizes in millimetres (component unit,
+with"; add to and remove from the shortlist with a note and an optional target (room, surface, role); the shortlist view,
+filtered by target. Sizes in millimetres (component unit,
 D25).
 
 ## Acceptance criteria
@@ -35,6 +36,7 @@ D25).
 - [ ] Adding a product to the shortlist in one browser tab shows it in a second tab's shortlist without a reload.
 - [ ] Stopping the gateway shows the disconnected banner; restarting it clears the banner and the shortlist is unchanged.
 - [ ] Sizes show as `600 × 300 mm`.
+- [ ] Shortlisting a tile for `FF_bath1`, role `band`, then filtering the shortlist by `FF_bath1` shows it; filtering by `FF_bath2` does not.
 - [ ] A veneer's detail shows its source, licence and stain; a paint's shows its colour and sheen and no image; a metal's shows its treatment, metallic and roughness; a provisional finish is marked `provisional` on its card and its detail.
 - [ ] Caller-existence: the gateway serves the built page at `/` (reviewed at VERIFY).
 

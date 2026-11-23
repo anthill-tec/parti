@@ -28,8 +28,14 @@ Add a band (height range), a border (inset), a panel or area (rectangle, by drag
 ### §S3 Placing and schemes
 
 Place a product (from the browser or the shortlist) in the selected zone with pattern, rotation, grout and offset;
-clear; save and apply a scheme for the room; undo and redo. The zone's swatch fills it in the drawing. Warnings
+clear; save and apply a scheme for the room; undo and redo. The setting-out rule (centre, full start at an edge,
+manual) is chosen per placement; the drawing shows the grid at true scale and the edge cuts in mm. The zone's swatch fills it in the drawing. Warnings
 (`other-room-use`, `crosses-step`) show on the zone.
+
+### §S3a Quantities
+
+A quantities panel per room and per finish: area in square feet, laid (full, cut), to buy, boxes, with the counting
+rule and exclusions shown under the numbers; wastage and rounding changeable as project settings.
 
 ### §S4 Setting and follow-ups
 
@@ -43,11 +49,13 @@ Time, date and weather controls; a follow-ups list after a building change, each
 - [ ] Saving a scheme, changing a placement, applying the scheme and pressing undo returns to the changed placement.
 - [ ] Setting the weather to rain in the page appears in the mock scene's status (with CR-PRT-016) and in `parti-axi state --query session`.
 - [ ] After re-importing the building without its floor, the follow-ups list shows the orphaned floor zones.
+- [ ] Choosing `full-start` at the bottom on the east wall shows a bottom cut of 0 mm in the drawing.
+- [ ] After placing a tile, the quantities panel shows laid and to-buy for the room equal to the `quantities` query's, with the counting rule beneath.
 - [ ] The surface view's area label for a 3048 × 3048 mm floor reads `100 sq ft`.
 
 ## Estimated size
 
-8 points.
+13 points.
 
 ## Non-goals
 

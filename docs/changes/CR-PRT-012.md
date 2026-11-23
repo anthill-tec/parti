@@ -3,7 +3,7 @@
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
 **Priority:** High
-**Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-006, CR-PRT-007, CR-PRT-008, CR-PRT-009, CR-PRT-010
+**Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-006, CR-PRT-007, CR-PRT-008, CR-PRT-009, CR-PRT-010, CR-PRT-020
 **Labels:** gateway, websocket
 **Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/Architecture.md` §5 (gateway), §6 (how a change travels), §3 (R5–R8); `docs/research/PRD-parti.md` NFR-7, NFR-8
@@ -32,7 +32,7 @@ repeat, R6).
 ### §S3 Queries and joining
 
 Queries answer from the current state (`building`, `surface`, `design`, `catalogue`, `goes-with`, `shortlist`,
-`follow-ups`, `history`). A new connection first receives a `snapshot`. On start the state is rebuilt from the logs.
+`follow-ups`, `history`, `quantities`). A new connection first receives a `snapshot`. On start the state is rebuilt from the logs.
 
 ### §S4 Catalogue
 
@@ -48,7 +48,7 @@ The catalogue is read from `catalogue/products.json` at start and on the `catalo
 - [ ] A late-joining client's first message is a `snapshot` whose `revision` equals the design's.
 - [ ] Re-importing the building without the floor stores the `building-revised` event followed by the `follow-up-raised` events.
 - [ ] Connecting from a non-loopback address is impossible: the server's bound address is `127.0.0.1` (asserted from the server object).
-- [ ] Caller-existence: grep finds `validateMessage`, `decideBuilding`, `decideDesign`, `decideSession`, `followBuilding`, `queryCatalogue`, `goesWith` and `JsonEventStore` called in `packages/gateway/src`.
+- [ ] Caller-existence: grep finds `validateMessage`, `decideBuilding`, `decideDesign`, `decideSession`, `followBuilding`, `queryCatalogue`, `goesWith`, `quantities` and `JsonEventStore` called in `packages/gateway/src`.
 
 ## Estimated size
 

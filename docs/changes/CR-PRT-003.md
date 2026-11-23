@@ -25,10 +25,10 @@ B-4, labelled).
 
 ### §S2 Product generator
 
-`makeProducts(n, seed)` returns `n` deterministic synthetic finishes of all five kinds (tile, wood veneer, laminate, paint, metal), covering every
+`makeProducts(n, seed)` returns `n` deterministic synthetic finishes of all seven kinds (tile, wood veneer, laminate, paint, metal, exposed, glaze), covering every
 filterable field of PRD-domain §4.3 and the kind-specific fields of §4.1 (scans with real size and grain direction,
 stains, licences, paint sheens and effects, colour-only veneers and laminates) (uses, surfaces, makers, colours across the wheel, lightness, warm and cool, patterns, finish classes,
-sets with pairs, sizes), with swatch and scan images generated as plain-colour PNGs into a temporary folder (none for paint or metal).
+sets with pairs, sizes), with swatch and scan images generated as plain-colour PNGs into a temporary folder (none for paint, metal, exposed or glaze).
 
 ### §S3 Shared to Python
 
@@ -40,7 +40,7 @@ Python tests read identical data.
 - [ ] `validateDeclaration(makeBuilding(p))` is ok for `oneBath` and `twoLevels`.
 - [ ] `faulty` carries exactly one breach of each of B-1, B-2 and B-4, each identified by a `label` field the building context's tests use.
 - [ ] `oneBath`'s east wall anchor runs north to south (start y > end y), its west wall south to north.
-- [ ] `makeProducts(200, 1)` is deeply equal across two calls, every value of each filter field in PRD-domain §4.3 appears at least once, and each of the five kinds appears at least 20 times.
+- [ ] `makeProducts(200, 1)` is deeply equal across two calls, every value of each filter field in PRD-domain §4.3 appears at least once, and each of the seven kinds appears at least 20 times; some tiles state `sizeIncludesJoint` and `piecesPerBox`.
 - [ ] At least two veneers share one source scan with different stains, and no paint or metal has an image.
 - [ ] Every swatch PNG is a single colour of the product's declared main colour (pixel check on three points).
 - [ ] The JSON files in `tests/fixtures/` equal the generators' output (a test regenerates and compares).

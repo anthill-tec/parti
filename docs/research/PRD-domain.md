@@ -17,6 +17,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
+| 2026-11-24 | Setting-out per placement (rule, origin, edge cuts, module) and quantities (counting rule, wastage, to buy) in 0.1.0; shortlist targets; kinds exposed and glaze (owner; JohnnyHouse #1658). |
 | 2026-11-23 | Effect paints; colour-only (provisional) finishes; cabinetry classes; renderers rebuild finishes from the catalogue (JohnnyHouse #1653). |
 | 2026-11-23 | Fifth kind: metal (owner; JohnnyHouse #1651); scans as records of their own. |
 | 2026-11-23 | Non-tile finishes in 0.1.0: wood veneer, laminate, paint (owner); DM-8 finish = scan + stain, DM-9 placements on parts later (JohnnyHouse #1648). |
@@ -35,7 +36,9 @@ finishes, saves and reloads, and sets the time of day and the weather as state; 
 synthetic buildings and products (NFR-10).
 
 This slice therefore covers four contexts in part (Building, Design, Catalogue, Session) and the setting of the world
-builder. It leaves out: other layers than finishes, quantities and bills of materials, offers and client bundles, the
+builder. It also covers the **setting-out** of each placement and the **quantities** it needs (owner, 24 November 2026), since placing a finish at
+true scale with a setting-out gives both the picture and the count (JohnnyHouse #1658). It leaves out: other layers
+than finishes, prices and cost estimates, offers and client bundles, the
 workflow, and the agent session (all later releases).
 
 All terms are the glossary's. A term used here and not yet in the glossary is added to it with this PRD.
@@ -208,6 +211,16 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 - **Validity (DM-2, recommended):** a product whose suitable surfaces exclude the zone's surface kind is **refused**
   (a wall-only tile on a floor, FR-CAT-6). A product whose **suitable use** is another room use (an outdoor tile in a
   bathroom) is **placed with a warning**, since a designer may choose it on purpose.
+- **Setting-out** (owner, 24 November 2026): every tile, veneer or laminate placement has a setting-out, which is data: the **rule** that
+  places the grid, the grid **origin** it gives in the face frame, and the **edge cuts** it leaves (left, right, bottom,
+  top, in mm). Rules in 0.1.0: **centre** (a joint or a tile on the zone's centre line, whichever leaves the wider edge
+  cuts; the default), **full start** (a full tile at a named edge: the floor of a wall, the top of a stair), and
+  **manual** (the origin given). The grid's period is the **module**: the tile's size plus the joint (the grout width),
+  or the size alone when the maker states it with the joint included. One grid per room or storey is wrong in every
+  room (JohnnyHouse #1658): the setting-out belongs to each placement.
+- **Courses and tiled height** are zones, not finish properties: a wall tiled to 2100 mm with a decor course is a field
+  zone, a band zone for the decor course (its own placement) and an upper band in paint; openings and regions are cut
+  out as everywhere (#1658 used the declaration's openings and regions unchanged).
 - **By kind:** a tile takes the pattern, grout, offset and rotation above; a wood veneer or laminate takes a grain
   direction (0 or 90 degrees) and an offset, no grout; a paint takes nothing more.
 - A zone holds at most one placement; placing again replaces it (the replaced placement stays in the history).
@@ -221,8 +234,25 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 - **Scheme:** a named, saved set of placements (FR-DES-1). In 0.1.0 a scheme is **per room** (DM-5, recommended):
   saved from a room's zones, applied to the same room. Applying replaces those zones' placements in one step and can be
   undone in one step. Applying a scheme to *another* room (matching zones by kind and side) comes later.
-- **Shortlist:** products set aside, each with a note (FR-DES-5). JohnnyHouse's `selections.json` is read once into the
+- **Shortlist:** products set aside, each with a note (FR-DES-5) and, optionally, a **target** (owner, 24 November 2026): the room, the
+  surface and the role (base, band, border, feature) it is chosen for, since twice JohnnyHouse had to ask which bathroom
+  and which course a shortlisted tile was for (#1658). The shortlist can be filtered by target. JohnnyHouse's `selections.json` is read once into the
   shortlist so its existing shortlist is not lost (DN-first-consumer, need 3).
+
+### 3.4a Quantities (owner, 24 November 2026)
+
+Quantities are computed from the design, never entered: a pure function of the placements, their setting-outs and the
+zones' visible cells (openings and keep-clear regions taken out, tile-behind regions kept).
+
+- **Tiles:** counted on the placement's grid. **Counting rule, stated with every number** (JohnnyHouse #1658): every grid
+  tile of which any part shows is one tile; a cut tile is a whole tile; offcuts are not reused. **Laid** = full + cut;
+  **to buy** = laid plus the **wastage** (10 % by default, a project setting), rounded up **once per finish** (the
+  default; per room is the alternative, and the record says which: 676 against 681 in #1658's marble). Boxes when the
+  finish states its pieces per box.
+- **Veneers, laminates, paint, metal, exposed:** the area in square feet (D25), with the wastage for sheet goods; paint
+  in litres and sheets in pieces come when coverage and sheet sizes are in the catalogue.
+- **Per zone, room and finish**, with the area (square feet), and what is **not included** stated (thresholds, steps,
+  skirting unless zoned). Prices and cost estimates later: the record keeps a place for a price per finish.
 
 ### 3.5 Rules
 
@@ -235,14 +265,17 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 
 ### 4.1 Finishes
 
-In 0.1.0 the catalogue holds **finishes** of five **kinds**: **tile**, **wood veneer**, **laminate**, **paint** and **metal** (owner, 23 November 2026),
+In 0.1.0 the catalogue holds **finishes** of seven **kinds**: **tile**, **wood veneer**, **laminate**, **paint**, **metal**,
+**exposed** and **glaze** (owner, 23 and 24 November 2026),
 from JohnnyHouse's second finishes database (#1648) beside its tiles. A finish has the fields of FR-CAT-1, and by kind:
 
 | Kind | Carries | Placed with |
 |---|---|---|
-| tile | maker, size, thickness, finish class, swatch and room images | laying pattern, grout, offset, rotation (§3.3) |
+| tile | maker, size, thickness, finish class, swatch and room images; whether the stated size includes the joint (a house tile of 600 including a 4 mm joint) and the pieces per box when known | laying pattern, grout, offset, rotation (§3.3) |
 | wood veneer, laminate | **source and licence** (library or maker, asset name, address, author, licence, date retrieved); the **source scan**: the real size the image covers (e.g. 1000 × 1000 mm), which way the grain runs in it, which maps exist (colour, roughness, relief) and which are used; the **stain** applied over the scan | grain direction (0 or 90 degrees in the face frame) and offset; no grout |
 | paint | a colour and a sheen (matt, eggshell, satin, gloss); a maker's code when there is one; no image; optionally an **effect** (a special-effect paint: type, two colours, pattern size; JohnnyHouse PT-002 to PT-004) | nothing more |
+| exposed | a material left as built, with no product: concrete, plaster, brick (JohnnyHouse CN-001); a colour and a roughness; no maker needed | nothing more |
+| glaze | the glazed colour of sanitary ware: a colour, a sheen, a maker's code when there is one; no image; suitable for no wall or floor, so it waits for the fittings layer to be placed | — |
 | metal | a treatment (plating, powder coat, brushed, anodised), a colour, metallic (0 to 1) and roughness (0 to 1); a maker's code when there is one; no image (JohnnyHouse MT-001, chromium-plated steel on the guard rails) (owner, 23 November 2026) | nothing more; mostly placed on parts, with the world builder (DM-9) |
 
 **A finish is what is used: a source scan plus its stain** (DM-8, decided (owner, 23 November 2026)). Its colour is the colour after the

@@ -27,7 +27,7 @@ hue, strength, lightness, warm or cool) computed from the main image, images as 
 
 `catalogue_tools.johnnyhouse.translate_finishes(finishes_dir)` reads JohnnyHouse's second database
 (`data/finishes.ndjson`, `swatches/<id>.jpg`, JohnnyHouse #1648) into finishes of kinds `wood-veneer`, `laminate`,
-`paint` and `metal` (JohnnyHouse `metal_plating` → `metal`, treatment `plating`): source and licence, source scan (real size, grain direction, maps), stain, sheen, Unreal asset references;
+`paint`, `metal` (JohnnyHouse `metal_plating` → `metal`, treatment `plating`), `exposed` (CN-001) and `glaze`: source and licence, source scan (real size, grain direction, maps), stain, sheen, Unreal asset references;
 ids (`WV-001`, `PT-001`, `MT-001`) kept; effect paints carried with their `effect`; a veneer or laminate with
 no scan carried as provisional (colour only); scans read from `data/scans.ndjson` (`SC-001`). A record of a kind
 Parti does not know is listed in `report.json` as `unsupported-kind`, never dropped silently. `usage.json` is not read in 0.1.0 (DM-9). `translate` merges both sources into one

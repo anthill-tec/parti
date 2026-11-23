@@ -56,14 +56,17 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Placement | A product put on an element, a surface or a zone, with its details (for a finish: laying pattern, grout, offset, rotation). (Generalises "assignment".) | Design |
 | Laying pattern | How the tiles of a placement are set out: stack (grid) or an offset bond (half, third), at 0 or 90 degrees; herringbone and diagonal later. | Design |
 | Scheme | A named, saved set of placements that can be applied again ("Bath 1, scheme A"). | Design |
-| Shortlist | Products set aside, each with a note on where it is meant to go. | Design |
+| Shortlist | Products set aside, each with a note and, optionally, its target: the room, surface and role (base, band, border, feature) it is chosen for. | Design |
+| Setting-out | How a placement's grid is fixed on its zone: a rule (centre, full start, manual), the origin it gives and the edge cuts it leaves. Data of the placement. | Design |
+| Module | The period of a tile grid: the tile's size plus the joint, or the size alone when it includes the joint. | Design |
 | Product | Something a layer can place: a tile, a paint, a cabinet, a socket, a basin. Comes from a catalogue. | Catalogue |
-| Finish | A product of the finishes layer, of one kind: a tile, a wood veneer, a laminate, a paint or a metal. | Catalogue |
+| Finish | A product of the finishes layer, of one kind: a tile, a wood veneer, a laminate, a paint, a metal, an exposed material (concrete, plaster, brick left as built) or a glaze. | Catalogue |
 | Source scan | The image a wood veneer or laminate is made from, with the real size it covers, its grain direction and its maps; one scan can back several finishes. | Catalogue |
 | Stain | A tint applied over a source scan; a finish is a scan plus its stain, and its colour is the colour after the stain. | Catalogue |
 | Catalogue | The products available to a layer, with the facts used to filter and match them. | Catalogue |
 | Suitable use | Where a product may be used: room use (bathroom, interior, outdoor) and surface kind (wall, floor). *Proposed*: the JohnnyHouse tile records call the room use `zone`; their translator maps it here. | Catalogue |
-| Quantity | How much of a product a plan needs, wastage included. | Quantities |
+| Quantity | How much of a product a plan needs, wastage included, computed from the placements and their setting-outs, and always stated with its counting rule. | Quantities |
+| Counting rule | How a quantity was counted: for tiles, every grid tile of which any part shows is one, cut tiles are whole, offcuts not reused; the wastage and where the rounding is applied. | Quantities |
 | Bill of materials | The quantities of one or more plans, grouped for one work-contract role. | Quantities |
 | Work-contract role | A trade engaged on the building project: tiling contractor, painter, carpenter, electrician, plumber, furniture supplier. | Quantities |
 | Semantic search | Finding products, rooms, design decisions or knowledge by meaning rather than by exact words ("warm matt tiles like this one"). | Catalogue |
@@ -137,3 +140,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Calibration (D25). |
 | 2026-11-23 | Finish widened to four kinds; added Source scan and Stain (DM-8). |
 | 2026-11-23 | Finish: fifth kind, metal. |
+| 2026-11-24 | Added Setting-out, Module, Counting rule; Shortlist with targets; Finish kinds exposed and glaze. |
