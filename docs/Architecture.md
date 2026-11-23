@@ -93,6 +93,7 @@ finish tool and the world builder work on.
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
 | `parti-axi` | Python (installed with `uv`) | gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `catalogue-tools` | Python | — | Build a catalogue from a target project's records: thumbnails, colour tags, checks. Later: Unreal editor scripts for finish assets. |
+| `agent-harness` | Python | gateway (over its agent API) | Parti's own agent harness (D21): the workflow graph (LangGraph) built from the domain's Workflow definition, whose nodes call domain commands; agent definitions and skills; MCP client connections to SolidCraft, Blender and Unreal. Checkpoints and memory behind ports (local first; Nai and EntityStore later). |
 | `pipeline-tools` | Python | — | The toolbase of the workflow: data tables → commands for the CAD and rendering applications, with expected-result checks. One translator per application. |
 | `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
 
