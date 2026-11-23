@@ -134,8 +134,11 @@ do (D16). The backend may move to Nai (D9).
 
 What Nai lacks today for the interactive loop, and the requests this makes to its team, are listed in
 `research/DN-founding-design-record.md`. The owner's assessment (22 November 2026): a WebSocket connector is not a
-major issue, since Nai already has HTTP in and out connectors. Neither is used in version one (D9). Parti migrates to them when it takes on the
-multi-user, multi-session implementation; until then only the local adapters exist.
+major issue, since Nai already has HTTP in and out connectors. Nai supports custom connectors that talk to Parti over
+WebSockets where needed, usually built with the LangChain agentic SDK, the same toolkit as the agent harness (D21;
+owner, 23 November 2026). Neither is used in version one (D9). Retrieval (RAG) and the knowledge base move to Nai
+as soon as the agent harness exists; everything else moves when Parti takes on the multi-user, multi-session
+implementation. Until then only the local adapters exist.
 
 ## 9. Installing into a target project
 
