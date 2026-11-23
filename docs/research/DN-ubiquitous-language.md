@@ -59,6 +59,13 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Moving part | A part of the building or its world that can be animated: door, drawer, gate, louvre. | World builder |
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
+| Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
+| Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
+| Client viewer | Parti for the building's owner: a self-contained walkthrough viewer with the offered options, on Windows or Linux. | — |
+| Offer | What the designer lets the client decide, per zone or element: a set of options with a default. | Design |
+| Option | One choice within an offer: a placement or a whole scheme. | Design |
+| Client bundle | A published package for one client project and revision: the building, the offer, the scenarios and the assets they need. | Asset delivery |
+| Client selection | The client's choices among the offered options, returned to the designer's project. | Design |
 | Session | One sitting in which participants work on the target project together. | Session |
 | Participant | A user or an agent taking part in a session. | Session |
 | Selection | What a participant has picked: an element, a surface, a zone or a group. | Session |
@@ -74,3 +81,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-22 | Added Revision, Stale, Follow-up action, Orphaned placement (D19) and Cost estimate (D17). Design is the business word; `LayerPlan` is its name in code (owner). |
 | 2026-11-23 | Added Knowledge base, File catalogue (D9) and Site (D18). |
 | 2026-11-23 | Added Telemetry (D9). |
+| 2026-11-23 | Added Edition, Designer edition, Client viewer, Offer, Option, Client bundle, Client selection (D22). |
