@@ -35,7 +35,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | World scale | The real size of the building. Parti keeps every length at world scale (1:1) in millimetres; each system it works with (CAD, Blender, Unreal, a printed model, the map) has its own declared units and scale. | — |
-| Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres. Parti always stores millimetres. | — |
+| Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres; in bills of materials and estimates, square and running feet, SI for the rest (kg, litres, metres), pieces and boxes. Parti always stores millimetres. | — |
+| Running foot | A length of one foot along an edge (skirting, border, cornice), the usual unit for linear items in a bill of materials. | Quantities |
 | Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
 | Opening | A part of a surface that takes no finish: a door, a window, a ventilator, a niche. | Building |
 | Region | A part of a surface marked by a fitting or a moving part: keep clear (no tiles) or tile behind (tiled though covered). | Building |
@@ -125,3 +126,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Guide (D22); Avatar distinguished from it. |
 | 2026-11-23 | Added Display units (D25). |
 | 2026-11-23 | Added World scale (D25). |
+| 2026-11-23 | Display units extended to bills of materials; added Running foot (D25). |
