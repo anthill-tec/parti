@@ -208,7 +208,8 @@ also connects it to the target's Unreal project.
 | `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
 
 **Order of the design work.** 1. This architecture, reviewed. 2. The glossary (`research/DN-ubiquitous-language.md`).
-3. The domain PRD, then the other per-area PRDs, each with its review page. 4. CRs, filed on the Crucible board,
+3. The domain PRD, then the other per-area PRDs, each with its review page. Each is written for the slice the next
+release needs (the domain PRD first for 0.1.0), and grows with the releases. 4. CRs, filed on the Crucible board,
 last: each implements settled requirements.
 
 ## 11. System-design terms
