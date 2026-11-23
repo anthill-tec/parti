@@ -72,7 +72,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Session | One sitting in which participants work on the target project together. | Session |
 | Participant | A user or an agent taking part in a session. | Session |
 | Selection | What a participant has picked: an element, a surface, a zone or a group. | Session |
-| Step | One stage of the guided workflow (drawing intake, shell build, …, finishes, world building). | Workflow |
+| Step | One stage of the guided workflow (drawing intake, shell build, …, finishes, world building, and usually last, building and packaging the client viewer). | Workflow |
 | Gate | A point where the owner decides before the workflow goes on. | Workflow |
 | Checkpoint | A saved state of the target project after a step. | Workflow |
 
@@ -90,3 +90,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Client bundle: offline (filesystem package) or online (served by Nai). |
 | 2026-11-23 | Added UI helper (D22). |
 | 2026-11-23 | Added Smart menu (D22). |
+| 2026-11-23 | Step: building and packaging the client viewer is usually the last step. |
