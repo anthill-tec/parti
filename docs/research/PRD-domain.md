@@ -84,7 +84,10 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 
 ### 2.3a Units (PRD-parti D25)
 
-Every length in the domain, in events and in the declaration is in **millimetres** (`"units": "mm"`); areas are derived.
+Every length in the domain and in events is in **millimetres of the real building** (world scale 1:1); areas are derived.
+The declaration states the units and scale of its source model (`"units": "mm"`, `"scale": 1`), and `parti-axi`
+converts on import. Every other system (Blender, Unreal, a printed model, the map) is reached through its translator's
+declared transform: units, scale, axes and origin (PRD-parti D25).
 What the user sees follows the target project's display preferences: areas in square feet, room dimensions in feet and
 inches, component measurements in millimetres. A command may carry a length in another unit; it is converted on entry.
 The configuration written by `parti-axi init` holds the preferences, with those defaults.
@@ -99,6 +102,7 @@ configuration names. Parti defines the format; the target project fills it; `par
 {
   "format": "parti.building/1",
   "units": "mm",
+  "scale": 1,
   "world": "X east from the west face of column C1, Y north from the south face of the west block, Z up from the ground-floor finished floor",
   "site": { "latitude": null, "longitude": null, "elevation_m": null,
             "true_north_deg": null, "note": "angle from plan +Y to true north, clockwise; to be given by the target project" },

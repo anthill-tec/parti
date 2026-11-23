@@ -34,6 +34,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | True north | The geographic north, given as an angle from the drawings' north (plan north); with the site's latitude and longitude it places the building on the map and the sun in the sky. | Building |
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
+| World scale | The real size of the building. Parti keeps every length at world scale (1:1) in millimetres; each system it works with (CAD, Blender, Unreal, a printed model, the map) has its own declared units and scale. | — |
 | Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres. Parti always stores millimetres. | — |
 | Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
 | Opening | A part of a surface that takes no finish: a door, a window, a ventilator, a niche. | Building |
@@ -123,3 +124,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Client review session (D22). |
 | 2026-11-23 | Added Guide (D22); Avatar distinguished from it. |
 | 2026-11-23 | Added Display units (D25). |
+| 2026-11-23 | Added World scale (D25). |
