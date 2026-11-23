@@ -70,6 +70,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Motion library | The world builder's set of motion primitives, which the agent composes into a sub-assembly's motion and its interactive scripts in Unreal. | World builder |
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
+| Navigation mode | A way of moving through the world: walk, teleport, orbit or fly, follow a route, jump to a viewpoint. | World builder |
+| Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
 | Client viewer | Parti for the building's owner: a self-contained walkthrough viewer with the offered options, on Windows or Linux. | — |
@@ -105,3 +107,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | From the domain PRD (draft): Room, Face frame, Opening, Region, Declaration, Tier, Laying pattern; Surface and Zone sharpened. |
 | 2026-11-23 | Added Sub-assembly, Motion table (T4 trial, JohnnyHouse #1640). |
 | 2026-11-23 | Added Motion primitive, Motion library (D18 direction). |
+| 2026-11-23 | Added Navigation mode, Navigation data (D18). |
