@@ -75,7 +75,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
 | Navigation mode | A way of moving through the world: walk, teleport, orbit or fly, follow a route, jump to a viewpoint. | World builder |
-| Avatar | The user's presence in the walkthrough (a mannequin, or the first-person camera), which navigation moves, also on the agent's request. | World builder |
+| Avatar | The user's presence in the walkthrough (a mannequin, or the first-person camera), which navigation moves, also on the agent's request. Not the assistant (see Guide). | World builder |
+| Guide | The assistant embodied as a figure in the world, which walks with the user and talks with them by voice or text. Not the user's avatar. | Session |
 | Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
@@ -119,3 +120,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added True north (D24). |
 | 2026-11-23 | Layer: product layers and information layers (D17). |
 | 2026-11-23 | Added Client review session (D22). |
+| 2026-11-23 | Added Guide (D22); Avatar distinguished from it. |
