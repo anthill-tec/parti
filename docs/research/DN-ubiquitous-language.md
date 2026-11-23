@@ -35,6 +35,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | World scale | The real size of the building. Parti keeps every length at world scale (1:1) in millimetres; each system it works with (CAD, Blender, Unreal, a printed model, the map) has its own declared units and scale. | — |
+| Calibration | Setting a working model's scale from a known dimension ("this door is 2100 mm"); the same dimension is re-checked on every import and export. | Workflow |
 | Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres; in bills of materials and estimates, square and running feet, SI for the rest (kg, litres, metres), pieces and boxes. Parti always stores millimetres. | — |
 | Interactive tool | A tool the user handles in the Unreal world: pick and select, smart menu, compare, operate a moving part, navigate, measuring tape, setting controls, notes, guide. | World builder |
 | Measuring tape | The walkthrough's tool for measuring between two points or along a surface, read in feet and inches and in metres together. | World builder |
@@ -131,3 +132,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Display units extended to bills of materials; added Running foot (D25). |
 | 2026-11-23 | Added Measuring tape (D25). |
 | 2026-11-23 | Added Interactive tool (D18). |
+| 2026-11-23 | Added Calibration (D25). |

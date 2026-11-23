@@ -90,7 +90,9 @@ converts on import. Every other system (Blender, Unreal, a printed model, the ma
 declared transform: units, scale, axes and origin (PRD-parti D25).
 What the user sees follows the target project's display preferences: areas in square feet, room dimensions in feet and
 inches, component measurements in millimetres. A command may carry a length in another unit; it is converted on entry.
-The configuration written by `parti-axi init` holds the preferences, with those defaults.
+The configuration written by `parti-axi init` holds the preferences, with those defaults, and **the scale of each working
+model**, which Parti sets: stated, or calibrated against a known dimension ("this door is 2100 mm"), and re-checked on
+every import (PRD-parti D25).
 
 ### 2.4 The declaration file
 
