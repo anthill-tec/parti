@@ -28,9 +28,15 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 |---|---|---|
 | Target project | A building project Parti is installed into. It owns the building, its drawings, its Unreal project and its data. | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
+| Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
-| Surface | One face of an element that can take a finish (a wall face, a floor). | Building |
-| Zone | A part of a surface, described by numbers. Zones come in kinds: area, panel, band (by height), border, … | Design |
+| Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
+| Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
+| Opening | A part of a surface that takes no finish: a door, a window, a ventilator, a niche. | Building |
+| Region | A part of a surface marked by a fitting or a moving part: keep clear (no tiles) or tile behind (tiled though covered). | Building |
+| Declaration | The file in which a target project declares its rooms, surfaces, openings and regions, in the format Parti defines; reading it again gives a building revision. | Building |
+| Zone | A part of a surface, described by numbers in its face frame. Kinds: field (the whole surface), band (a height range on a wall), panel (a rectangle on a wall), area (a rectangle on a floor), border (an edge inset on a floor). Zones lie in tiers; the upper shows. | Design |
+| Tier | The stacking order of zones on a surface: the field below, bands and borders above, panels and areas on top. Not to be confused with a layer. | Design |
 | Layer | One kind of information placed on the building: finishes, furniture and cabinetry, electrical, plumbing, … | Design |
 | Design | The user's layer planning for the building: one plan per layer, with its schemes and shortlist. What the user is making. (Not the architect's design of the building, which is "the building".) The business word; in code, each layer's plan is a `LayerPlan`. | Design |
 | Plan | The placements of one layer within a design (the finishes plan, the furniture plan). In code: `LayerPlan`. | Design |
@@ -39,6 +45,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Follow-up action | One thing to do to bring something stale up to date: re-check placements, recompute quantities, rebuild the scene (D19). | Workflow |
 | Orphaned placement | A placement whose zone or surface is gone; flagged for the user to re-place or drop (D19). | Design |
 | Placement | A product put on an element, a surface or a zone, with its details (for a finish: laying pattern, grout, offset, rotation). (Generalises "assignment".) | Design |
+| Laying pattern | How the tiles of a placement are set out: stack (grid) or an offset bond (half, third), at 0 or 90 degrees; herringbone and diagonal later. | Design |
 | Scheme | A named, saved set of placements that can be applied again ("Bath 1, scheme A"). | Design |
 | Shortlist | Products set aside, each with a note on where it is meant to go. | Design |
 | Product | Something a layer can place: a tile, a paint, a cabinet, a socket, a basin. Comes from a catalogue. | Catalogue |
@@ -91,3 +98,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added UI helper (D22). |
 | 2026-11-23 | Added Smart menu (D22). |
 | 2026-11-23 | Step: building and packaging the client viewer is usually the last step. |
+| 2026-11-23 | From the domain PRD (draft): Room, Face frame, Opening, Region, Declaration, Tier, Laying pattern; Surface and Zone sharpened. |

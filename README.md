@@ -98,14 +98,16 @@ designer edition. The client viewer follows 1.0.0.
 |---|---|
 | [`docs/Architecture.md`](docs/Architecture.md) | The system overview: parts, rules, contexts, components, stages |
 | [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D23), requirements, stages, open questions |
+| [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (draft, 0.1.0 slice) |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |
 | [`docs/research/DN-founding-design-record.md`](docs/research/DN-founding-design-record.md) | The original design discussion |
 | [`docs/research/DN-first-consumer-johnnyhouse.md`](docs/research/DN-first-consumer-johnnyhouse.md) | The first user: its data, its Unreal project, its needs |
 | [`docs/research/DN-pipeline-prototype-johnnyhouse.md`](docs/research/DN-pipeline-prototype-johnnyhouse.md) | The pipeline as it was run by hand |
 
-The design work runs in this order: the architecture (done) → the glossary → the domain PRD → the other
-per-area PRDs → change requests (CRs), which are implemented last.
+The design work runs in this order: the architecture (reviewed) → the glossary → the domain PRD (in review, for
+0.1.0) → the other per-area PRDs → change requests (CRs), which are implemented last. Each PRD is written for the
+slice the next release needs.
 
 ## How the project is run
 

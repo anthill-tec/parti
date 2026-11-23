@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | FR-MOD-1 points to the declaration format in the domain PRD (`PRD-domain.md`, draft). |
 | 2026-11-23 | T4 run with JohnnyHouse; its trial experience comes before any Unreal-export CR. |
 | 2026-11-23 | Print split: future, not in 1.0.0 (8A, §10). Q6 closed: Bun confirmed for the service side. |
 | 2026-11-23 | 8A: the workflow outline (13 steps and the print side branch, from the JohnnyHouse runbook), finishes chosen once in the design, design changes and world editing as separate chains. T4 (Unreal 5.9 import). |
@@ -130,7 +131,7 @@ floor, the field, a border inset or a rectangle (shower area).
 
 ### 4.2 Building: surfaces and zones
 
-- **FR-MOD-1** A target project declares its rooms and its surfaces, each with a stable id, a kind (wall, floor, feature), its room, and its size. (The building's labelled elements and their 3D and 2D references, D17, and ids that stay stable across CAD revisions, D19, are detailed in the domain PRD.)
+- **FR-MOD-1** A target project declares its rooms and its surfaces (the declaration format: `PRD-domain.md` §2.4), each with a stable id, a kind (wall, floor, feature), its room, and its size. (The building's labelled elements and their 3D and 2D references, D17, and ids that stay stable across CAD revisions, D19, are detailed in the domain PRD.)
 - **FR-MOD-2** A surface is divided into zones by numbers: wall bands by height and rectangles; floor field, border inset and rectangles. Zones on one surface do not overlap.
 - **FR-MOD-3** The user can define, resize and remove zones from the interface (drag a band height, draw a rectangle).
 
