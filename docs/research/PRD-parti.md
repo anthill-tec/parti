@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | Print split: future, not in 1.0.0 (8A, §10). Q6 closed: Bun confirmed for the service side. |
 | 2026-11-23 | 8A: the workflow outline (13 steps and the print side branch, from the JohnnyHouse runbook), finishes chosen once in the design, design changes and world editing as separate chains. T4 (Unreal 5.9 import). |
 | 2026-11-23 | NFR-7 confirmed (WebSocket across network boundaries); Q10 answered by DN-test-strategy.md (approved). |
 | 2026-11-23 | Owner's answers: Q9 (0.1.0 scope), Q11 (JSON event store), Q7 (GitHub + parti-axi), Q8 (name check), Q1, Q2, Q12 (MIT lean for viewer and plugin), Q14; Q15 makers' terms; D22 delivery split; D23 owner represents stakeholders; NFR-10 synthetic fixtures. |
@@ -267,7 +268,7 @@ sub-steps of these steps.
 | 11 | Films: hours of rendering, only once the scene is frozen | Route and test frames first |
 | 12 | Unreal export and world building | — |
 | 13 | Building and packaging the client viewer (D22) | — |
-| side | Print split: a 3D-printed scale model, branching from step 5 | Test print |
+| side | Print split: a 3D-printed scale model, branching from step 5. A future function, not in 1.0.0 (owner, 23 November 2026). | Test print |
 
 Rules across every step: one checkpoint per feature group, with a numeric check and a log line; a checkpoint before any
 risky batch (long runs crashed both CAD and Blender); Blender scene checkpoints are defined by Parti (the prototype kept
@@ -309,6 +310,7 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
 - Nai, EntityStore, users, access control, several users on one design.
 - Paint data. Relief and gloss maps for tiles (the images available are makers' web pictures of one tile face).
 - Moving parts of the building (doors, drawers, gate, louvres) and walking controls in the first release; the world builder holds them later (D18).
+- Print split (a 3D-printed scale model): a future function, not in 1.0.0.
 - An MCP server for Parti, and an agent harness embedded in the page (for example Trueforge) as an in-page chat, so that Parti can become the main UI for the whole workflow. Possible later; not trialled now (D16).
 
 ## 11. Trials owed before or during Stage B
@@ -325,7 +327,7 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
 3. **Windows testing.** Closed (owner, 23 November 2026): the first release is Linux only (D2); no Windows machine is needed. A later Windows port of the client side would reopen it.
 4. **Variant Manager.** Proposed (D22): the client bundle realises the offer as Unreal variant sets, so the client viewer applies options without a rules engine. Also: whether saved schemes should be variant sets in the designer edition (Stage B).
 5. **Responsiveness figure** for NFR-11.
-6. **Service-side confirmations.** NFR-7 (one WebSocket transport) and "Bun for the service side" were recommended to the owner and not objected to, but not explicitly confirmed. **NFR-7 confirmed** (owner, 23 November 2026): WebSocket for frontend-backend interaction across network boundaries. "Bun for the service side" is still to be confirmed.
+6. **Service-side confirmations.** Closed (owner, 23 November 2026): NFR-7 confirmed (WebSocket for frontend-backend interaction across network boundaries) and Bun confirmed for the service side.
 7. **Release targets and remote.** The scaffold recorded owner `anthill-tec` (taken from the sibling projects Crucible and Sandesh) and no release targets. The owner confirmed `anthill-tec` (22 November 2026; remote `anthill-tec/parti`, private). Release targets remain open; FR-AXI-1 implies at least one publishing target. **Release targets decided (owner, 23 November 2026):** GitHub releases, and `parti-axi` published as a package (PyPI) for the one-command install (FR-AXI-1).
 8. **Name clash.** "Parti" has not been checked against existing products or package names. **Checked (23 November 2026):** `parti` and `parti-axi` are free on PyPI; `parti-axi` is free on npm, `parti` is taken there (an unrelated package), which does not matter while Parti's root package is private. "Parti" is a common architecture term (the parti, a design's organising idea), which suits the product; no product of that name was found among architecture and interior-design tools. Not a trademark search.
 9. **Workflow and toolbase in the first release.** §8A arrived after the stages of §9 were drafted. Which pipeline steps become Parti tools first, and whether any of them belongs in Stage A beside the finish tool, is not decided. Proposed: Stage A stays the finish tool plus the workflow skeleton (FR-WF-1, FR-WF-2, FR-WF-8, with the steps described but their tools not yet ported); the tools are ported step by step afterwards, starting with the steps JohnnyHouse still has ahead of it (interior finishes, Unreal export, print split). The agent session (D16, FR-AXI-8, FR-AXI-9) is part of this decision, and so is the owner's current focus on the part of the workflow after the CAD model exists (D18). **Decided (owner, 23 November 2026):** 0.1.0 is the finish tool end to end with the mock scene: browse and filter, select a surface, define zones, place finishes, save and reload, set time and weather as state, all through the page and through `parti-axi`; local JSON store, no Nai. The agent session (FR-AXI-8, FR-AXI-9), the agent harness (D21) and the workflow skeleton follow in a later 0.x release.
