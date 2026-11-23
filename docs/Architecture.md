@@ -139,11 +139,12 @@ the rules are never copied.
 | Catalogue | Every product, search | Only the offered products, in the bundle |
 | World builder | Authoring scenarios, setting, site | The walkthrough: navigation, scenarios, VR |
 | Renders | Made in the Blender part of the pipeline | Pre-rendered stills and films, in the bundle |
-| Data | Target project files; later Nai and EntityStore | Its client bundle only |
+| Data | Target project files; later Nai and EntityStore | Its client bundle: a filesystem package (offline), or served by Nai as a client server (online, Stage D) |
 
 The designer publishes a **client bundle** per client project and revision: a filesystem package holding everything the
 viewer executable needs to run (the building, the offer, the scenarios, the stills and films, and every asset they use),
-with no server or network. The viewer is packaged with its project's bundle; the client's choices return to the designer's
+with no server or network. Alternatively Nai serves the same bundle remotely, as a client server, and receives the
+client's selections and telemetry live; the viewer reads its bundle through one port, so only its adapter differs. The viewer is packaged with its project's bundle; the client's choices return to the designer's
 project as a client selection. Proposed: options are validated before publishing and realised as Unreal variant sets,
 so the viewer needs no rules engine (PRD Q4). The viewer's licence comes first (PRD Q12).
 

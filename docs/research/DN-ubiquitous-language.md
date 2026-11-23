@@ -64,7 +64,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Client viewer | Parti for the building's owner: a self-contained walkthrough viewer with the offered options, on Windows or Linux. | — |
 | Offer | What the designer lets the client decide, per zone or element: a set of options with a default. | Design |
 | Option | One choice within an offer: a placement or a whole scheme. | Design |
-| Client bundle | A filesystem package, published for one client project and revision, holding everything the client viewer needs to run: the building, the offer, the scenarios, the stills and films, and every asset they use. | Asset delivery |
+| Client bundle | A filesystem package, published for one client project and revision, holding everything the client viewer needs to run: the building, the offer, the scenarios, the stills and films, and every asset they use. Delivered as a filesystem package (offline) or served remotely by Nai (online); the content is the same. | Asset delivery |
 | Render | A still or a film made in the Blender part of the pipeline, for review and for the client viewer. | Workflow |
 | Client selection | The client's choices among the offered options, returned to the designer's project. | Design |
 | Session | One sitting in which participants work on the target project together. | Session |
@@ -85,3 +85,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Edition, Designer edition, Client viewer, Offer, Option, Client bundle, Client selection (D22). |
 | 2026-11-23 | Added Render; Client bundle carries stills and films (D22). |
 | 2026-11-23 | Client bundle: a filesystem package with everything the viewer needs to run. |
+| 2026-11-23 | Client bundle: offline (filesystem package) or online (served by Nai). |
