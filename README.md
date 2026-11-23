@@ -57,7 +57,8 @@ JohnnyHouse is its first user.
   (`decide(state, command) → events`, `evolve(state, event) → state`), with no input or output and no
   library calls. Every outside system (Unreal, the page, makers' catalogues, files, the CAD and rendering
   applications) is reached through its own translator.
-- **Local first.** Version one runs standalone on Linux and Windows, one user per session. The backend moves
+- **Local first.** Version one runs standalone on Linux, one user per session. On Windows it can run in a
+  container or under WSL2; nothing in it locks out a later native port of the client side. The backend moves
   to the owner's Nai (streaming runtime) and EntityStore (system of record) when Parti takes on several users
   and sessions. Only the adapters change.
 - **Agent-first interface.** `parti-axi` installs Parti, sets it up inside a target project, and gives an

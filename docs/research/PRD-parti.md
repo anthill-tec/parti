@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | D2 and NFR-9: Linux for the first release; no Windows build planned, no lock-in for a later client-side port; server side need not port; Windows users via a container or WSL2. T1 on Linux; Q3 closed. |
 | 2026-11-23 | D9: telemetry events hosted on Nai; Nai's schema-based events match Parti's events and schema. |
 | 2026-11-23 | D9: the split restated as three layers (interaction: rules, agentic workflows, applications' Python APIs with the LangChain SDK; operations: Nai's queues and temporal consistency, DSL pipelines; data: Nai and EntityStore). |
 | 2026-11-23 | D9: the split (Nai DSL for background RAG and preprocessing; rules and CAD operations stay in Parti's agentic workflows and skills); Q13 (static tooling on Nai). |
@@ -74,7 +75,7 @@ floor, the field, a border inset or a rectangle (shower area).
 | # | Decision |
 |---|---|
 | D1 | The interface is an overlay inside the Unreal application. It must also work later as an interactive panel placed in the 3D scene, for a virtual-reality tour. Designed for now, built later. |
-| D2 | Version one runs on Linux and Windows, standalone and local, one user per session. |
+| D2 | Version one runs on Linux, standalone and local, one user per session (owner, 23 November 2026: Linux is the platform of choice for the first release; a Windows build is not planned). No technology may lock Parti out of a later Windows port of its client side. The backend, server-side parts may never need porting. On Windows, Parti can instead run as a container, or under WSL2, as it does on Linux; the Unreal app then runs on Windows and reaches Parti on the host's 127.0.0.1 (WSL2 forwards localhost; a container publishes its port), to be checked when wanted. |
 | D3 | Later stages: first a data service (catalogue, users, saved designs) used by installed apps; then Unreal streamed from servers to a browser. The technology chosen now must carry through. Full collaboration (several users on one design) comes later, so the state must be designed for it now. |
 | D4 | Interface and service code: TypeScript on Bun. VanJS renders the page. |
 | D5 | The Unreal side is a full C++ plugin. No Rust inside Unreal. **The C++ plugin is deferred** until Model B supports a C++ stack; until then this repository is Bun and Python only (see §9). |
@@ -154,7 +155,7 @@ floor, the field, a border inset or a rectangle (shower area).
 - **NFR-6 One published language.** The message schema is defined once, versioned, and is the only thing the page, the gateway and the scene adapters share. TypeScript types are generated from it now; C++ types when the plugin starts; Rust or Avro types when the backends join.
 - **NFR-7 One transport (proposed).** A WebSocket carrying JSON messages, for every setting: overlay, VR panel, external browser, streamed picture. The embedded browser only displays the page; it is not the bridge.
 - **NFR-8 Local only in version one.** Every server Parti starts binds to 127.0.0.1. Input from the page and from scene adapters is validated against the schema before it reaches the domain.
-- **NFR-9 Platforms.** Everything in this repository runs on Linux and Windows.
+- **NFR-9 Platforms.** Everything in this repository runs on Linux (D2). The client-side parts (page, `parti-axi`, the scene adapter and later the Unreal plugin) use only technologies that also run on Windows and avoid Linux-only assumptions in their code (paths, shells, process handling), so a later Windows port is possible without redesign. The backend, server-side parts need not be portable. A container image (and WSL2) is the route for Windows users before any native port.
 - **NFR-10 Reusable.** Nothing specific to JohnnyHouse in this repository's code. JohnnyHouse data enters only through the target project's configuration (§8) and through test fixtures clearly marked as such.
 - **NFR-11 Responsiveness.** A click in the page should show in the scene without a delay the user notices. A figure is to be set after the first measurement (open, §12).
 
@@ -255,7 +256,7 @@ written here. The release label and date are the owner's call.
 
 ## 11. Trials owed before or during Stage B
 
-- **T1** Unreal's built-in browser widget as an overlay in a packaged 5.9 build, on Linux and on Windows, showing a page served from a local address. Reports (unverified on 5.9) say it long shipped an old Chromium, and that in packaged Linux builds it loaded web addresses but not local files. Outcome decides D13. This trial needs no C++ and can be run by the first consumer in the JohnnyHouse Unreal project at any time.
+- **T1** Unreal's built-in browser widget as an overlay in a packaged 5.9 build, on Linux (Windows later, D2), showing a page served from a local address. Reports (unverified on 5.9) say it long shipped an old Chromium, and that in packaged Linux builds it loaded web addresses but not local files. Outcome decides D13. This trial needs no C++ and can be run by the first consumer in the JohnnyHouse Unreal project at any time.
 - **T2** A WebSocket connection between a C++ plugin and the gateway, exchanging the state.
 - **T3** Finish assets: Asset Registry tag queries in a packaged build (which tags survive packaging), thumbnails in a packaged build, and a finish created at run time from a file.
 
@@ -263,7 +264,7 @@ written here. The release label and date are the owner's call.
 
 1. **Scene bridge before the C++ plugin exists.** Could a stop-gap (for example Unreal's Remote Control interface or editor Python, driven by the gateway) let JohnnyHouse see finishes in the Unreal editor during Stage A? Not examined; unverified on 5.9. Owner to say whether it is wanted.
 2. **Where Unreal assets are made.** FR-SCN-3 needs the Unreal editor; the orchestrator of this project has no Unreal project of its own. Proposed: the consumer runs Parti's editor scripts in its own Unreal project.
-3. **Windows testing.** No Windows machine has been named for testing.
+3. **Windows testing.** Closed (owner, 23 November 2026): the first release is Linux only (D2); no Windows machine is needed. A later Windows port of the client side would reopen it.
 4. **Variant Manager.** Whether saved schemes should also be Unreal variant sets (Stage B).
 5. **Responsiveness figure** for NFR-11.
 6. **Service-side confirmations.** NFR-7 (one WebSocket transport) and "Bun for the service side" were recommended to the owner and not objected to, but not explicitly confirmed.
