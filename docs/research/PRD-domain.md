@@ -2,7 +2,7 @@
 
 **Version:** 0.1 (draft for the owner's review)
 **Date:** 2026-11-23
-**Status:** DRAFT. Written for the slice release 0.1.0 needs (D23, `../Architecture.md` §10); it grows with each
+**Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-6 decided as recommended; §4 and §5–6 agreed. Written for the slice release 0.1.0 needs (D23, `../Architecture.md` §10); it grows with each
 release. Items marked **DM-n** are decisions for the owner; the text shows the recommended option.
 **Author:** Parti orchestrator (vidushi-parti), with the owner
 **Builds on:** `PRD-parti.md` (D17, D19, D22, D23, §4, Q9, Q11), `DN-ubiquitous-language.md`, `DN-test-strategy.md`
@@ -15,6 +15,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
+| 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
 | 2026-11-23 | Optional room use, aliases and outline, site areas, and the site's geo-reference and true north in the declaration (D24). |
 | 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
 
@@ -244,6 +245,12 @@ The schema (`schema` component) defines, versioned:
 Every command carries a command id and the expected revision; every event carries an id and a sequence number per
 aggregate (R6).
 
+**The schema grows with the releases** (owner, 23 November 2026). The messages above are 0.1.0's; each later release
+adds those its interactivity needs, among them: navigation (*go to* a room, viewpoint or surface; set a view, D18),
+the assistant's questions and answers and the actions they take (D24), motion inputs (D18), interaction events and
+the applied-revision acknowledgements from the Unreal plugin (Q17), telemetry, offers and client selections (D22),
+and the guide's speech and text (D22). The storage (§8) grows with them, as further event logs behind the same ports.
+
 ## 8. Storage in 0.1.0 (Q11)
 
 In the folder the configuration names inside the target project:
@@ -264,11 +271,11 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 
 | # | Decision | Recommended |
 |---|---|---|
-| DM-1 | Zone overlaps | Tiers: field, then bands and borders, then panels and areas; the upper shows; no overlaps within a tier |
-| DM-2 | Product not suited to the surface or the room | Refuse a wrong surface kind; warn on another room use |
+| DM-1 | Zone overlaps | **Decided (owner, 23 November 2026):** tiers: field, then bands and borders, then panels and areas; the upper shows; no overlaps within a tier |
+| DM-2 | Product not suited to the surface or the room | **Decided (owner, 23 November 2026):** refuse a wrong surface kind; warn on another room use |
 | DM-3 | Where the building comes from in 0.1.0 | **Decided (owner, 23 November 2026):** the declaration file only; Parti reads it, never edits it |
-| DM-4 | Laying patterns in 0.1.0 | Stack and offset bonds (half, third), at 0 or 90 degrees |
-| DM-5 | Scheme scope | Per room in 0.1.0; across rooms later |
+| DM-4 | Laying patterns in 0.1.0 | **Decided (owner, 23 November 2026):** stack and offset bonds (half, third), at 0 or 90 degrees |
+| DM-5 | Scheme scope | **Decided (owner, 23 November 2026):** per room in 0.1.0; across rooms later |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 
 ## 10. Requirements traced
