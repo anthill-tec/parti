@@ -16,6 +16,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
+| 2026-11-23 | From JohnnyHouse's first declaration (#1642): anchor direction fixed in the example (start = left end seen from inside), B-4 added; quality objects; references.columns; floor side; guides; steps; DM-7 proposed. |
 | 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
 | 2026-11-23 | Optional room use, aliases and outline, site areas, and the site's geo-reference and true north in the declaration (D24). |
 | 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
@@ -77,7 +78,9 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
   room**, x along the face, y up (walls) or x east, y north (floors). Zones, openings and regions are rectangles in
   this frame, in millimetres. (DM-6, decided.)
 - **World anchor:** each surface also records where it sits in the target project's world frame (for a wall, its two
-  end points in plan and its floor level; for a floor, its outline), so the scene and Blender can find it and
+  end points in plan and its floor level; for a floor, its outline). **A wall's `start` is its left end as seen from inside
+  the room**, and x is measured from it: a north wall runs west to east, an east wall north to south, a south wall east
+  to west, a west wall south to north (JohnnyHouse #1642). The anchor's direction must agree with the side (B-4), so the scene and Blender can find it and
   openings given in world coordinates can be converted.
 - **0.1.0 limits:** surfaces are rectangles (walls) or rectangles (floors); walls are vertical. Polygonal floors and
   sloped faces come later. JohnnyHouse's four bathrooms fit.
@@ -116,14 +119,15 @@ configuration names. Parti defines the format; the target project fills it; `par
     {
       "id": "FF_bath1.wall.E", "room": "FF_bath1", "kind": "wall", "side": "E",
       "width": 3470, "height": 2980,
-      "anchor": { "start": [5680, 230], "end": [5680, 3700], "z": 3100 },
-      "references": { "cad": ["W_FF_bath_div"] },
+      "anchor": { "start": [5680, 3700], "end": [5680, 230], "z": 3100 },
+      "references": { "cad": ["W_FF_bath_div"], "columns": [] },
       "openings": [],
       "regions": [
         { "id": "FF_bath1.wall.E/mirror", "kind": "keep-clear", "x": 900, "y": 1050, "width": 700, "height": 800,
           "fitting": "MR_FF_bath1" }
       ],
-      "quality": { "openings": "measured", "regions": "from fitting table" }
+      "quality": { "anchor": "measured",
+                   "regions": { "level": "derived", "note": "from the fitting generator" } }
     }
   ]
 }
@@ -131,15 +135,34 @@ configuration names. Parti defines the format; the target project fills it; `par
 
 (The example follows JohnnyHouse's first-floor bath 1: its east face is one side of `W_FF_bath_div`, shared with bath 2,
 and carries the mirror; its ventilator is on the south face. The world frame is JohnnyHouse's own.) Openings may also be given in world
-coordinates, with `"frame": "world"`; Parti converts them. Each block may carry a **quality** note (measured, derived,
-assumed), shown to the user, because a target project's data is often partly known (JohnnyHouse's first-floor doors).
+coordinates, with `"frame": "world"`; Parti converts them. Each block (`anchor`, `openings`, `regions`) may carry a
+**quality**, shown to the user, because a target project's data is often partly known (JohnnyHouse's first-floor doors):
+one of `measured`, `derived`, `assumed`, or an object `{ "level": <one of those, or null>, "note": "<why>" }` when it
+needs explaining (an empty block with a reason has level null and a note).
+
+Conventions settled with JohnnyHouse's first file (#1642):
+- **References** hold named lists: `cad` (CAD body names) and `columns` (the grid names of columns behind the face,
+  e.g. `C2R2`, which stay stable when column bodies are merged or split). Both are references, never ids.
+- **Floors** carry `"side": "floor"`, so the field is always present.
+- **A fitting touching two faces** (a corner vanity) is declared as one region per face with the same `fitting` name.
+- **A sliding door leaf** is a `tile-behind` region on the door's own wall, covering the span the open leaf travels over;
+  its track is not declared in 0.1.0.
+- **Fitting footprints on a floor** are regions on the floor surface, like those on walls.
+- **Guides** (optional): lines on a surface that a zone may follow, each with an id, a fitting and a position along x
+  or y, e.g. a shower's glass line (FF_bath1 at Y 1290). They are not zones; Parti offers them when a zone is drawn.
+- **A face that is not one plane** (a 10 mm step where a column meets a wall) is declared as one flat rectangle at its
+  main plane, with optional `steps`: `{ "x": <from>, "width": <span>, "offset": <mm, + towards the room> }`, which Parti
+  shows the user as a warning on the zones and placements crossing them (DM-7).
+- Not in 0.1.0: floor falls and drains, wall-mounted taps and shower heads.
 
 ### 2.5 Rules
 
 - **B-1** Ids are unique within the building; every surface names an existing room; every opening and region lies
   inside its surface.
 - **B-2** Openings on one surface do not overlap one another.
-- **B-3** A declaration that breaks B-1 or B-2 is refused as a whole, with every fault listed; the previous revision
+- **B-4** A wall's anchor runs left to right as seen from inside the room, as its side requires (a north wall west to
+  east, and so on, §2.3); a wall whose anchor runs the other way is a fault, since it would mirror the face.
+- **B-3** A declaration that breaks B-1, B-2 or B-4 is refused as a whole, with every fault listed; the previous revision
   stays in force.
 
 ## 3. Design (context, core)
@@ -290,6 +313,7 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 | DM-3 | Where the building comes from in 0.1.0 | **Decided (owner, 23 November 2026):** the declaration file only; Parti reads it, never edits it |
 | DM-4 | Laying patterns in 0.1.0 | **Decided (owner, 23 November 2026):** stack and offset bonds (half, third), at 0 or 90 degrees |
 | DM-5 | Scheme scope | **Decided (owner, 23 November 2026):** per room in 0.1.0; across rooms later |
+| DM-7 | A face that is not one plane (a step where a column meets a wall) | **Proposed:** declare one flat rectangle at the main plane with optional `steps`; Parti warns on the zones and placements crossing a step; layout on stepped faces later |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 
 ## 10. Requirements traced
