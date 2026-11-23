@@ -14,6 +14,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | Date | Change |
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
+| 2026-11-23 | Picture orientation in the catalogue translator; ids confirmed by the Unreal trial (JohnnyHouse #1638). |
 
 ## 1. What 0.1.0 needs from the domain
 
@@ -53,6 +54,8 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 - Every room, surface, opening and region has a **declared id**, chosen by the target project and stable across CAD
   revisions. CAD body names are kept only as **references** (attributes), never as ids: body names split, swap their
   `(1)` suffixes and repeat (JohnnyHouse #1631 §2).
+- JohnnyHouse's Unreal trial confirms this (`PRD-parti.md` T4): between two CAD revisions 140 body names vanished and
+  2,041 were new, and Unreal's mesh asset names differ from the object names. In the scene, an id hangs on the actor.
 - Recommended id form: `<room>.<kind>.<side>` for surfaces (`FF_bath1.wall.E`, `FF_bath1.floor`), and
   `<surface>/<name>` for openings and regions. A target project may use any unique ids; the form is a convention.
 - **The building is versioned.** A declaration read again produces a **building revision**: Parti compares it with the
@@ -187,6 +190,7 @@ Notable mappings:
 | `classification.basis`, `.confidence` | how the suitable use was decided, and how sure | carried and shown, not hidden: 778 records were filed by a size rule |
 | `size_mm`, `thickness_mm`, `finish`, `finish_class`, `body`, `design`, `colour.*` | size, thickness, finish, finish class, body, design, colour description | |
 | `images.swatch`, `.room`, thumbnails | images | **referenced in place** in the target project, never copied (NFR-10) |
+| (missing) | **picture orientation** | `size_mm` does not say which way the swatch picture is laid (NW-021: 300 × 600, picture 1000 × 500 px, landscape). The translator derives it from the picture's pixel size and records it; a record whose picture and size disagree beyond a tolerance is flagged (JohnnyHouse #1638). |
 
 ### 4.3 Queries (FR-CAT-2, FR-CAT-3)
 

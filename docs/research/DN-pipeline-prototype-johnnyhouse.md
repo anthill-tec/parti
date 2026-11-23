@@ -45,7 +45,7 @@ carry one house's names and numbers throughout.
 | Movie production | route, door timing, clearance, metering, frame-by-frame render, encode | clearance of 25 cm or more; frame count and duration read back |
 | Interior finishes | tile database from makers' sites, boards, browser, shortlist | (in progress; the finish tool of the PRD grew from this) |
 | Print split | not started | to be defined |
-| Unreal export | not started beyond the project shell | to be defined |
+| Unreal export | building and furniture: Blender → glTF → Interchange, first on 17 November (see the correction below) | names kept on actors; re-import tested 23 November |
 
 ## Applications and how they were driven
 
@@ -75,3 +75,10 @@ FR-WF-7 asks for these to live in the step they belong to.
 
 File and object names prefixed `johnny_`; the level heights, grid and room boxes; material choices; camera
 positions; the plant list; the tile makers chosen. A tool taken into Parti takes none of these with it.
+
+## Correction (23 November 2026)
+
+This note said the Unreal export had not started. It had: the 16 November model was imported into `WalkthruDemo` on
+17 November (glTF binary through Interchange), and site and planting were rebuilt in Unreal by editor scripts. The
+CP-123 model replaced it on 23 November. JohnnyHouse corrected itself on Sandesh (#1637); the findings are in
+`PRD-parti.md` §11, T4.

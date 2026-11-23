@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | T4 findings from JohnnyHouse (#1637, #1638), correcting the earlier "no Unreal import yet": glTF via Interchange works; only building and furniture travel; names not stable ids; re-import silently deletes actors; finishes as world-space materials. 8A steps 7 and 12 adjusted. |
 | 2026-11-23 | FR-MOD-1 points to the declaration format in the domain PRD (`PRD-domain.md`, draft). |
 | 2026-11-23 | T4 run with JohnnyHouse; its trial experience comes before any Unreal-export CR. |
 | 2026-11-23 | Print split: future, not in 1.0.0 (8A, §10). Q6 closed: Bun confirmed for the service side. |
@@ -263,12 +264,12 @@ sub-steps of these steps.
 | 4 | Fitted interior: cabinets, kitchen, sanitary fixtures | — |
 | 5 | CAD ready for export: merge and overlap check, re-run after every CAD correction | The owner closes the CAD |
 | 6 | CAD to Blender, including re-import that keeps materials, lighting and the moving-parts rig | — |
-| 7 | Scene: reference cameras first, then materials, lighting, site, planting, furniture | A rendered view after every visual change |
+| 7 | Scene (Blender): reference cameras first, then materials, lighting, site, planting, furniture, for stills and films | A rendered view after every visual change |
 | 8 | Finish catalogue: makers' ranges, classification, boards, shortlist | The owner shortlists |
 | 9 | Interior finishes (the finish tool) | The owner chooses finishes |
 | 10 | Stills: quick, repeated after every change | — |
 | 11 | Films: hours of rendering, only once the scene is frozen | Route and test frames first |
-| 12 | Unreal export and world building | — |
+| 12 | Unreal export (building and furniture only) and world building: site and planting built in Unreal from Unreal's own assets (T4) | — |
 | 13 | Building and packaging the client viewer (D22) | — |
 | side | Print split: a 3D-printed scale model, branching from step 5. A future function, not in 1.0.0 (owner, 23 November 2026). | Test print |
 
@@ -320,7 +321,32 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
 - **T1** Unreal's built-in browser widget as an overlay in a packaged 5.9 build, on Linux (Windows later, D2), showing a page served from a local address. Reports (unverified on 5.9) say it long shipped an old Chromium, and that in packaged Linux builds it loaded web addresses but not local files. Outcome decides D13. This trial needs no C++ and can be run by the first consumer in the JohnnyHouse Unreal project at any time. It now also decides how the client viewer's in-world panel loads the page from its bundle (D22): through Unreal's browser from local files, or a small local web server inside the viewer.
 - **T2** A WebSocket connection between a C++ plugin and the gateway, exchanging the state.
 - **T3** Finish assets: Asset Registry tag queries in a packaged build (which tags survive packaging), thumbnails in a packaged build, and a finish created at run time from a file.
-- **T4** Importing the building into Unreal 5.9 (owner, 23 November 2026): FBX, USD, Datasmith or Interchange, compared on geometry, material slots, part names and scale. Blender's procedural materials need baking and its particle-based planting (creepers) needs converting to meshes first. No format has been tried yet. Run with JohnnyHouse (owner, 23 November 2026): JohnnyHouse tries the import in its own Unreal project as it prototypes P12, and Parti learns from that trial experience before any CR for the Unreal export is specified.
+- **T4** Importing the building into Unreal 5.9, run with JohnnyHouse, which reports on Sandesh (thread #1635). Its trial
+  experience comes before any Unreal-export CR. **Findings so far** (JohnnyHouse #1637, #1638, 23 November 2026, Unreal 5.9.0
+  preview on Linux; measured unless marked):
+  - *Format:* Blender → glTF binary → Interchange works for geometry, scale, axes and material slots (first done on 17
+    November, repeated with the CP-123 model: 2,387 meshes, 2.55 million polygons, 67 MB). FBX, USD and Datasmith are untried.
+  - *What travels:* only the building and its furniture go from Blender to Unreal. Site and planting are built in Unreal
+    from Unreal's own assets, which are dynamic where Blender's are static (owner's judgement); creepers are not converted.
+  - *Names:* actor labels are the CAD body names and survive; mesh asset names do not (1,107 arrived suffixed `_001`).
+    Between two CAD revisions 360 names were kept, 140 vanished and 2,041 were new, so a name is not a stable id even when
+    nothing goes wrong (confirms `PRD-domain.md` §2.2): an id must hang on the actor, through Parti's declared ids.
+  - *Re-import:* re-importing the Interchange scene asset updated the assets but **deleted every building actor and
+    spawned none, with no error**; a fresh scene import placed the building, and returned `False` although it succeeded.
+    Unreal-side work outside the building (site, planting) survived untouched; work on the building (swapped materials)
+    did not, and was re-applied by script. The old mesh assets stay behind as orphans. Lesson for the tool: snapshot the
+    level before and after and compare; keep everything done to the building in scripts or data that can be re-applied;
+    never hand-edit imported building actors. Re-import is a first-class operation for Unreal as for Blender (the first
+    import was a look-ahead before the CAD was closed, and went stale).
+  - *Moving parts:* nothing carries over (no rig in Blender; every pivot at the world origin); pivots must come from the
+    hinge and track positions.
+  - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
+    with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
+    shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as
+    material parameters or per-face material slots (for the Unreal plugin's PRD).
+  - JohnnyHouse's prototype scripts are shared with Parti as prototypes for its generic tools (owner):
+    `blender/scripts/johnny_export_ue.py`, `unreal/scripts/jh_reimport.py`, `jh_tiles.py`, `jh_materials.py`, `jh_site.py`,
+    `jh_flora.py`, `jh_plants.py`, `jh_creepers.py`.
 
 ## 12. Open questions
 
