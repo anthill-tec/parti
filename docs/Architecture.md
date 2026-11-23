@@ -139,6 +139,7 @@ the rules are never copied.
 | Catalogue | Every product, search | Only the offered products, in the bundle |
 | World builder | Authoring scenarios, setting, site | The walkthrough: navigation, scenarios, VR |
 | Renders | Made in the Blender part of the pipeline | Pre-rendered stills and films, in the bundle |
+| Page (one page, D1) | Every data library; overlay or browser tab | Only the offered options, as a 2D panel rendered in the 3D world; VR interaction first; loaded from the bundle (PRD T1) |
 | Data | Target project files; later Nai and EntityStore | Its client bundle: a filesystem package (offline), or served by Nai as a client server (online, Stage D) |
 
 The designer publishes a **client bundle** per client project and revision: a filesystem package holding everything the
