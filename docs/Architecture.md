@@ -140,10 +140,16 @@ owner, 23 November 2026). Neither is used in version one (D9). Retrieval (RAG) a
 as soon as the agent harness exists; everything else moves when Parti takes on the multi-user, multi-session
 implementation. Until then only the local adapters exist.
 
-**What runs where** (owner, 23 November 2026): Nai's DSL runs the background RAG and data-preprocessing pipelines that
-give Parti a rich data environment. The validation rules (the domain, R1) and the CAD operations stay in Parti, as part
-of its agentic workflows and skills (D21). How much of the static tooling otherwise written in Python can move to Nai is
-an open question (`research/PRD-parti.md` Q13).
+**What runs where** (owner, 23 November 2026), in three layers:
+
+| Layer | What runs there | How |
+|---|---|---|
+| Interaction (near real time) | The validation rules (the domain, R1), the agentic workflows and skills (D21), and the work with the CAD system, Blender and Unreal Engine | The applications' Python APIs, alongside their MCP servers, driven through the LangChain SDK |
+| Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
+| Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data | Nai and EntityStore |
+
+How much of the static tooling otherwise written in Python can move to Nai is an open question (`research/PRD-parti.md`
+Q13).
 
 ## 9. Installing into a target project
 
