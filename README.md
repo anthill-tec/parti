@@ -99,6 +99,7 @@ designer edition. The client viewer follows 1.0.0.
 | [`docs/Architecture.md`](docs/Architecture.md) | The system overview: parts, rules, contexts, components, stages |
 | [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D23), requirements, stages, open questions |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
+| [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |
 | [`docs/research/DN-founding-design-record.md`](docs/research/DN-founding-design-record.md) | The original design discussion |
 | [`docs/research/DN-first-consumer-johnnyhouse.md`](docs/research/DN-first-consumer-johnnyhouse.md) | The first user: its data, its Unreal project, its needs |
 | [`docs/research/DN-pipeline-prototype-johnnyhouse.md`](docs/research/DN-pipeline-prototype-johnnyhouse.md) | The pipeline as it was run by hand |
