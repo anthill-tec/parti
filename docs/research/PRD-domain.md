@@ -16,6 +16,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
+| 2026-11-23 | Guides carry `towards`, the side where the fitting's area lies (JohnnyHouse #1644). |
 | 2026-11-23 | From JohnnyHouse's first declaration (#1642): anchor direction fixed in the example (start = left end seen from inside), B-4 added; quality objects; references.columns; floor side; guides; steps; DM-7 proposed. |
 | 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
 | 2026-11-23 | Optional room use, aliases and outline, site areas, and the site's geo-reference and true north in the declaration (D24). |
@@ -148,8 +149,9 @@ Conventions settled with JohnnyHouse's first file (#1642):
 - **A sliding door leaf** is a `tile-behind` region on the door's own wall, covering the span the open leaf travels over;
   its track is not declared in 0.1.0.
 - **Fitting footprints on a floor** are regions on the floor surface, like those on walls.
-- **Guides** (optional): lines on a surface that a zone may follow, each with an id, a fitting and a position along x
-  or y, e.g. a shower's glass line (FF_bath1 at Y 1290). They are not zones; Parti offers them when a zone is drawn.
+- **Guides** (optional): lines on a surface that a zone may follow, each with an id, a fitting, a position (`x` on a
+  wall, `y` on a floor) and `towards` (`"+"` or `"-"`: the side of the line, in the face frame, where the fitting's
+  area lies, so a shower area can be drawn on the right side), e.g. a shower's glass line (FF_bath1 at Y 1290). They are not zones; Parti offers them when a zone is drawn.
 - **A face that is not one plane** (a 10 mm step where a column meets a wall) is declared as one flat rectangle at its
   main plane, with optional `steps`: `{ "x": <from>, "width": <span>, "offset": <mm, + towards the room> }`, which Parti
   shows the user as a warning on the zones and placements crossing them (DM-7).

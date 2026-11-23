@@ -34,6 +34,7 @@
 | 2026-11-23 | D18: navigation in the world (fixed modes, per-project data derived from the building, checks, telemetry); Q16 covers navigation too. |
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
+| 2026-11-23 | T4: the sub-assembly as a Blueprint built by script from its motion table; working rule for experimental editor tools (#1645). |
 | 2026-11-23 | T4: a CAD sub-assembly as its own Unreal component, driven by a motion table from the CAD generators, works in trial form (#1640). |
 | 2026-11-23 | T4: STEP into Unreal on Linux crashes (#1639); per-part glTF from SolidCraft and moving sub-assemblies as Unreal components, to be tried. |
 | 2026-11-23 | T4 findings from JohnnyHouse (#1637, #1638), correcting the earlier "no Unreal import yet": glTF via Interchange works; only building and furniture travel; names not stable ids; re-import silently deletes actors; finishes as world-space materials. 8A steps 7 and 12 adjusted. |
@@ -384,8 +385,19 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     the indexing the whole-building export loses; the motion data belongs with the CAD generator, never measured in
     Unreal; the frame change is fixed (part mm x, y, z to Unreal cm x/10, -y/10, z/10) and the sign of a turn is settled
     once by measurement; check motion with box centres, not bounds; merge the one-material-instance-per-body that
-    Interchange creates. Not yet done: a Blueprint form, interaction, placement at the ten windows, and leaving the
-    sub-assemblies out of the building export so they do not arrive twice.
+    Interchange creates. Not yet done: placement at the ten windows, and leaving the sub-assemblies out of the building
+    export so they do not arrive twice.
+  - *The sub-assembly as a Blueprint, built by script from the motion table (#1645, measured).* One scene component per
+    moving group at its axis point, tagged by role (`hinge:blade`, `hinge:worm`, `follow:bar`), with the group's meshes
+    under it; the graph is written in the editor's Blueprint graph language: one function `Apply` driven by one variable
+    (the blade angle), called from the construction script and at begin play; hold E to close, Q to open, within
+    reach. At 0, 35 and 90 degrees the mechanism keeps the loose-actor trial's numbers. Key press in play not yet
+    tested. Lessons for Parti's tools: the motion table is enough to build the interactive actor without hand work,
+    which is D18's purpose. **Working rule for experimental editor tools** (adopted by JohnnyHouse with the owner, after
+    an editor crash when a graph referred to variables added in the same session before a compile): save before each
+    step; compile before referring to new members; one small step per call; never retry a crashed call unchanged.
+    The graph tool's errors are precise and transactional; after an editor crash the connector's port stays held for a
+    minute or more, so the agent waits before reconnecting.
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as
