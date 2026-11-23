@@ -48,10 +48,13 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Quantity | How much of a product a plan needs, wastage included. | Quantities |
 | Bill of materials | The quantities of one or more plans, grouped for one work-contract role. | Quantities |
 | Work-contract role | A trade engaged on the building project: tiling contractor, painter, carpenter, electrician, plumber, furniture supplier. | Quantities |
+| Knowledge base | The project's lasting knowledge that agents draw on: workflow lessons, product knowledge, the trades' rules. | Workflow |
+| File catalogue | Every file Parti uses (drawings, models, textures, designs, exports), known by an id and its metadata rather than by a path on one machine. | Building |
 | Cost estimate | The price of a bill of materials, computed once price data exists. Later. | Quantities |
 | World builder | The module that, once the building is modelled in CAD and brought into Unreal, creates a world there with the building at the centre of all activity, and stages it as an experience (D18). | World builder |
 | Scenario | One way of experiencing the building: which layers and schemes show, the setting, the experience mode, the routes. | World builder |
 | Setting | The state of the world around the building: time of day, date, weather simulation, light, site. (Replaces "Presentation".) | World builder |
+| Site | The land and surroundings of the building in its world: terrain, neighbours, roads, vegetation, built from geospatial data and map providers. | World builder |
 | Moving part | A part of the building or its world that can be animated: door, drawer, gate, louvre. | World builder |
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
 | Route, viewpoint | A path, or a fixed place, that a scenario offers to move along or look from. | World builder |
@@ -68,3 +71,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 |---|---|
 | 2026-11-22 | First version, from the architecture review. Owner's names: Zone kept (kinds: area, panel, …); Design kept (character: layer planning; Layer and Plan as terms); Session kept. |
 | 2026-11-22 | Added Revision, Stale, Follow-up action, Orphaned placement (D19) and Cost estimate (D17). Design is the business word; `LayerPlan` is its name in code (owner). |
+| 2026-11-23 | Added Knowledge base, File catalogue (D9) and Site (D18). |

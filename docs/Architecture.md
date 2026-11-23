@@ -130,7 +130,7 @@ do (D16). The backend may move to Nai (D9).
 ## 8. Later backends
 
 - **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports.
-- **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness.
+- **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness. Also (D9, owner 2026-11-23): retrieval (RAG) for the agent harness and the knowledge base, which move to Nai as soon as the harness exists; session context and agent memory; a file catalogue, so file operations do not depend on the operating system; geospatial and map data, so the world builder builds the site around the building from map providers. Each role sits behind its own port: knowledge store, session store, file catalogue, geo data.
 
 What Nai lacks today for the interactive loop, and the requests this makes to its team, are listed in
 `research/DN-founding-design-record.md`. The owner's assessment (22 November 2026): a WebSocket connector is not a
