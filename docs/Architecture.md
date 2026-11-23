@@ -140,6 +140,11 @@ owner, 23 November 2026). Neither is used in version one (D9). Retrieval (RAG) a
 as soon as the agent harness exists; everything else moves when Parti takes on the multi-user, multi-session
 implementation. Until then only the local adapters exist.
 
+**What runs where** (owner, 23 November 2026): Nai's DSL runs the background RAG and data-preprocessing pipelines that
+give Parti a rich data environment. The validation rules (the domain, R1) and the CAD operations stay in Parti, as part
+of its agentic workflows and skills (D21). How much of the static tooling otherwise written in Python can move to Nai is
+an open question (`research/PRD-parti.md` Q13).
+
 ## 9. Installing into a target project
 
 `parti-axi init --target <dir>` writes a configuration file and the agent notes into the target project, and
