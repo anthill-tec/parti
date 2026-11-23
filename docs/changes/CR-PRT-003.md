@@ -27,7 +27,7 @@ B-4, labelled).
 
 `makeProducts(n, seed)` returns `n` deterministic synthetic finishes of all five kinds (tile, wood veneer, laminate, paint, metal), covering every
 filterable field of PRD-domain §4.3 and the kind-specific fields of §4.1 (scans with real size and grain direction,
-stains, licences, paint sheens) (uses, surfaces, makers, colours across the wheel, lightness, warm and cool, patterns, finish classes,
+stains, licences, paint sheens and effects, colour-only veneers and laminates) (uses, surfaces, makers, colours across the wheel, lightness, warm and cool, patterns, finish classes,
 sets with pairs, sizes), with swatch and scan images generated as plain-colour PNGs into a temporary folder (none for paint or metal).
 
 ### §S3 Shared to Python

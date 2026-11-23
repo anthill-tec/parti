@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-23 | T4 item 2: procedural materials arrive white through glTF; check after import; finishes rebuilt from the catalogue (#1653). |
 | 2026-11-23 | T4: the per-part route repeated by script for three parts and eight placements; finishes on imported meshes are lost at re-import (#1649). |
 | 2026-11-23 | T4: the sub-assembly as a Blueprint built by script from its motion table; working rule for experimental editor tools (#1645). |
 | 2026-11-23 | T4: a CAD sub-assembly as its own Unreal component, driven by a motion table from the CAD generators, works in trial form (#1640). |
@@ -412,6 +413,16 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     play mode runs, so a tool checks for it first; and **finishes set on the building import's meshes are lost at the
     next import and must be re-applied by rule**, whereas finishes on a part travel with it: the case for the design
     holding the finishes and each renderer applying them (D17, PRD-domain §3).
+  - *What the Blender-to-Unreal export loses in materials (#1653, measured; T4 item 2).* Of 49 imported materials in
+    use, six arrived plain white with no image, with no warning in the import log: every material whose colour Blender
+    makes with nodes (noise, wave, grid): three feature-wall effect paints, a marble-look tile, an oak laminate (127
+    cabinet slots), a timber. Values and images survive; node graphs never do. A tool therefore needs a **check after
+    import** (a material in use whose base colour is white with no image is a loss) and a **decision per loss**: bake to
+    images in Blender (needs UVs, which CAD meshes lack) or rebuild in the target from a recipe or the catalogue finish;
+    JohnnyHouse rebuilt the effect paints in Unreal from the Blender recipe (an approximation: the engines' noises
+    differ). For Parti: finishes are rebuilt in each renderer from the catalogue (PRD-domain §4.1), never carried
+    through an export. Item 7 trap: a material node connected by a wrong pin name fails silently (the call returns
+    false); the check is in the picture, not in any error, so editor tools verify results visually or by query.
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as

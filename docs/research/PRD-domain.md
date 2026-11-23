@@ -17,6 +17,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
+| 2026-11-23 | Effect paints; colour-only (provisional) finishes; cabinetry classes; renderers rebuild finishes from the catalogue (JohnnyHouse #1653). |
 | 2026-11-23 | Fifth kind: metal (owner; JohnnyHouse #1651); scans as records of their own. |
 | 2026-11-23 | Non-tile finishes in 0.1.0: wood veneer, laminate, paint (owner); DM-8 finish = scan + stain, DM-9 placements on parts later (JohnnyHouse #1648). |
 | 2026-11-23 | Guides carry `towards`, the side where the fitting's area lies (JohnnyHouse #1644). |
@@ -241,12 +242,22 @@ from JohnnyHouse's second finishes database (#1648) beside its tiles. A finish h
 |---|---|---|
 | tile | maker, size, thickness, finish class, swatch and room images | laying pattern, grout, offset, rotation (§3.3) |
 | wood veneer, laminate | **source and licence** (library or maker, asset name, address, author, licence, date retrieved); the **source scan**: the real size the image covers (e.g. 1000 × 1000 mm), which way the grain runs in it, which maps exist (colour, roughness, relief) and which are used; the **stain** applied over the scan | grain direction (0 or 90 degrees in the face frame) and offset; no grout |
-| paint | a colour and a sheen (matt, eggshell, satin, gloss); a maker's code when there is one; no image | nothing more |
+| paint | a colour and a sheen (matt, eggshell, satin, gloss); a maker's code when there is one; no image; optionally an **effect** (a special-effect paint: type, two colours, pattern size; JohnnyHouse PT-002 to PT-004) | nothing more |
 | metal | a treatment (plating, powder coat, brushed, anodised), a colour, metallic (0 to 1) and roughness (0 to 1); a maker's code when there is one; no image (JohnnyHouse MT-001, chromium-plated steel on the guard rails) (owner, 23 November 2026) | nothing more; mostly placed on parts, with the world builder (DM-9) |
 
 **A finish is what is used: a source scan plus its stain** (DM-8, decided (owner, 23 November 2026)). Its colour is the colour after the
 stain, so the catalogue shows the stained look; one scan can back several finishes (one pale scan, unstained and
-stained dark). Scans are records of their own, with ids (JohnnyHouse `scans.ndjson`, #1651). Where a finish's assets sit in Unreal (texture, material instance, master material) is kept
+stained dark). Scans are records of their own, with ids (JohnnyHouse `scans.ndjson`, #1651).
+
+**A finish may be colour only** until its scan is chosen (JohnnyHouse LM-001, LM-002, WV-003, #1653): a wood veneer or
+laminate without scan or stain is valid, carries just its colour, and is shown as **provisional** (like a block of
+assumed quality, §2.4). **Furniture and cabinetry finishes** fall in three classes (owner, via JohnnyHouse #1653):
+laminate, natural (wood veneer and, later, solid timber) and painted, which are kinds above.
+
+**The renderers rebuild finishes from the catalogue, not from an export** (JohnnyHouse #1653, T4): glTF carries
+colour values and images but never a material's node graph, so a procedural material (an effect paint, a marble-look
+tile) arrives white, silently. Since the design holds the finishes (D17), each renderer's translator builds its
+materials from the catalogue finish and checks after every import that no material in use is white without an image. Where a finish's assets sit in Unreal (texture, material instance, master material) is kept
 as a **reference**, like CAD body names (§2.2).
 Products are **read-only** in Parti: the catalogue is built by importing records, never edited by the user.
 

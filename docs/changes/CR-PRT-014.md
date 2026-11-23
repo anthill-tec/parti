@@ -35,7 +35,7 @@ D25).
 - [ ] Adding a product to the shortlist in one browser tab shows it in a second tab's shortlist without a reload.
 - [ ] Stopping the gateway shows the disconnected banner; restarting it clears the banner and the shortlist is unchanged.
 - [ ] Sizes show as `600 × 300 mm`.
-- [ ] A veneer's detail shows its source, licence and stain; a paint's shows its colour and sheen and no image; a metal's shows its treatment, metallic and roughness.
+- [ ] A veneer's detail shows its source, licence and stain; a paint's shows its colour and sheen and no image; a metal's shows its treatment, metallic and roughness; a provisional finish is marked `provisional` on its card and its detail.
 - [ ] Caller-existence: the gateway serves the built page at `/` (reviewed at VERIFY).
 
 ## Estimated size
