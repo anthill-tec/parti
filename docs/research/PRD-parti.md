@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | T4: STEP into Unreal on Linux crashes (#1639); per-part glTF from SolidCraft and moving sub-assemblies as Unreal components, to be tried. |
 | 2026-11-23 | T4 findings from JohnnyHouse (#1637, #1638), correcting the earlier "no Unreal import yet": glTF via Interchange works; only building and furniture travel; names not stable ids; re-import silently deletes actors; finishes as world-space materials. 8A steps 7 and 12 adjusted. |
 | 2026-11-23 | FR-MOD-1 points to the declaration format in the domain PRD (`PRD-domain.md`, draft). |
 | 2026-11-23 | T4 run with JohnnyHouse; its trial experience comes before any Unreal-export CR. |
@@ -340,6 +341,16 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
     import was a look-ahead before the CAD was closed, and went stale).
   - *Moving parts:* nothing carries over (no rig in Blender; every pivot at the world origin); pivots must come from the
     hinge and track positions.
+  - *STEP (#1639):* Interchange in 5.9 has no STEP translator. Datasmith's CAD modules load on Linux, but translating a
+    1.7 MB STEP of one louvre window (122 bodies) crashed the editor (segmentation fault in the CAD kernel's sew-and-mesh),
+    one attempt with default options. **Do not plan on STEP into Unreal on Linux.**
+  - *Per-part glTF from the CAD tool (#1639, to be tried):* SolidCraft writes glTF binary itself, per part file, each body a
+    named node, cleanly indexed (blades, pivots, links, worm, crank), whereas in the whole-building export the same parts
+    lose which window or blade they belong to. Direction under consideration (owner): each **moving sub-assembly**
+    (louvre window, sliding door, hinged door, French window, skylight vent, garage gate) is imported once as its own
+    Unreal component, inspected and operated on its own, then placed in the building from the CAD generators' placement
+    tables, with its kinematics (blade pitch and pivots, worm ratio, sliding travel) from the same generators. This bears
+    on the world builder's moving parts (D18) and its PRD.
   - *Finishes as Unreal assets (T3, first part):* a master material lays a tile at true size in world space from an origin,
     with grout and roughness from the finish class; one instance per tile. It works on two walls of first-floor bath 1, and
     shows that a shared wall body is also tiled on the next room's face: per-face placement needs the face rectangles as
