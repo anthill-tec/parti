@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | Consistency pass after the review: §1 editions, §7 client viewer, §9 stages vs releases. |
 | 2026-11-23 | D23: 1.0.0 is the full designer edition, reached through 0.x minor releases (first: 0.1.0), each reviewed with the stakeholders; client viewer after 1.0.0. §9 note. |
 | 2026-11-23 | D22: the client bundle keeps its metadata in SQLite beside the asset files (offer, options, index, client choices until sent). |
 | 2026-11-23 | Q11: owner's guidance (JSON events; no SQL for multi-user, EntityStore; with Nai from the start, connectors per schema); open: Nai in version one. |
@@ -41,6 +42,8 @@
 Parti is a guided workflow that takes a building from the architect's drawings to a CAD model, a rendered
 Blender scene and an Unreal walkthrough. A user and an agent work through its steps together, and each step has
 tested tools (owner, 22 November 2026).
+
+Parti is released in two editions from one domain (D22): the **designer edition**, for architects and interior designers, which the first major release 1.0.0 delivers through 0.x releases (D23); and the **client viewer**, a self-contained walkthrough viewer for the building's owner.
 
 **Its first major feature is the finish tool.** A person walking through a building in an Unreal Engine
 application should be able to point at a wall, a floor or part of one, browse a catalogue of finishes (tiles
@@ -204,6 +207,7 @@ The page, the gateway's connections and the scene adapters are adapters, not con
 | Catalogue tools | Python | Build a catalogue from a target project's finish records and images (thumbnails, colour tags); later, the Unreal editor scripts that import finishes (Unreal's Python runs in the editor only). |
 | Agent harness | Python | D21: the workflow graph (LangGraph) built from the domain's Workflow definition, Parti's agent definitions and skills, and MCP client connections to SolidCraft, Blender and Unreal. Reaches the domain through the agent API. |
 | Pipeline tools | Python | The workflow's toolbase (§8A): data tables to commands for the CAD and rendering applications, with expected-result checks. |
+| Client viewer | Unreal (packaged app) | After 1.0.0 (D22, D23): the self-contained walkthrough viewer, packaged per platform with a client bundle. |
 | Unreal plugin | C++ | Deferred (D5). Also the Unreal side of the world builder (D18). |
 
 ## 8. Installer and agent interface (D12)
@@ -252,13 +256,14 @@ installed and used inside JohnnyHouse.
 |---|---|---|
 | A. First release (Bun and Python only) | Message schema; domain (Building, Design, Catalogue, Session; the setting held as state); gateway; local adapters; page; mock scene; installer and agent CLI; catalogue tools. Demonstrated end to end on JohnnyHouse data with the mock scene: browse, filter, select a surface and a zone, define zones, place finishes, save, reload, set time of day and weather (as state), all through the page and through the CLI. | Nothing outside this repository. |
 | B. Unreal | C++ plugin (FR-SCN-2, FR-SCN-3), overlay, finish assets, the three trials of §11; the world builder (D18), detailed in its own PRD. | Model B support for a C++ stack. |
-| C. VR panel | The page as an interactive surface in the 3D scene. | B. |
-| D. Data service | Catalogue, users, saved designs served to installed apps; EntityStore as system of record; Nai for pipelines, sessions and embeddings. | Requests to the Nai team (see the founding record). Taken on with the multi-user, multi-session implementation (D9). |
+| C. VR panel | The page as an interactive surface in the 3D scene; with B, the basis of the client viewer (D22). | B. |
+| D. Data service | Catalogue, users, saved designs served to installed apps; EntityStore as system of record; Nai for pipelines, sessions and embeddings (RAG and the knowledge base reach Nai earlier, with the agent harness, D9). | Requests to the Nai team (see the founding record). Taken on with the multi-user, multi-session implementation (D9). |
 | E. Streamed Unreal | Unreal running on servers, shown in a browser, with the same page around it. | D. |
 
 Which CRs make up Stage A, and their order, is the orchestrator's proposal to the owner at wave-open; it is not
 written here. **Releases (D23):** 1.0.0 is the full designer edition; the 0.x minor releases lead to it, the first
-being 0.1.0. The client viewer (D22) comes after 1.0.0. The release label and date are the owner's call.
+being 0.1.0. The client viewer (D22) comes after 1.0.0. Stages and releases are not the same thing: a 0.x release carries whatever
+slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer workflow through the Unreal walkthrough. The release label and date are the owner's call.
 
 ## 10. Out of scope for the first release
 

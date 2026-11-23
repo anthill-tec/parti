@@ -4,7 +4,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 
 ## Design references
 - Architecture (system overview): `docs/Architecture.md`
-- Design contract: `docs/research/PRD-parti.md` (decisions D1–D19; per-area PRDs to follow, listed in `docs/Architecture.md` §10; the domain PRD is next, drafted by the orchestrator with the owner)
+- Design contract: `docs/research/PRD-parti.md` (decisions D1–D23; per-area PRDs to follow, listed in `docs/Architecture.md` §10; the domain PRD is next, drafted by the orchestrator with the owner)
 - Ubiquitous Language: `docs/research/DN-ubiquitous-language.md` (the living glossary; business terms only, one meaning each). System-design terms: `docs/Architecture.md` §11
 - Order of the design work: architecture (reviewed 2026-11-22) → glossary → domain PRD → other per-area PRDs → CRs last (`docs/Architecture.md` §10)
 - Review pages: `.lavish/<document>.html`, machine-local and gitignored; every decision taken there is applied to `docs/` and committed

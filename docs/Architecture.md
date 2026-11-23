@@ -20,6 +20,12 @@ walkthrough. A user and an agent work through its steps together, and each step 
 2. **Finish tool** (its first major feature). Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
 3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do, including joining a live session alongside the user (D16).
 
+Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow definition, with Parti's agent
+definitions and skills, driving the CAD system, Blender and Unreal through their Python APIs and MCP servers. It is
+released in two editions from one domain (D22, §7): the **designer edition**, the full workflow for architects and
+interior designers, which 1.0.0 delivers through 0.x releases (D23); and the **client viewer**, a self-contained
+walkthrough viewer for the building's owner, packaged with a client bundle.
+
 ## 2. The whole in one picture
 
 ```
@@ -67,12 +73,12 @@ Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the 
 |---|---|---|---|
 | **Workflow** (frames the others) | Pipeline: steps, their inputs, outputs, checks, gates; a target project's progress | start step; record check; pass gate; checkpoint | step started / checked / completed |
 | **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
-| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
+| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
 | **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
 | **Quantities** (computational module) | Quantities per plan; bill of materials per work-contract role; cost estimates later | (queries) quantities, bill of materials | — (derived from plans) |
 | **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
 | **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
-| **Asset delivery** | Mapping from a product to what a scene can draw | prepare product for a scene | product ready / failed |
+| **Asset delivery** | Mapping from a product to what a scene can draw; the client bundle, per client project and revision (D22) | prepare product for a scene | product ready / failed |
 | **Identity** (service stage) | Users, access | — | — |
 
 Design refers to products and to building elements by id; it asks Catalogue and Building whether a placement
@@ -89,12 +95,13 @@ finish tool and the world builder work on.
 | `domain` | TypeScript | `schema` types only | One module per context. No imports from anything else in the repository. |
 | `gateway` | Bun | `domain`, `schema`, ports | Serves the page; holds the WebSocket links; runs commands through the domain; stores events through the design store; fans events out. |
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
-| `page` | TypeScript, VanJS | `schema` | Catalogue browser, detail, shortlist, zone editor, setting controls. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
+| `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, catalogue browser, detail, shortlist, zone editor, setting controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
 | `parti-axi` | Python (installed with `uv`) | gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `catalogue-tools` | Python | — | Build a catalogue from a target project's records: thumbnails, colour tags, checks. Later: Unreal editor scripts for finish assets. |
 | `agent-harness` | Python | gateway (over its agent API) | Parti's own agent harness (D21): the workflow graph (LangGraph) built from the domain's Workflow definition, whose nodes call domain commands; agent definitions and skills; MCP client connections to SolidCraft, Blender and Unreal. Checkpoints and memory behind ports (local first; Nai and EntityStore later). |
 | `pipeline-tools` | Python | — | The toolbase of the workflow: data tables → commands for the CAD and rendering applications, with expected-result checks. One translator per application. |
+| `client-viewer` | Unreal (packaged app) | its client bundle only | Deferred until after 1.0.0 (D22, D23). Self-contained walkthrough viewer (monitor or VR) with the offered options, stills and films; Windows and Linux; built and downloaded from the designer edition. Licence first (PRD Q12). |
 | `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
@@ -193,7 +200,7 @@ also connects it to the target's Unreal project.
 | `Architecture.md` (this) | The overview. |
 | `research/PRD-parti.md` | Parti's design contract: decisions, requirements, stages, open questions. |
 | `research/DN-ubiquitous-language.md` | The living glossary: the business language shared with architects, designers and users. |
-| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain: building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface; (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets. `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
+| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain: building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface, with the agent harness (D21); (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets; (7) the client viewer and the client bundle (D22). `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
 | `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |
 | `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
 | `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |

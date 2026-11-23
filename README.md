@@ -17,6 +17,10 @@ Unreal project and its data. It then guides the work on that building step by st
 every step. An agent works alongside the user in the same live session: it sees what the user selects,
 follows what they do, and can do everything a person can.
 
+Parti comes in two editions built from one domain: the **designer edition**, the full workflow for architects and
+interior designers, and the **client viewer**, a self-contained walkthrough viewer (monitor or VR) that the designer
+builds and hands to the building's owner, packaged with that project's options, stills and films.
+
 Its first major feature is the **finish tool**. You point at a wall, a floor or part of one in the
 walkthrough, browse a catalogue of finishes (tiles first, paints later), apply one, and change the time of
 day and the weather. The page and the 3D scene always show the same state.
@@ -57,10 +61,12 @@ JohnnyHouse is its first user.
   (`decide(state, command) → events`, `evolve(state, event) → state`), with no input or output and no
   library calls. Every outside system (Unreal, the page, makers' catalogues, files, the CAD and rendering
   applications) is reached through its own translator.
-- **Local first.** Version one runs standalone on Linux, one user per session. On Windows it can run in a
-  container or under WSL2; nothing in it locks out a later native port of the client side. The backend moves
-  to the owner's Nai (streaming runtime) and EntityStore (system of record) when Parti takes on several users
-  and sessions. Only the adapters change.
+- **Local first, Nai next.** The designer edition runs on Linux first (on Windows in a container or under WSL2);
+  the client viewer runs on Windows and Linux. Retrieval (RAG) and the knowledge base move to the owner's Nai
+  (streaming runtime) as soon as the agent harness exists; the rest of the data layer moves to Nai and EntityStore
+  (system of record) when Parti takes on several users and sessions. Only the adapters change.
+- **Its own agent harness.** A workflow graph (LangGraph, Python) built from the domain's workflow, with Parti's
+  agent definitions and skills, drives the CAD system, Blender and Unreal through their Python APIs and MCP servers.
 - **Agent-first interface.** `parti-axi` installs Parti, sets it up inside a target project, and gives an
   agent every action a person has, including joining a live session. A Pi plugin wakes the agent when the
   user acts.
@@ -75,6 +81,9 @@ JohnnyHouse is its first user.
 
 ## Stages
 
+Releases: **0.1.0** first, then 0.x minor releases, each reviewed with stakeholders, up to **1.0.0**, the full
+designer edition. The client viewer follows 1.0.0.
+
 | Stage | What it adds |
 |---|---|
 | **A. First release** | The finish tool end to end with the mock scene, on JohnnyHouse data: browse, filter, select, define zones, place finishes, save and reload, set time and weather; installer and agent interface |
@@ -88,7 +97,7 @@ JohnnyHouse is its first user.
 | Document | What it holds |
 |---|---|
 | [`docs/Architecture.md`](docs/Architecture.md) | The system overview: parts, rules, contexts, components, stages |
-| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D19), requirements, stages, open questions |
+| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D23), requirements, stages, open questions |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-founding-design-record.md`](docs/research/DN-founding-design-record.md) | The original design discussion |
 | [`docs/research/DN-first-consumer-johnnyhouse.md`](docs/research/DN-first-consumer-johnnyhouse.md) | The first user: its data, its Unreal project, its needs |
