@@ -139,7 +139,7 @@ the rules are never copied.
 | | Designer edition | Client viewer |
 |---|---|---|
 | Who | Architects, interior designers | The building's owner |
-| Platform | Linux first (D2) | Windows and Linux, natively; macOS possibly later. Built and downloaded from the designer edition, per platform (PRD Q15) |
+| Platform | Linux first (D2) | Windows and Linux, natively; macOS possibly later. Built and downloaded from the designer edition, per platform (PRD Q14) |
 | Workflow, agent harness, CAD, Blender | Yes | No; only a UI helper agent that searches and applies offered sets (tile sets, interior sets) through the viewer's own commands |
 | Building | Authoring | Read only, from the bundle |
 | Design | Everything, including curating offers | Apply and compare the offered options |
