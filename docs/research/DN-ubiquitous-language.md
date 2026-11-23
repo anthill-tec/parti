@@ -62,6 +62,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
 | Client viewer | Parti for the building's owner: a self-contained walkthrough viewer with the offered options, on Windows or Linux. | — |
+| UI helper | The client viewer's limited agent: it helps the client search and apply offered sets (tile sets, interior sets), and does nothing the client could not do. | Session |
 | Offer | What the designer lets the client decide, per zone or element: a set of options with a default. | Design |
 | Option | One choice within an offer: a placement or a whole scheme. | Design |
 | Client bundle | A filesystem package, published for one client project and revision, holding everything the client viewer needs to run: the building, the offer, the scenarios, the stills and films, and every asset they use. Delivered as a filesystem package (offline) or served remotely by Nai (online); the content is the same. | Asset delivery |
@@ -86,3 +87,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Render; Client bundle carries stills and films (D22). |
 | 2026-11-23 | Client bundle: a filesystem package with everything the viewer needs to run. |
 | 2026-11-23 | Client bundle: offline (filesystem package) or online (served by Nai). |
+| 2026-11-23 | Added UI helper (D22). |

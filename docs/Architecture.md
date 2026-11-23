@@ -133,7 +133,7 @@ the rules are never copied.
 |---|---|---|
 | Who | Architects, interior designers | The building's owner |
 | Platform | Linux first (D2) | Windows and Linux, natively |
-| Workflow, agent harness, CAD, Blender | Yes | No |
+| Workflow, agent harness, CAD, Blender | Yes | No; only a UI helper agent that searches and applies offered sets (tile sets, interior sets) through the viewer's own commands |
 | Building | Authoring | Read only, from the bundle |
 | Design | Everything, including curating offers | Apply and compare the offered options |
 | Catalogue | Every product, search | Only the offered products, in the bundle |
