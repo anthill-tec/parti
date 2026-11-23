@@ -16,6 +16,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
+| 2026-11-23 | DM-7 decided as recommended (owner). |
 | 2026-11-23 | Guides carry `towards`, the side where the fitting's area lies (JohnnyHouse #1644). |
 | 2026-11-23 | From JohnnyHouse's first declaration (#1642): anchor direction fixed in the example (start = left end seen from inside), B-4 added; quality objects; references.columns; floor side; guides; steps; DM-7 proposed. |
 | 2026-11-23 | DM-1, DM-2, DM-4, DM-5 decided as recommended; §4, §5–6 agreed; §7 notes that the schema and storage grow with each release (owner). |
@@ -154,7 +155,7 @@ Conventions settled with JohnnyHouse's first file (#1642):
   area lies, so a shower area can be drawn on the right side), e.g. a shower's glass line (FF_bath1 at Y 1290). They are not zones; Parti offers them when a zone is drawn.
 - **A face that is not one plane** (a 10 mm step where a column meets a wall) is declared as one flat rectangle at its
   main plane, with optional `steps`: `{ "x": <from>, "width": <span>, "offset": <mm, + towards the room> }`, which Parti
-  shows the user as a warning on the zones and placements crossing them (DM-7).
+  shows the user as a warning on the zones and placements crossing them (DM-7, decided).
 - Not in 0.1.0: floor falls and drains, wall-mounted taps and shower heads.
 
 ### 2.5 Rules
@@ -315,7 +316,7 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 | DM-3 | Where the building comes from in 0.1.0 | **Decided (owner, 23 November 2026):** the declaration file only; Parti reads it, never edits it |
 | DM-4 | Laying patterns in 0.1.0 | **Decided (owner, 23 November 2026):** stack and offset bonds (half, third), at 0 or 90 degrees |
 | DM-5 | Scheme scope | **Decided (owner, 23 November 2026):** per room in 0.1.0; across rooms later |
-| DM-7 | A face that is not one plane (a step where a column meets a wall) | **Proposed:** declare one flat rectangle at the main plane with optional `steps`; Parti warns on the zones and placements crossing a step; layout on stepped faces later |
+| DM-7 | A face that is not one plane (a step where a column meets a wall) | **Decided (owner, 23 November 2026):** declare one flat rectangle at the main plane with optional `steps`; Parti warns on the zones and placements crossing a step; layout on stepped faces later |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 
 ## 10. Requirements traced

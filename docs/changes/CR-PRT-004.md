@@ -42,7 +42,7 @@ openings and regions, by declared id.
 `4 ft`, `4'`, `4' 6"`, `4 ft 6 in`, `54 in` and returns millimetres; `formatLength(mm, "ft-in" | "mm" | "m")`;
 `formatArea(mm2, "sq ft" | "m2")`; `formatRunning(mm)` (running feet). One foot is exactly 304.8 mm.
 
-### §S5 Steps (DM-7, subject to the owner's decision)
+### §S5 Steps (DM-7)
 
 A surface's optional `steps` are kept; `stepsCrossed(surface, rect)` returns the steps a rectangle crosses, for the
 design context's warnings.
@@ -67,10 +67,6 @@ design context's warnings.
 ## Estimated size
 
 8 points.
-
-## Risk
-
-- DM-7 is proposed, not decided; §S5 changes or drops if the owner decides otherwise before RED.
 
 ## Non-goals
 
