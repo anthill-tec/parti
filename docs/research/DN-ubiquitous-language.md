@@ -31,6 +31,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
 | Room use | What a room is for (bedroom, bathroom, porch, kitchen), with the names people call it by (aliases). | Building |
 | Site area | A part of the site outside the rooms: the drive, the garden, the approach. | Building |
+| True north | The geographic north, given as an angle from the drawings' north (plan north); with the site's latitude and longitude it places the building on the map and the sun in the sky. | Building |
 | Element | A labelled part of the building (level, room, wall, floor, ceiling, opening, stair, …), tied to its 3D object and to its 2D drawing elements. | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | Face frame | A surface's own 2D frame: origin at its bottom-left corner as seen from inside the room, x along the face, y up; zones, openings and regions are rectangles in it, in millimetres. | Building |
@@ -114,3 +115,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Added Navigation mode, Navigation data (D18). |
 | 2026-11-23 | Added Avatar (D18), Semantic search (D9). |
 | 2026-11-23 | Added Room use, Site area (D24). |
+| 2026-11-23 | Added True north (D24). |
