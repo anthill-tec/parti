@@ -14,6 +14,7 @@
 |---|---|
 | 2026-11-22 | First draft, written from the design discussion held in the JohnnyHouse project. |
 | 2026-11-22 | Owner's reframing (architecture review): the guided workflow is the goal and the finish tool its first major feature. Title, §1 and D14 restated; no requirement changed. |
+| 2026-11-23 | T4 run with JohnnyHouse; its trial experience comes before any Unreal-export CR. |
 | 2026-11-23 | Print split: future, not in 1.0.0 (8A, §10). Q6 closed: Bun confirmed for the service side. |
 | 2026-11-23 | 8A: the workflow outline (13 steps and the print side branch, from the JohnnyHouse runbook), finishes chosen once in the design, design changes and world editing as separate chains. T4 (Unreal 5.9 import). |
 | 2026-11-23 | NFR-7 confirmed (WebSocket across network boundaries); Q10 answered by DN-test-strategy.md (approved). |
@@ -318,7 +319,7 @@ slice of the stages the roadmap assigns it, and 1.0.0 needs the full designer wo
 - **T1** Unreal's built-in browser widget as an overlay in a packaged 5.9 build, on Linux (Windows later, D2), showing a page served from a local address. Reports (unverified on 5.9) say it long shipped an old Chromium, and that in packaged Linux builds it loaded web addresses but not local files. Outcome decides D13. This trial needs no C++ and can be run by the first consumer in the JohnnyHouse Unreal project at any time. It now also decides how the client viewer's in-world panel loads the page from its bundle (D22): through Unreal's browser from local files, or a small local web server inside the viewer.
 - **T2** A WebSocket connection between a C++ plugin and the gateway, exchanging the state.
 - **T3** Finish assets: Asset Registry tag queries in a packaged build (which tags survive packaging), thumbnails in a packaged build, and a finish created at run time from a file.
-- **T4** Importing the building into Unreal 5.9 (owner, 23 November 2026): FBX, USD, Datasmith or Interchange, compared on geometry, material slots, part names and scale. Blender's procedural materials need baking and its particle-based planting (creepers) needs converting to meshes first. No format has been tried yet.
+- **T4** Importing the building into Unreal 5.9 (owner, 23 November 2026): FBX, USD, Datasmith or Interchange, compared on geometry, material slots, part names and scale. Blender's procedural materials need baking and its particle-based planting (creepers) needs converting to meshes first. No format has been tried yet. Run with JohnnyHouse (owner, 23 November 2026): JohnnyHouse tries the import in its own Unreal project as it prototypes P12, and Parti learns from that trial experience before any CR for the Unreal export is specified.
 
 ## 12. Open questions
 
