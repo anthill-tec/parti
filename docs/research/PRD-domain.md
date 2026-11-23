@@ -17,6 +17,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
+| 2026-11-23 | Fifth kind: metal (owner; JohnnyHouse #1651); scans as records of their own. |
 | 2026-11-23 | Non-tile finishes in 0.1.0: wood veneer, laminate, paint (owner); DM-8 finish = scan + stain, DM-9 placements on parts later (JohnnyHouse #1648). |
 | 2026-11-23 | Guides carry `towards`, the side where the fitting's area lies (JohnnyHouse #1644). |
 | 2026-11-23 | From JohnnyHouse's first declaration (#1642): anchor direction fixed in the example (start = left end seen from inside), B-4 added; quality objects; references.columns; floor side; guides; steps; DM-7 proposed. |
@@ -233,7 +234,7 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
 
 ### 4.1 Finishes
 
-In 0.1.0 the catalogue holds **finishes** of four **kinds**: **tile**, **wood veneer**, **laminate** and **paint** (owner, 23 November 2026),
+In 0.1.0 the catalogue holds **finishes** of five **kinds**: **tile**, **wood veneer**, **laminate**, **paint** and **metal** (owner, 23 November 2026),
 from JohnnyHouse's second finishes database (#1648) beside its tiles. A finish has the fields of FR-CAT-1, and by kind:
 
 | Kind | Carries | Placed with |
@@ -241,10 +242,11 @@ from JohnnyHouse's second finishes database (#1648) beside its tiles. A finish h
 | tile | maker, size, thickness, finish class, swatch and room images | laying pattern, grout, offset, rotation (§3.3) |
 | wood veneer, laminate | **source and licence** (library or maker, asset name, address, author, licence, date retrieved); the **source scan**: the real size the image covers (e.g. 1000 × 1000 mm), which way the grain runs in it, which maps exist (colour, roughness, relief) and which are used; the **stain** applied over the scan | grain direction (0 or 90 degrees in the face frame) and offset; no grout |
 | paint | a colour and a sheen (matt, eggshell, satin, gloss); a maker's code when there is one; no image | nothing more |
+| metal | a treatment (plating, powder coat, brushed, anodised), a colour, metallic (0 to 1) and roughness (0 to 1); a maker's code when there is one; no image (JohnnyHouse MT-001, chromium-plated steel on the guard rails) (owner, 23 November 2026) | nothing more; mostly placed on parts, with the world builder (DM-9) |
 
 **A finish is what is used: a source scan plus its stain** (DM-8, decided (owner, 23 November 2026)). Its colour is the colour after the
-stain, so the catalogue shows the stained look; one scan can back several finishes (a pale teak scan, and the same scan
-stained as smoked walnut). Where a finish's assets sit in Unreal (texture, material instance, master material) is kept
+stain, so the catalogue shows the stained look; one scan can back several finishes (one pale scan, unstained and
+stained dark). Scans are records of their own, with ids (JohnnyHouse `scans.ndjson`, #1651). Where a finish's assets sit in Unreal (texture, material instance, master material) is kept
 as a **reference**, like CAD body names (§2.2).
 Products are **read-only** in Parti: the catalogue is built by importing records, never edited by the user.
 

@@ -26,9 +26,10 @@ hue, strength, lightness, warm or cool) computed from the main image, images as 
 ### §S1a Finishes database (wood veneer, laminate, paint)
 
 `catalogue_tools.johnnyhouse.translate_finishes(finishes_dir)` reads JohnnyHouse's second database
-(`data/finishes.ndjson`, `swatches/<id>.jpg`, JohnnyHouse #1648) into finishes of kinds `wood-veneer`, `laminate` and
-`paint`: source and licence, source scan (real size, grain direction, maps), stain, sheen, Unreal asset references;
-ids (`WV-001`, `PT-001`) kept. `usage.json` is not read in 0.1.0 (DM-9). `translate` merges both sources into one
+(`data/finishes.ndjson`, `swatches/<id>.jpg`, JohnnyHouse #1648) into finishes of kinds `wood-veneer`, `laminate`,
+`paint` and `metal` (JohnnyHouse `metal_plating` → `metal`, treatment `plating`): source and licence, source scan (real size, grain direction, maps), stain, sheen, Unreal asset references;
+ids (`WV-001`, `PT-001`, `MT-001`) kept; scans read from `data/scans.ndjson` (`SC-001`). A record of a kind
+Parti does not know is listed in `report.json` as `unsupported-kind`, never dropped silently. `usage.json` is not read in 0.1.0 (DM-9). `translate` merges both sources into one
 `products.json`, refusing a duplicate id across them.
 
 ### §S2 Output
@@ -47,7 +48,7 @@ entries (product id, note), read once at import as PRD-domain §3.4 says.
 - [ ] A 600 × 600 image gives `square`, 600 × 300 `landscape`, 300 × 600 `portrait`; 600 × 580 `square`.
 - [ ] A record without a size and one with an unreadable image appear in `report.json` with `missing-field` and `unreadable-image`, and in no product.
 - [ ] A plain red image gives hue within 0 ± 5°, strength above the threshold, `warm`.
-- [ ] On a synthetic finishes folder in #1648's format, a stained veneer record yields a `wood-veneer` product whose main colour is the stain's, with its licence and scan; a paint record yields a `paint` with its sheen and no image.
+- [ ] On a synthetic finishes folder in #1648's format, a stained veneer record yields a `wood-veneer` product whose main colour is the stain's, with its licence and scan; a paint record yields a `paint` with its sheen and no image; a `metal_plating` record yields a `metal` with treatment `plating`; a record of kind `glass` appears in `report.json` as `unsupported-kind`.
 - [ ] An id present in both the tile and the finishes sources is reported as `duplicate-id` and neither is written.
 - [ ] (reviewed, not tested) A local run on JohnnyHouse's real records in place reports its counts; no file under the repository changes.
 - [ ] Caller-existence: `parti-axi catalogue build` calls `translate` (reviewed at CR-PRT-013 VERIFY).

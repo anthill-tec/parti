@@ -27,7 +27,7 @@ and the cut-outs of openings and keep-clear regions.
 
 `place-product` (zone, product, and the parameters of its kind, PRD-domain §3.3: for a tile, pattern `stack` |
 `offset-half` | `offset-third`, rotation 0 | 90, grout width in mm and colour, offset x and y; for a wood veneer or
-laminate, `grain` 0 | 90 and offset; for a paint, nothing more) and `clear-zone`. Parameters of another kind are
+laminate, `grain` 0 | 90 and offset; for a paint or a metal, nothing more) and `clear-zone`. Parameters of another kind are
 refused with `invalid-parameter`. A zone holds at most one placement; placing again replaces it.
 
 ### §S3 Rules

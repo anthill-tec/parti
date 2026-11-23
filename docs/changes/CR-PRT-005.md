@@ -17,11 +17,12 @@ The catalogue holds finishes as read-only products and answers the browser's que
 ### §S1 Model
 
 `packages/domain/src/catalogue/`: type `Product` with the fields of FR-CAT-1 and PRD-domain §4.2's right-hand column,
-including `kind` (`tile` | `wood-veneer` | `laminate` | `paint`), `suitableUse`, `suitableSurfaces`, `classification`
+including `kind` (`tile` | `wood-veneer` | `laminate` | `paint` | `metal`), `suitableUse`, `suitableSurfaces`, `classification`
 (basis, confidence), `pictureOrientation` (`landscape` | `portrait` | `square`) and `images` (references, never data);
 and by kind (PRD-domain §4.1): `source` (library or maker, asset, address, author, `licence`, retrieved date),
 `scan` (`id`, real `widthMm` and `heightMm`, `grain`: `along-x` | `along-y`, `maps` available and used) and `stain`
-(colour) for veneers and laminates; `colour` and `sheen` (`matt` | `eggshell` | `satin` | `gloss`) for paint;
+(colour) for veneers and laminates; `colour` and `sheen` (`matt` | `eggshell` | `satin` | `gloss`) for paint; `treatment` (`plating` | `powder-coat` |
+`brushed` | `anodised`), `colour`, `metallic` and `roughness` (each 0 to 1) for metal;
 `assetRefs` (Unreal texture, material instance, master material) as references. A finish is a scan plus its stain
 (DM-8): its main colour is the colour after the stain.
 
@@ -43,14 +44,14 @@ is complementary (180° ± 30°) and whose strength passes the threshold, at mos
 - [ ] Free text `"cafe"` matches a product named `Café Latte`.
 - [ ] Filtering `kind: ["paint"]` returns only paints; filtering `licence: ["CC0"]` returns only finishes with that licence.
 - [ ] Two veneers sharing a scan but with different stains are two products whose main colours are their stains' colours, and both name the same `scan.id`.
-- [ ] A paint without `sheen` is invalid (`missing-field`).
+- [ ] A paint without `sheen` is invalid (`missing-field`); a metal with `metallic` 1.5 is invalid (`invalid-value`).
 - [ ] Colour-wheel order is non-decreasing in hue for the coloured products, and every product under the strength threshold comes after them.
 - [ ] `goesWith` lists set members first, then pairs, then complementary products, and never the product itself.
 - [ ] Caller-existence: `queryCatalogue` and `goesWith` are called from `packages/gateway/src` (reviewed at CR-PRT-012 VERIFY).
 
 ## Estimated size
 
-8 points.
+8 points (metal fits within it).
 
 ## Non-goals
 
