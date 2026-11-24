@@ -31,10 +31,12 @@ Parti comes in two editions built from one domain: the **designer edition**, the
 interior designers, and the **client viewer**, a self-contained walkthrough viewer (monitor or VR) that the designer
 builds and hands to the consumer, packaged with that project's options, stills and films.
 
-At its heart is the **finish tool**. You point at a wall, a floor or part of one in the
-walkthrough, browse a catalogue of finishes (tiles, wood veneers, laminates, paints, metals and more), set them out
-as a tiler would and count what to buy, apply one, and change the time of
-day and the weather. The page and the 3D scene always show the same state.
+At its heart is the **asset browser**. Across every class of product (finishes, structure, openings, joinery,
+sanitary ware, lighting, furniture, services, landscape) you find and choose what goes into the building, place it on
+the model's walls, floors and parts, count what to buy by trade, and see it in the walkthrough at any time of day and
+in any weather. Its first layer is the **finish tool**: point at a wall, browse finishes (tiles, wood veneers,
+laminates, paints, metals and more), set them out as a tiler would and apply one. The page and the 3D scene always show
+the same state.
 
 Parti grew out of **JohnnyHouse**, a house project where the whole path (drawings → parametric CAD model →
 Blender stills and films → Unreal walkthrough) was first worked out by hand, with one-off scripts. Parti
@@ -111,7 +113,7 @@ their order and the target dates are held on the Crucible board.
 | Document | What it holds |
 |---|---|
 | [`docs/Architecture.md`](docs/Architecture.md) | Overview; Part A, the domain-driven logical architecture; Part B, the system architecture |
-| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D39, the roadmap among them), requirements, open questions |
+| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D40, the roadmap among them), requirements, open questions |
 | [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (reviewed, 0.1.0 slice) |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |

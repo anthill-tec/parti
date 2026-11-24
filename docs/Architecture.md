@@ -27,7 +27,7 @@ ships a harness of its own (D21).
 
 | Who | Provides |
 |---|---|
-| Parti | the domain model and its formats; the workflow (D26); the `parti` library, its tools and translators (D27); the harness (D21); `parti-axi`; the skills and agent definitions; the finish tool, the world builder, the client viewer |
+| Parti | the domain model and its formats; the workflow (D26); the `parti` library, its tools and translators (D27); the harness (D21); `parti-axi`; the skills and agent definitions; the asset browser (its first layer the finish tool), the world builder, the client viewer |
 | The project agent | the project's translation into Parti's formats; its rules and data tables; the steps particular to the project, as extensions of the step kinds |
 | The architect or interior designer | intent, in their own terms: pointing at things, choosing among options, stating rules, approving at the gates |
 | The consumer (home buyer, business buyer, the commissioning client) | nothing to build: they experience the deliverables, the walkthrough with or without VR, the stills and films, and choose among the options offered, in the client viewer (D22) |
@@ -38,7 +38,7 @@ walkthrough. A user and an agent work through its steps together, and each step 
 22 November 2026). It has three parts:
 
 1. **Guided workflow and toolbase** (the goal). A guided sequence of steps, each with tested tools, from drawings to CAD model, Blender scene and Unreal walkthrough.
-2. **Finish tool** (its first major feature). Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
+2. **Asset browser** (its central feature, D40). Find and choose every kind of product by the product classification (D32): finishes, structure, openings, joinery, sanitary ware, lighting, furniture, services and landscape; place what is chosen on the model's elements and surfaces, by zone and scheme; count it into bills of materials by trade; see it in an Unreal walkthrough under the chosen time of day and weather; one state shared by the interface and the scene. The **finish tool** is its first layer.
 3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do, including joining a live session alongside the user (D16).
 
 Parti's Python side is one library, `parti` (D27, LGPL-3.0-only): the architectural SDK every target project imports,
