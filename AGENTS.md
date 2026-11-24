@@ -31,7 +31,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 - The Crucible board holds the queue and the execution state (plans, cycles, milestones); `docs/changes/` holds the specs.
 - Run context (post-036): workflow cycle context is attached by the tooling at ingest time — never hand-export cycle identifiers into the environment or into this file.
 - Registrations are manual in scaffold v1 — complete them from the Setup section below.
-- **Waves are numbered across the whole project**, not per release (the board orders its queue by wave number across releases): 0.1.0 is waves 1–6, 0.2.0 waves 7–9, **10–19 are reserved for 0.3.0**, 0.4.0 is waves 20–21 (owner, 2026-11-24); later releases take ranges after it, leaving room for the releases before them. Within a wave, `wave-sequence` places the listed CRs first, so a wave shared by both Tracks is sequenced lane by lane with the lane holding the other's dependencies sent last.
+- **Waves are numbered across the whole project**, not per release (the board orders its queue by wave number across releases): 0.1.0 is waves 1–6, 0.2.0 waves 7–9, then each release has its own block of ten: 0.3.0 waves 10–14, 0.4.0 20–24, 0.5.0 30–34, 0.6.0 40–43, 1.0.0 50–52 (owner, 2026-11-24). **No release is left empty while a later one has CRs** (owner, 2026-11-24): every release on the board carries its CRs, filed from the approved roadmap (PRD-parti D33), and their specs are written ahead of the lanes. Within a wave, `wave-sequence` places the listed CRs first, so a wave shared by both Tracks is sequenced lane by lane with the lane holding the other's dependencies sent last.
 
 ## Setup
 Pre-wave tasks — not a wave; a wave is a grouping of CRs.
