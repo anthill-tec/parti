@@ -80,7 +80,8 @@ Two aggregates, kept apart as definition and history:
   - **Gate**: where the owner decides, of a kind: review, trial (the owner tries it: play mode, feel), option (taste,
     with options shown), permission (a download, a long render).
 - **Workflow run** (one per target project, event-sourced like every aggregate, R6):
-  - **Step run**: started, checked, completed, stale; its **checkpoint** (the saved state of the target project).
+  - **Step run**: started, checked, completed, stale; its **checkpoint** (the saved state of the target project); its
+    **to-dos**, short tasks added by the user or the agent (FR-WF-15).
   - **Check result**: pass or fail, the measured values, the worst offender, and **what was not checked**.
   - **Correction**: a revision of a completed step's result. It records its **trigger** (the agent re-reading the
     sources, the owner pointing, seen in a view, an audit, a failing check), the **pointer** and the elements it
