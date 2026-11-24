@@ -2,6 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-24; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: the definition and run of the first three phases (PRD-domain §11, v0.4); the Design phase's steps move to CR-PRT-036 (0.2.0).
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, workflow, schema

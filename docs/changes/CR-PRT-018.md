@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** maintenance
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: scope kept (the test hygiene of 0.1.0).
 **Priority:** High
 **Depends on:** CR-PRT-017
 **Labels:** testing, hygiene
-**Phase:** 0.1.0 · wave 5
+**Phase:** 0.1.0 · wave 6
 **Design reference:** `docs/research/DN-test-strategy.md`; the `git-workflow` skill §Releases (test hygiene before a release)
 
 ## Context

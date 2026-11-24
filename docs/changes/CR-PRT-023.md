@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-24; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: the model provider (the Anthropic API, OpenAI-compatible, the Claude Code runner; PRD-parti D21, D33), Nai and SolidCraft.
 **Priority:** Medium
-**Depends on:** CR-PRT-013, CR-PRT-021
+**Depends on:** CR-PRT-013, CR-PRT-021, CR-PRT-029, CR-PRT-031
 **Labels:** page, ui, configuration
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.1.0 · wave 5
 **Design reference:** `docs/research/PRD-parti.md` D22 (e), D25, D30; `docs/Architecture.md` B9; `.lavish/storyboards.html` storyboard 8 and card `#wf-driver-proposal`, approved by the owner (24 November 2026; the menu named **Settings**)
 
 ## Context

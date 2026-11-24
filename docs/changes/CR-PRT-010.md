@@ -2,6 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: scope kept, plus the new logs and the model snapshot (PRD-domain §8: `sources.ndjson`, `model.ndjson`, `model/inventory.json`).
 **Priority:** High
 **Depends on:** CR-PRT-002
 **Labels:** adapter, storage

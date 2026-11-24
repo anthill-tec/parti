@@ -1,7 +1,8 @@
-# CR-PRT-005 — Catalogue context
+# CR-PRT-005 — Catalogue context: the product model and the classification
 
 **Status:** PENDING (spec drafted 2026-11-23, noted 2026-11-24 for DM-10; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten before Track 1 reaches it**: narrowed to the product model (form, build-up, aspects; Material, Texture; DM-10) and the classification (the first level of every branch and the Finishes branch, each mapped to IFC; PRD-domain §4.4), with the test products moved here from CR-PRT-003; the queries and *goes with* move to CR-PRT-011 (0.2.0).
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, catalogue

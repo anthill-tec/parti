@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-23, reworded 2026-11-24 from the storyboard review; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.2.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.2.0 and rewritten then.
 **Priority:** High
-**Depends on:** CR-PRT-014
+**Depends on:** CR-PRT-014, CR-PRT-020
 **Labels:** page, ui, design
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.2.0 · wave 8
 **Design reference:** `docs/research/PRD-parti.md` FR-MOD-2, FR-DES-1 to FR-DES-4, FR-STA-1 to FR-STA-3, D25, D22 (d), D31; `docs/research/PRD-domain.md` §2.1a, §3, §5, §6, §11; `.lavish/storyboards.html` storyboards 3 and 4 and card `#wf-driver-proposal`, approved by the owner (24 November 2026)
 
 ## Context

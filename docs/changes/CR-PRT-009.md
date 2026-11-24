@@ -1,11 +1,12 @@
-# CR-PRT-009 — Versioning in 0.1.0
+# CR-PRT-009 — Versioning in 0.1.0: building and model revisions
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: building and model revisions (PRD-domain §6, §2.6); design versions move to CR-PRT-007 (0.2.0).
 **Priority:** High
-**Depends on:** CR-PRT-004, CR-PRT-006
+**Depends on:** CR-PRT-004, CR-PRT-026
 **Labels:** domain, versioning
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/research/PRD-domain.md` §6; `docs/research/PRD-parti.md` D19
 
 ## Context

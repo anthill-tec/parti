@@ -2,8 +2,9 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: sources and scale, the model build, read and watch, declare; `parti-axi init` sets up the Nai part with Nai's tools (`nai new --template`, `nai check`; PRD-parti D39).
 **Priority:** High
-**Depends on:** CR-PRT-011, CR-PRT-012
+**Depends on:** CR-PRT-012, CR-PRT-024, CR-PRT-027, CR-PRT-028
 **Labels:** cli, python, installer
 **Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25; `docs/Architecture.md` B3 (`parti-axi`), B7; `docs/research/PRD-domain.md` §2.3a, §8

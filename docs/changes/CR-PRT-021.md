@@ -2,6 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-24, reworked 2026-11-24 from the storyboard review; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: scope kept; 13 points on the board (Fibonacci).
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-022
 **Labels:** page, ui, project-environment

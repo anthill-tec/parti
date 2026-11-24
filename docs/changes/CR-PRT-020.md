@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-24; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.2.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.2.0 and rewritten then.
 **Priority:** High
 **Depends on:** CR-PRT-019
 **Labels:** domain, quantities, units
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.2.0 · wave 8
 **Design reference:** `docs/research/PRD-domain.md` §3.4a; `docs/research/PRD-parti.md` D25 (units for bills of materials); JohnnyHouse #1658
 
 ## Context

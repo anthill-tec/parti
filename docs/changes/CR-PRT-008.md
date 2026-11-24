@@ -1,7 +1,8 @@
-# CR-PRT-008 — Session and conditions
+# CR-PRT-008 — Session: selection
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: the selection and interaction events only (PRD-domain §5); the conditions move to CR-PRT-048 (0.4.0).
 **Priority:** High
 **Depends on:** CR-PRT-002
 **Labels:** domain, session, world-builder

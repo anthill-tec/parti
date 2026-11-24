@@ -2,6 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: scope kept (the declaration, its rules and revisions); the model's part is CR-PRT-026's. Checked against PRD-domain v0.4 at its gap analysis.
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, building, units

@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-23, reworded 2026-11-24 from the storyboard review; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.4.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.4.0 and rewritten then.
 **Priority:** High
 **Depends on:** CR-PRT-012
 **Labels:** mock-scene, testing
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.4.0 · wave 20
 **Design reference:** `docs/research/PRD-parti.md` FR-SCN-1, Q9, Q17; `docs/Architecture.md` B3 (`mock-scene`); `docs/research/DN-test-strategy.md`
 
 ## Context

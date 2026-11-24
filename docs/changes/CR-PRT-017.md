@@ -1,11 +1,12 @@
-# CR-PRT-017 — End-to-end 0.1.0
+# CR-PRT-017 — End-to-end 0.1.0: the building from CAD
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: the end-to-end run of the first three phases (the building from CAD); it also sets up the e2e tier (CR-PRT-001).
 **Priority:** High
-**Depends on:** CR-PRT-013, CR-PRT-015, CR-PRT-016
+**Depends on:** CR-PRT-013, CR-PRT-023, CR-PRT-030, CR-PRT-031, CR-PRT-032, CR-PRT-033
 **Labels:** e2e, acceptance
-**Phase:** 0.1.0 · wave 5
+**Phase:** 0.1.0 · wave 6
 **Design reference:** `docs/research/PRD-parti.md` Q9, D23; `docs/research/PRD-domain.md` §1; `docs/research/DN-test-strategy.md` (E2E)
 
 ## Context

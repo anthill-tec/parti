@@ -2,10 +2,11 @@
 
 **Status:** PENDING (spec drafted 2026-11-23, revised 2026-11-24 for the workflow driver; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: 0.1.0's messages (PRD-domain §7), the agent API (D16), its WebSocket endpoint with CloudEvents (PRD-parti D35) and the Nai adapter behind the ports; the design and catalogue commands move to 0.2.0.
 **Priority:** High
-**Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-006, CR-PRT-007, CR-PRT-008, CR-PRT-009, CR-PRT-010, CR-PRT-020, CR-PRT-022
+**Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-008, CR-PRT-009, CR-PRT-010, CR-PRT-022, CR-PRT-026, CR-PRT-028
 **Labels:** gateway, websocket
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/Architecture.md` B3 (gateway), B4 (how a change travels), §3 (R5–R8); `docs/research/PRD-parti.md` NFR-7, NFR-8, D29; `docs/research/PRD-domain.md` §7, §8, §11
 
 ## Context
