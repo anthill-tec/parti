@@ -95,7 +95,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring, through the guided chat and components such as the asset browser. | — |
 | Suggestion | A one-click prompt offered at each point of the workflow (a next action, a gate's option), in the chat and beside the selection everywhere in the Project Environment, so the user types little (D22). | — |
-| To-do | A short task added to a workflow step by the user or the agent, open or done, listed when the step is completed (FR-WF-15). | Workflow |
+| To-do | A short task within a workflow step, open or done, listed when the step is completed: seeded from the step's checklist, or added by the user or the agent (FR-WF-15). | Workflow |
+| Checklist | The validation items a step definition carries, held in the skill behind its step kind; they guide the agent and become the step run's to-dos (FR-WF-15). | Workflow |
 | Project Environment | The designer edition's main interface, where the architect or interior designer works: the guided chat beside the workflow view, the asset browser, the design workspace, quantities, the walkthrough, views, offers and the project (D22). | — |
 | Guided chat | The Project Environment's conversation with the project agent: it follows the embedded workflow and guides the design workflow, puts each decision as options with pictures, in the user's own terms (D22). | — |
 | Asset browser | Where every kind of asset is found and chosen: finishes, later furniture and fittings, and library assets not yet acquired, each choice made for a target (D22). | Catalogue |
@@ -172,3 +173,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | Added Project type, Project template (D30). |
 | 2026-11-24 | Added Suggestion (D22). |
 | 2026-11-24 | Suggestion available everywhere; added To-do (FR-WF-15). |
+| 2026-11-24 | Added Checklist; To-do seeded from it. |

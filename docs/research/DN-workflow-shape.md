@@ -35,7 +35,9 @@ read the sources ─► write the data ─► generate ─► apply in the appli
 - **One checkpoint per feature group**, and one before any risky batch.
 
 In the graph this cycle is one reusable subgraph; each step kind below fills in its slots (which sources, which
-generator, which application, which checks).
+generator, which application, which checks). Each kind's skill also carries a **checklist** of validation items, seeded
+into every run of the step as to-dos that guide the agent (FR-WF-15): the prototype's "Check:" lines are such
+checklists.
 
 ## 3. The step kinds (the graph's vocabulary)
 

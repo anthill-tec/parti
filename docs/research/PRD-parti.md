@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-24 | FR-WF-15: a step's to-dos are mostly a validation checklist from the skill behind its step kind, guiding the agent (owner). |
 | 2026-11-24 | D22: suggestions everywhere, not only in the chat; short to-dos within a workflow task, FR-WF-15 (owner). |
 | 2026-11-24 | D22: the guided chat offers suggestions (one-click prompts) at every point of the workflow (owner, storyboard review). |
 | 2026-11-24 | D29 message bus and application connectors (deterministic over the bus, judgment through the agent loop and MCP; Nai later); D30 project types, templates and quantities across all trades (owner, storyboard review). |
@@ -375,7 +376,7 @@ PRDs:
 - **FR-WF-12 Check results say what was not checked (D26).** Every check result is pass or fail with the measured values and the worst offender, and names what it did not prove (play mode, other instances, the lit view).
 - **FR-WF-13 Gate kinds (D26).** Review, option, permission (a download, a long render, a print) and trial (the owner tries what scripts cannot prove).
 - **FR-WF-14 The pointer is resolved first (D26).** When the owner points at something (a view, a selection, words, a picture), the elements meant are found and confirmed before anything changes (D24, Q17).
-- **FR-WF-15 To-dos within a step (D22).** A step run carries short to-dos, added by the user or the agent, each open or done; they are recorded in the workflow run, shown with their step, and listed when the step is completed.
+- **FR-WF-15 To-dos within a step (D22).** A step run carries short to-dos, each open or done; they are recorded in the workflow run, shown with their step, and listed when the step is completed. **Most come from a checklist** (owner, 24 November 2026): each step definition carries a **checklist** of validation items, held in the skill behind its step kind (with the step's checks and caveats, FR-WF-7), which guides the agent and is seeded into every run of the step as to-dos; an item the library can verify is ticked by its check result, the others by the agent or the user. The user or the agent can add their own to-dos beside them.
 - **FR-WF-10 Nothing of one house in the tools.** Names, dimensions and material choices of JohnnyHouse are data of that target project (NFR-10).
 
 ## 9. Stages and what a release means
