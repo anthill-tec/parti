@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). The architecture and features for 1.0.0 are covered (owner, 24 November 2026). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -351,6 +351,17 @@ architects, designers or users.
 | Nai agent | A specialised agent in the harness that configures Nai's connectors and updates its DSL in a closed loop, using Nai's REST interfaces to inspect events (D29). |
 | Connector | A bus subscriber for one application that applies events deterministically and returns the application's events as commands (D29). |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
+
+## B9. The user interface: the Project Environment
+
+The designer edition's main interface (D22), opened in the browser once a project is scaffolded (`parti-axi open`)
+and the architect's or designer's workspace until the Unreal walkthrough joins it. At its centre the **guided chat**,
+which follows the embedded workflow (A6) and guides the design, with **suggestions** at every point; around it the
+**workflow rail** (phases, steps, to-dos) and the workspace tabs: the **asset browser**, the **design workspace**,
+**quantities**, the **walkthrough**, **views**, **offers** and the **project** (plan onboarding, sources, settings). The
+layout and components are fixed as storyboards reviewed with the owner before the page's specifications are locked;
+0.1.0 builds the shell, the asset browser's first form, the design workspace, quantities and the mock walkthrough
+(CR-PRT-021, CR-PRT-014 to CR-PRT-016). The client viewer's in-world panel is B5's.
 
 ## Documents
 

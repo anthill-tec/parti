@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-24 | The architecture and features for 1.0.0 are covered (owner); design documents and review pages synced; Architecture B9 (the user interface) added. |
 | 2026-11-24 | D29: Nai is the platform in the middle for every message that crosses a process boundary (owner). |
 | 2026-11-24 | D9: Nai can distil telemetry for data mining; a secondary need, possibly not in the first releases (owner). |
 | 2026-11-24 | D29: Parti's connectors (WebSocket for the gateway and plugins, one for the harness process) built on Nai's Rust connector SDK in Nai's ecosystem; readiness audit and validation spike in DN-nai-readiness (owner). |
