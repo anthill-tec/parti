@@ -206,6 +206,19 @@ implementation. Until then only the local adapters exist.
 | Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), the message bus between Parti and the applications (D29), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
 | Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data, telemetry events (usage, timings such as NFR-11's responsiveness, agent runs) | Nai and EntityStore |
 
+**Nai as the message bus (D29).** Applications connect over WebSocket to Nai's source connector (Unreal through a
+plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti's event
+structure, stores them (EntityStore or an SQL database) and delivers them to the Parti runtime through its sink WebSocket
+connector, as entities Parti understands. MCP connects the harness to the same systems. One loop then carries change
+traversal, workflow state, the agent's context and the UI's updates.
+
+```text
+Unreal plugin ─┐                                      ┌─► EntityStore / SQL
+Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL transform ─┤
+SolidCraft ────┘                                      └─► sink WebSocket ─► Parti runtime (domain, workflow, page)
+                     harness (agent loop) ──MCP──► the applications
+```
+
 Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
 (R5, R6), so they map onto Nai's events directly, with no translation of meaning.
 
