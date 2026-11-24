@@ -68,7 +68,7 @@ subdomain under Parti's domain, its connector instances pointing at the project'
 ## Risk
 
 - **Nai's readiness.** The generic connectors, the registry's namespaces, the request id, pipelines from another
-  repository and the template are Nai's work (§5 items 1, 4, 12, 13, 14), needed by 4 January 2027. If they are late,
+  repository and the template are Nai's work (§5 items 1, 4, 12, 13, 14), needed by 21 December 2026. If they are late,
   0.1.0 ships with `bus = "local"` and this CR moves to 0.2.0, decided at the wave-4 boundary with the owner.
 
 ## Non-goals

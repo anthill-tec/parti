@@ -83,19 +83,19 @@ to Nai through it directly: they talk to the connectors that are built for them.
 
 Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Nai is on Sandesh** (not yet, 24 November
 2026), well ahead of need, so Nai's team can plan the work and ship a usable Nai install (owner, 24 November 2026). Each item is needed by a date set back from the release that uses it
-(the targets on the Crucible board are placeholders, PRD-parti D33):
+(the targets on the Crucible board, re-planned for 1.0.0 by 31 March 2027 on 24 November 2026, PRD-parti D33; each date is a few days before the CR that needs it starts):
 
 | Needed by | For | Items |
 |---|---|---|
-| 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
-| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-013 `parti-axi init`) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository), 14 (the Parti template) |
-| 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
-| 15 Feb 2027 | 0.2.0 (CR-PRT-076, derived views; CR-PRT-077, intake of finishes) | 16 (derived views), 17 (intake from outside sources) |
-| 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
-| 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
-| 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
-| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines; CR-PRT-078, intake for the other layers) | 8 (the IFC translator), 17 (more sources) |
-| 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
+| 10 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
+| 21 Dec 2026 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-013 `parti-axi init`) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository), 14 (the Parti template) |
+| 6 Jan 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
+| 6 Jan 2027 | 0.2.0 (CR-PRT-076, derived views; CR-PRT-077, intake of finishes) | 16 (derived views), 17 (intake from outside sources) |
+| 4 Jan 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
+| 25 Jan 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
+| 5 Feb 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
+| 19 Feb 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines; CR-PRT-078, intake for the other layers) | 8 (the IFC translator), 17 (more sources) |
+| 8 Mar 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
 **To be finalised with Nai's orchestrator** (owner, 24 November 2026): how PRD-parti D34 to D39 meet Nai (the generic
 connectors, CloudEvents and `nairequestid`, the unwrapped payloads, the router and project pipelines, the Parti template,

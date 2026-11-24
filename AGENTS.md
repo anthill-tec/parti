@@ -17,7 +17,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 
 ## Identity & naming (registry: `.env` at the project root)
 - Project **Parti** · token `parti` · acronym `PRT` · owner `anthill-tec`.
-- Orchestrator label: `Mainline-parti` (mode: **multi**, from 2026-11-24, owner; mode-aware — solo `vidushi-<token>`, multi `Mainline-<token>`). Track orchestrators: `track1-parti` and `track2-parti` (Crucible own-run ids), each in its own Pi session. The CRs filed before the switch were filed as `vidushi-parti`.
+- Orchestrator label: `Mainline-parti` (mode: **multi**, from 2026-11-24, owner; mode-aware — solo `vidushi-<token>`, multi `Mainline-<token>`). Track orchestrators: `track1-parti` to `track4-parti` (Crucible own-run ids), each in its own Pi session; four Tracks from 0.1.0 (owner, 2026-11-24, for 1.0.0 by 31 March 2027; PRD-parti D33). The CRs filed before the switch were filed as `vidushi-parti`.
 - CR ids: `CR-PRT-NNN`. Crucible agentIds follow the stack client's agent-naming header — never improvised; see the `crucible` skill's Identity section.
 - Sandesh project: `Parti` (`SANDESH_PROJECT`; addresses `Mainline - Parti` / `Track <N> - Parti`).
 - Sandesh address: `SANDESH_ADDRESS` in `.env` is `Mainline - Parti`, loaded by direnv through `.envrc`; a Track launches with `env SANDESH_ADDRESS="Track <N> - Parti" pi`.
