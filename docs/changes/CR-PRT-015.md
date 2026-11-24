@@ -11,7 +11,7 @@
 ## Context
 
 The **Design** and **Quantities** tabs of the Project Environment (D22, storyboards 3 and 4): choosing a surface,
-dividing it into zones, placing finishes with their setting-out, schemes, undo, quantities, the setting, and the
+dividing it into zones, placing finishes with their setting-out, schemes, undo, quantities, the conditions, and the
 follow-ups after a building change. They render inside the shell (CR-PRT-021).
 
 ## Scope
@@ -38,7 +38,7 @@ manual) is chosen per placement; the drawing shows the grid at true scale and th
 A quantities panel per room and per finish: area in square feet, laid (full, cut), to buy, boxes, with the counting
 rule and exclusions shown under the numbers; wastage and rounding changeable as project settings.
 
-### §S4 Setting and follow-ups
+### §S4 Conditions and follow-ups
 
 Time, date and weather controls; a follow-ups list after a building change, each leading to its zone.
 
@@ -54,7 +54,7 @@ with a placement *Full at floor* / *Centred*, *Copy to another room*; on quantit
 - [ ] Typing a dado height of `4'` creates a band of 1219.2 mm (read back from the `design` query).
 - [ ] Placing a wall-only product on the floor shows the refusal `unsuitable-surface` on the zone, and the design is unchanged.
 - [ ] Saving a scheme, changing a placement, applying the scheme and pressing undo returns to the changed placement.
-- [ ] Setting the weather to rain in the page appears in the mock scene's status (with CR-PRT-016) and in `parti-axi state --query session`.
+- [ ] Changing the weather to rain in the page appears in the mock scene's status (with CR-PRT-016) and in `parti-axi state --query session`.
 - [ ] After re-importing the building without its floor, the follow-ups list shows the orphaned floor zones.
 - [ ] Choosing `full-start` at the bottom on the east wall shows a bottom cut of 0 mm in the drawing.
 - [ ] After placing a tile, the quantities panel shows laid and to-buy for the room equal to the `quantities` query's, with the counting rule beneath.

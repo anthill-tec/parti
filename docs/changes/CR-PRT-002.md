@@ -37,7 +37,7 @@ Command names: `import-building`, `define-zone`, `resize-zone`, `remove-zone`, `
 `save-scheme`, `apply-scheme`, `add-to-shortlist`, `remove-from-shortlist`, `undo`, `redo`, `select`, `set-time`,
 `set-weather` (`place-product` with an optional `setOut`; `add-to-shortlist` with an optional `target`). Event names: `building-revised`, `zone-defined`, `zone-resized`, `zone-removed`, `product-placed`,
 `zone-cleared`, `scheme-saved`, `scheme-applied`, `shortlisted`, `unshortlisted`, `selection-changed`,
-`setting-changed`, `follow-up-raised`, `follow-up-resolved`, `set-out-changed`. Query names: `building`, `surface`, `design`, `catalogue`,
+`conditions-changed`, `follow-up-raised`, `follow-up-resolved`, `set-out-changed`. Query names: `building`, `surface`, `design`, `catalogue`,
 `goes-with`, `shortlist`, `follow-ups`, `history`, `quantities`. Each payload's fields follow PRD-domain §2–§6.
 
 ### §S3a Registry-ready

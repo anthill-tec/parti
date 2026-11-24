@@ -1,8 +1,8 @@
 # PRD — The domain: building, design and catalogue (slice for 0.1.0)
 
-**Version:** 0.2 (reviewed; revised 24 November 2026)
+**Version:** 0.3 (reviewed; revised 24 November 2026)
 **Date:** 2026-11-23
-**Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-9 decided; §4 and §5–6 agreed; revised 24 November 2026 (finish kinds, setting-out and quantities, the record formats a project's own agent fills). Written for the slice release 0.1.0 needs (D23, `../Architecture.md`, Documents); it grows with each
+**Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-9 decided; §4 and §5–6 agreed; revised 24 November 2026 (finish kinds, setting-out and quantities, the record formats a project's own agent fills; the storyboard review: elements and labels, the product model (DM-10), the workflow slice (DM-11)). Written for the slice release 0.1.0 needs (D23, `../Architecture.md`, Documents); it grows with each
 release. Items marked **DM-n** are decisions for the owner; the text shows the recommended option.
 **Author:** Parti orchestrator (vidushi-parti), with the owner
 **Builds on:** `PRD-parti.md` (D17, D19, D22, D23, §4, Q9, Q11), `DN-ubiquitous-language.md`, `DN-test-strategy.md`
@@ -14,6 +14,8 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | Date | Change |
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
+| 2026-11-24 | From the storyboard review (owner): elements and labels (§2.1a); zones defined by a selection and labelled (§3.2); the product model and the classification (§4.4, DM-10, PRD-parti D32), so 0.1.0's finish records are structured as form, build-up, appearance and quantities; interaction events (§5, §7); the Workflow context's 0.1.0 slice (§11, DM-11); version 0.3. |
+| 2026-11-24 | "Setting" renamed "Conditions" (owner). |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
@@ -36,11 +38,12 @@ finishes, saves and reloads, and sets the time of day and the weather as state; 
 `parti-axi`, stored locally as JSON events. JohnnyHouse's four bathrooms are the first real data; the tests use
 synthetic buildings and products (NFR-10).
 
-This slice therefore covers four contexts in part (Building, Design, Catalogue, Session) and the setting of the world
+This slice therefore covers four contexts in part (Building, Design, Catalogue, Session) and the conditions of the world
 builder. It also covers the **setting-out** of each placement and the **quantities** it needs (owner, 24 November 2026), since placing a finish at
 true scale with a setting-out gives both the picture and the count (JohnnyHouse #1658). It leaves out: other layers
-than finishes, prices and cost estimates, offers and client bundles, the
-workflow, and the agent session (all later releases).
+than finishes, prices and cost estimates, offers and client bundles, and the agent session (all later releases).
+The **workflow** enters with a slice of its own (§11, DM-11; owner, 24 November 2026): the Design phase's steps drive the
+Project Environment's workspace until the project agent does.
 
 All terms are the glossary's. A term used here and not yet in the glossary is added to it with this PRD.
 
@@ -68,6 +71,20 @@ The building's base for the finishes layer: **rooms**, and the **surfaces** that
 - **Region:** a part of a surface marked by a fixed fitting or a moving part: **keep clear** (no tiles: behind a mirror, a cistern
   housing) or **tile behind** (tiled though covered: behind a vanity; the span a sliding door leaf travels over, since JohnnyHouse's
   bathroom leaves hang on the bathroom face of the wall). Regions affect layout and, later, quantities.
+
+### 2.1a Elements and their labels (owner, 24 November 2026; PRD-parti D31)
+
+An **element** is any bounded unit Parti identifies: a room, a surface, a zone, an opening, a region, a fitting, a
+feature, a product in the model, and later their **lesser primitives** (a product's parts and faces, a surface's pieces,
+each with an id under its parent). Each has a **label**: a name, a kind, an id and tags, which is what the pointer and a
+selection report (§7) and how the user and the agent speak of it.
+
+- **0.1.0:** the labels come from the declaration (ids, names, aliases, uses, CAD references, §2.4); zones are labelled
+  when defined (§3.2). Fittings the declaration names stay references.
+- **Later (with the CAD connection and the harness, D31):** the labels are populated early from the CAD model and the
+  drawings (CAD names and references, the drawings' labels); the project agent proposes labels and tags with its
+  labelling skill and the user confirms or renames them. The CAD model's objects are tagged as products by their class
+  (§4.4) as soon as the model is generated.
 
 ### 2.2 Identity and revisions (D17, D19)
 
@@ -202,6 +219,11 @@ designer works (a feature panel *on* a dado band) and keeps the geometry rectang
 *Alternative:* a strict partition (no overlaps at all; a panel splits the band into pieces), simpler to compute but
 awkward to edit.
 
+**Defining a zone** (owner, 24 November 2026): in the Design view, the user draws a selection on the surface (a
+rectangle select, or clicks on the cells of a grid) and defines the zone from it, or asks the agent to; the zone takes a
+**name** and **tags** (its label, §2.1a), set by the agent or by click-and-edit. A drawn zone is clickable: a click
+selects it, as an element.
+
 ### 3.3 Placements
 
 A **placement** puts one **product** (in 0.1.0, a finish) in one zone, with: laying pattern, grout width and colour,
@@ -224,6 +246,9 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
   out as everywhere (#1658 used the declaration's openings and regions unchanged).
 - **By kind:** a tile takes the pattern, grout, offset and rotation above; a wood veneer or laminate takes a grain
   direction (0 or 90 degrees) and an offset, no grout; a paint takes nothing more.
+- **Ways to place** (owner, 24 November 2026): a shortlisted finish is placed by telling the agent, by right-clicking
+  a zone or surface ("Apply from the shortlist"), by pointing, or on a selection of several zones at once (one placement
+  each, one step to undo). Each is the same `place product` command.
 - A zone holds at most one placement; placing again replaces it (the replaced placement stays in the history).
 - **Placements on parts come with the world builder** (DM-9, decided (owner, 23 November 2026)): a finish placed on a movable part (the
   louvre's slats, JohnnyHouse #1648) applies to every instance of the part, with its grain in the part's own frame so it
@@ -324,19 +349,72 @@ in Parti's code):
 | (finishes database, #1648) `finishes.ndjson`: kind, source, licence, scan, stain, sheen, Unreal assets | kind, source and licence, source scan, stain, sheen, asset references | a second source beside the tiles, translated by JohnnyHouse's orchestrator; ids `WV-`, `LM-`, `PT-` kept |
 | (missing) | **picture orientation** | `size_mm` does not say which way the swatch picture is laid (NW-021: 300 × 600, picture 1000 × 500 px, landscape). The library's catalogue build derives it from the picture's pixel size and records it; a record whose picture and size disagree beyond a tolerance is flagged (JohnnyHouse #1638). |
 
+### 4.2a Records structured by the product model (DM-10)
+
+From 0.1.0 a finish record is structured as the product model's parts (§4.4): **form** (size, thickness, whether the size
+includes the joint, pieces per box), **build-up** (the finish on its material: a veneer on its board, a glaze on its
+ceramic; one entry for a tile, a paint or an exposed material), **appearance** (colour, sheen, finish class, source scan
+and stain, effect, metallic and roughness, images, asset references) and **quantities** (the counting unit, pieces per
+box, coverage when known). The fields are those of §4.1 and the table above, grouped; the identity fields (id, kind,
+class, maker or source and licence, name, series, set, maker's code, suitable use and surfaces) stay at the top. The
+physical and interaction aspects come with the world builder.
+
 ### 4.3 Queries (FR-CAT-2, FR-CAT-3)
 
 Filter on: kind, licence, suitable use, surface, maker, main colour, colour strength, lightness, warm or cool, pattern, finish class,
 role in a set, size; free text on name, series and code; sorted round the colour wheel (with the colour-strength filter
 the prototype found necessary). "Goes with": the maker's set and pairs, and finishes of complementary colour.
+**Palette** (owner, 24 November 2026): a few colours, picked or taken from a scheme; a finish matches when its colour is
+near one of them, whatever its kind. Results can be narrowed to a **product class** (§4.4).
 
-## 5. Session (context) and the setting
+### 4.4 The product model and the classification (DM-10; PRD-parti D32; owner, 24 November 2026)
+
+**A product is its form, its build-up and its attributes by aspect.**
+
+- **Form:** its shape and dimensions.
+- **Build-up:** its materials, coatings and finishes in order from the core outwards (concrete, plaster, paint). The
+  outermost exposed one gives the rendered look; the whole build-up gives the physical facts and the quantities (an
+  unpainted plastered concrete column looks like its plaster and is as strong as its concrete). *Build-up*, not *layer*,
+  which names a product layer.
+- **Material:** what an element or a part is made of (teak, MDF, brick, concrete, granite, ceramic, glass, steel). Every
+  material carries its own properties (texture, colour, roughness, sheen; later density, fire class), which an element
+  made of it takes **by default, unless updated separately**: a finish placed on it, or a property changed on that
+  element, overrides the default there only. So assigning a material brings a default finish (natural, or *exposed*)
+  and its texture.
+- **Texture:** the image maps a renderer uses (colour, normal, roughness) with the real size they cover. A source scan
+  is one kind; a finish is a texture plus its stain (DM-8).
+- **Aspects:** sets of attributes each module reads: **appearance** (the renderers), **physical** (Unreal's world
+  physics), **quantities** (the bill of materials), **interaction** (motion, states, what can be picked up or opened).
+  One schema per aspect, shared by every product layer; attributes are **optional, with defaults**, so a static product
+  carries few physical attributes and an object one can pick up carries them all. Most state changes are updates of
+  these attributes.
+- **Applications only realise it:** a CAD material, a Blender or Unreal shader is its translator's realisation of the
+  material, finish and texture, kept linked by id (PRD-parti D29).
+- **Plain words** ("light UV-filtered pane glass", "red stainless-steel water bottle"), from the user, a drawing note or a
+  maker's sheet, are decomposed by the agent into these parts, with the library's decomposers (PRD-parti D21, D27), as
+  records the user confirms.
+
+**The product classification** (PRD-parti D32): one versioned tree of **product classes** in Parti's words. A class
+defines the attributes of each aspect, inherited down the tree; it drives the tagging of CAD objects (D31), the asset
+browser's tree and filters, the grouping of bills of materials by trade, the agent's context and search. Each class maps
+to an IFC entity type and predefined type (IFC 4.3, ISO 16739-1:2024; `IfcCovering` · `FLOORING`); attributes map to
+IFC property sets by a declared mapping; Uniclass 2015 or OmniClass codes may be carried as references. A new class is a
+change the owner approves. **0.1.0 ships the Finishes branch** (Finishes › Tile, Wood veneer, Laminate, Paint, Metal,
+Exposed, Glaze; mapped to `IfcCovering`), as data in the schema; materials beyond those the finishes name, and the
+other branches, grow with their layers.
+
+## 5. Session (context) and the conditions
 
 - **Session:** in 0.1.0 one participant (a user) and the mock scene. It holds the **selection** (a surface or a zone,
   picked in the page or in the mock scene; FR-SEL-1 to FR-SEL-3).
-- **Setting** (world builder, D18): time of day, date, place, weather (clear, overcast, rain). In 0.1.0 these are
+- **Conditions** (world builder, D18): time of day, date, place, weather (clear, overcast, rain). In 0.1.0 these are
   **state only**: set from the page or `parti-axi`, shared with the mock scene, stored with the session; nothing is
   rendered from them until the Unreal plugin exists.
+- **Interaction events** (owner, 24 November 2026; PRD-parti D29): a pointing, a selection or a clip in the page is an
+  event carrying its elements (ids, names, kinds, tags), the area, the world bounds, the CAD references, the view and
+  the step. It changes nothing in the design: it is held in the session as the shared context (for the workflow and,
+  later, the agent), outside the design's history, so undo and versions stay clean. Collecting it for telemetry comes
+  with Nai (D9).
 
 ## 6. Versioning in 0.1.0 (D19)
 
@@ -358,8 +436,10 @@ The schema (`schema` component) defines, versioned:
 
 | Kind | 0.1.0 messages |
 |---|---|
-| Commands | `import building`; `define zone`, `resize zone`, `remove zone`; `place product`, `clear zone`; `save scheme`, `apply scheme`; `add to shortlist`, `remove from shortlist`; `undo`, `redo`; `select`; `set time`, `set weather` |
-| Events | `building revised` (with its changes); `zone defined / resized / removed`; `product placed / cleared`; `scheme saved / applied`; `shortlisted / unshortlisted`; `selection changed`; `setting changed`; `follow-up raised / resolved` |
+| Commands | `import building`; `define zone`, `resize zone`, `remove zone`, `label zone`; `place product`, `clear zone`; `save scheme`, `apply scheme`; `add to shortlist`, `remove from shortlist`; `undo`, `redo`; `select`; `set time`, `set weather` |
+| Events | `building revised` (with its changes); `zone defined / resized / removed`; `product placed / cleared`; `scheme saved / applied`; `shortlisted / unshortlisted`; `selection changed`; `conditions changed`; `follow-up raised / resolved`; `zone labelled` |
+| Interaction events (`parti.interaction.*/1`) | `pointed`, `selected`, `clipped`: each with its elements, area, world bounds, CAD references, view and step (§5) |
+| Workflow (§11) | commands `start step`, `complete step`, `tick to-do`, `set focus`; events `step started / completed`, `to-do added / ticked`, `focus set`; the **workspace commands** (`show` a view or an editor, with its subject and title) and the asset browser's **signals** (`set filters`, `set palette`, `mark assets`, `note`) |
 | Queries | `building`, `surface`, `design` (whole or per room), `catalogue` (filtered), `goes with`, `shortlist`, `follow-ups`, `history` |
 
 Every command carries a command id and the expected revision; every event carries an id and a sequence number per
@@ -380,6 +460,7 @@ parti/
   building/declaration.json     written by the target project (§2.4)
   events/building.ndjson        building revisions (one JSON event per line)
   events/design.ndjson          the design's events
+  events/workflow.ndjson        the workflow run's events (§11)
   design.json                   snapshot of the current design: what Blender and other scripts read (FR-DES-3)
   shortlist.json                snapshot of the shortlist
 ```
@@ -398,10 +479,36 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 | DM-5 | Scheme scope | **Decided (owner, 23 November 2026):** per room in 0.1.0; across rooms later |
 | DM-7 | A face that is not one plane (a step where a column meets a wall) | **Decided (owner, 23 November 2026):** declare one flat rectangle at the main plane with optional `steps`; Parti warns on the zones and placements crossing a step; layout on stepped faces later |
 | DM-8 | A stained veneer | **Decided (owner, 23 November 2026):** a finish is a source scan plus its stain; the catalogue shows the stained look; one scan can back several finishes |
-| DM-9 | Placements on parts | **Decided (owner, 23 November 2026):** with the world builder; 0.1.0 places finishes on room surfaces only |
+| DM-9 | Placements on parts | **Decided (owner, 23 November 2026):** with the world builder; 0.1.0 places finishes on room surfaces only. Widened by PRD-parti D31 (owner, 24 November 2026): a product's parts and faces and a surface's pieces are addressable and take their own finish, with the CAD connection |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
+| DM-10 | Material, texture and the product model | **Decided (owner, 24 November 2026):** a product is its form, build-up and attributes by aspect (appearance, physical, quantities, interaction), optional with defaults; materials carry their own properties, taken by default unless updated separately; textures are the renderers' maps; 0.1.0's finish records are structured this way (§4.2a, §4.4) |
+| DM-11 | The workflow in 0.1.0 | **Decided (owner, 24 November 2026):** the Workflow context's slice of §11: a definition shipped with the template and an event-sourced run; the step drives the workspace until the agent does |
 
 ## 10. Requirements traced
 
 FR-MOD-1 to 3 (§2, §3.2), FR-DES-1 to 5 (§3), FR-CAT-1 to 6 (§3.3, §4), FR-SEL-1 to 3 (§5), FR-STA-1 to 3 (§5, §7),
-FR-AXI-4 and FR-AXI-5 (through §7), NFR-1, NFR-2, NFR-10 (§1, §4.2, §8), D17, D19 (§2.2, §6), Q9, Q11.
+FR-AXI-4 and FR-AXI-5 (through §7), NFR-1, NFR-2, NFR-10 (§1, §4.2, §8), D17, D19 (§2.2, §6), Q9, Q11;
+D22, D29, D31, D32 (§2.1a, §3.2, §4.4, §5, §7), D26, FR-WF-14, FR-WF-15 (§11).
+
+## 11. Workflow (context): the 0.1.0 slice (DM-11; owner, 24 November 2026)
+
+In 0.1.0 the workflow step drives the Project Environment's workspace (PRD-parti D22); the project agent takes over with
+the harness, issuing the same commands.
+
+- **Workflow definition:** data shipped with the project template (residential, single-family home, finishes; D30):
+  the seven phases (D26), and the Design phase's steps: **catalogue intake** (K1), **choose** (K10), **place and set
+  out** (K7, K8), **BOM** (K8), **trial in the walkthrough** (K12). Each step names its checklist and the view or editor it
+  opens in the workspace.
+- **Workflow run:** event-sourced like the rest: step started, step completed, to-do added, to-do ticked, and the
+  **focus** (room › surface) the step works on. Plan onboarding, Model and Declare show as done once the declaration is
+  imported.
+- **Checklist items** the domain can check are ticked by their check (a finish in every zone, no sliver cut under 50 mm,
+  the BOM stated with its counting rule); the rest by the user (FR-WF-15).
+- **The page:** in the workflow panel the user picks a step or completes it; its view or editor opens in the workspace,
+  titled by what it shows (*Design · Bath 1 › East wall*); selecting a surface sets the focus; the step *choose* opens
+  the asset browser filtered for its target (the browser's signals, §7).
+- **Workspace commands:** what to show (a view: the project, the BOM, the walkthrough; or an editor of what Parti owns:
+  labels and tags, zones and placements on a surface, the settings), for which subject, with its title. Never the
+  geometry, which stays in the CAD, Blender or Unreal.
+- **Rules:** **W-1** one step is active at a time; **W-2** a step completes only when its checklist's checked items pass,
+  or the user overrides with a caveat (D26); **W-3** the run's events append to their own log (§8).

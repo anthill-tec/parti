@@ -49,4 +49,4 @@ redo stack. Applying a scheme is undone in one step.
 
 ## Non-goals
 
-Schemes across rooms (later, DM-5); undo of building imports or setting changes.
+Schemes across rooms (later, DM-5); undo of building imports or of changes to the conditions.

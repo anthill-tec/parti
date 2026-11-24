@@ -1,4 +1,4 @@
-# CR-PRT-008 — Session and setting
+# CR-PRT-008 — Session and conditions
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
@@ -10,22 +10,22 @@
 
 ## Context
 
-The session holds what is selected and the world builder's setting (time, date, weather) as shared state; nothing is
-rendered from the setting until the Unreal plugin exists. The domain is pure (R1): plain functions over plain data, no input or output, no imports beyond `@parti/schema`.
+The session holds what is selected and the world builder's conditions (time, date, weather) as shared state; nothing is
+rendered from the conditions until the Unreal plugin exists. The domain is pure (R1): plain functions over plain data, no input or output, no imports beyond `@parti/schema`.
 
 ## Scope
 
 - `select` (a surface id, a zone id, or nothing) → `selection-changed`, refusing an unknown id with `unknown-target`
   (the building and design passed in as data).
 - `set-time` (date `YYYY-MM-DD`, time of day `HH:MM`) and `set-weather` (`clear` | `overcast` | `rain`) →
-  `setting-changed` with the whole setting. The place is the building's site (null when undeclared).
+  `conditions-changed` with all the conditions. The place is the building's site (null when undeclared).
 - `evolveSession` and `initialSession` (nothing selected; noon, today's date given by the caller, clear).
 
 ## Acceptance criteria
 
 - [ ] Selecting a surface, then a zone of it, then nothing, yields three `selection-changed` events and the final selection is empty.
 - [ ] Selecting `nope` is refused with `unknown-target`.
-- [ ] `set-time` with `25:00` is refused with `invalid-value`; `set-weather` `rain` gives a setting with `weather: "rain"` and the earlier time kept.
+- [ ] `set-time` with `25:00` is refused with `invalid-value`; `set-weather` `rain` gives conditions with `weather: "rain"` and the earlier time kept.
 - [ ] Caller-existence: `decideSession` is called from `packages/gateway/src` (reviewed at CR-PRT-012 VERIFY).
 
 ## Estimated size
@@ -34,4 +34,4 @@ rendered from the setting until the Unreal plugin exists. The domain is pure (R1
 
 ## Non-goals
 
-Several participants, agents joining a session (later, D16); rendering the setting (Unreal plugin).
+Several participants, agents joining a session (later, D16); rendering the conditions (Unreal plugin).

@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). The architecture and features for 1.0.0 are covered (owner, 24 November 2026). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates); updated from the storyboard review for D22's interaction model, D29's event stream, D31 (products classified in the model) and D32 (the product classification). The architecture and features for 1.0.0 are covered (owner, 24 November 2026). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -58,19 +58,28 @@ The business model in the glossary's language. Nothing in Part A names a technol
 Every name in Part A is the glossary's (`research/DN-ubiquitous-language.md`): one meaning each, shared with the
 architects, designers and users. The system's own technical vocabulary is Part B's (B8).
 
+**The language is the schema** (owner, 24 November 2026). Every glossary term that is data names a type or a field of
+the schema, so plain words are translated into glossary terms and the terms into schema records, validated before
+they are stored: "light UV-filtered pane glass" becomes a product of a class, with a form, a build-up and attributes by
+aspect. Search is then fast and structured (by class, by attribute), and by meaning later, with embeddings in the
+knowledge base. The agent breaks words into records with its skills and the library's decomposers (D21, D27), not by
+reasoning it all out, to stay context- and token-efficient. The **product classification** (D32), one versioned tree of
+product classes in Parti's words, each mapped to an IFC entity type, is the backbone the catalogue, the tagging of the
+model, the asset browser and the bills of materials hang on.
+
 ## A2. Bounded contexts
 
 Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the architecture review, D17, D18).
 
 | Context | Aggregates and main data | Commands (examples) | Publishes |
 |---|---|---|---|
-| **Workflow** (frames the others) | Workflow definition (versioned data): phases, step definitions of twelve step kinds with their checks, caveats and invalidated-by edges, gates of four kinds. Workflow run (per target project): step runs with their to-dos, check results, corrections, decisions, variants, step records (D26, FR-WF-15) | start step; record check; pass gate; record decision; add, tick to-do; raise, resolve correction; branch, choose variant; checkpoint | step started / checked / completed / stale; correction raised / resolved; decision recorded |
-| **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
-| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
-| **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
+| **Workflow** (frames the others) | Workflow definition (versioned data): phases, step definitions of twelve step kinds with their checks, caveats and invalidated-by edges, gates of four kinds. Workflow run (per target project): step runs with their to-dos, check results, corrections, decisions, variants, step records (D26, FR-WF-15) | start step; record check; pass gate; record decision; add, tick to-do; raise, resolve correction; branch, choose variant; checkpoint; set focus; show (a workspace command: a view or an editor, its subject and title) | step started / checked / completed / stale; correction raised / resolved; decision recorded; focus set; shown |
+| **Building** | Building: levels, rooms, elements, surfaces; each element's label (name, kind, id, tags), its 3D object and 2D drawing elements; the lesser primitives (a product's parts and faces, a surface's pieces) addressable under their parent (D31) | declare, revise, retire element or surface; label, tag element | element declared / revised / retired / labelled |
+| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …, defined from a selection and labelled); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
+| **Catalogue** | Product (per layer): its class, form, build-up and attributes by aspect (appearance, physical, quantities, interaction); material; texture; maker; set; matching facts (colour, suitable use); the product classification (D32) | (queries) filter, search, "goes with", by class, by palette; classify | product added / changed / withdrawn; class added |
 | **Quantities** (computational module) | The engine behind every product layer's bills of materials (construction, finishes, lighting, furnishing, plumbing, appliances, D30): quantities per plan; bill of materials per work-contract role; estimates later | (queries) quantities, bill of materials | — (derived from plans) |
-| **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
-| **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
+| **World builder** (module) | Scenario: conditions (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | conditions changed; scenario changed |
+| **Session** | Session: participants (users and agents), selection, viewpoint, the shared context of interaction events (D29) | join, leave; select element / surface / zone / group; clear selection; point; clip | participant joined / left; selection changed; pointed, selected, clipped (interaction events) |
 | **Asset delivery** | Mapping from a product to what a scene can draw; the client bundle, per client project and revision (D22) | prepare product for a scene | product ready / failed |
 | **Identity** (service stage) | Users, access | — | — |
 
@@ -169,7 +178,7 @@ How Parti is built and run: the technical components are defined here, not in Pa
 | `domain` | TypeScript | `schema` types only | One module per context. No imports from anything else in the repository. |
 | `gateway` | Bun | `domain`, `schema`, ports | Serves the page; holds the WebSocket links; runs commands through the domain; stores events through the design store; fans events out. |
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
-| `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, the **Parti Project Environment**: the **guided chat** with the project agent (through the harness, D21; it follows the embedded workflow and guides the design workflow) beside the workflow view, the **asset browser** (0.1.0: the catalogue browser, detail and shortlist), the zone editor and the setting controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
+| `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, the **Parti Project Environment**: the **guided chat** with the project agent (through the harness, D21; it follows the embedded workflow and guides the design workflow) beside the workflow view, the **asset browser** (0.1.0: the catalogue browser, detail and shortlist), the zone editor and the conditions controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
 | `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, including the Nai agents (D29), MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.connectors` (the bus subscribers per application, D29); `parti.converters` (plan onboarding: incoming designs into Parti's metadata, D26); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
 | `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
@@ -203,6 +212,15 @@ ways. Events from the applications (a pick, a CAD revision) come back through th
 needs judgment goes through the harness's agent loop and the applications' MCP servers (D21) instead. In 0.1.0 the
 gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (B6).
 
+**Events both ways** (owner, 24 November 2026; D29). The backend's event stream is the agent's context, and the agent's
+actions return the same way, as commands whose events every panel shows. Every click is an event, routed to the agents
+and to telemetry; the user's actions on the context shared with the agent and with the 2D tools (pointing, selecting,
+clipping) are **interaction events** carrying their elements (ids, names, kinds, tags), the area, the world bounds, the
+CAD references, the view and the step (`parti.interaction.*/1`). **Design events** change the design and go into its
+history and versions; interaction events change nothing in the design and feed only the context and telemetry, so undo
+and versions stay clean. The workspace is driven the same way: the workflow step (0.1.0), later the agent, issues
+**workspace commands** (what to show, its subject, its title), which the page obeys.
+
 ## B5. Where things run, by stage, and the editions
 
 | Stage | Page | Gateway and domain | Stores | Scene |
@@ -228,7 +246,7 @@ the rules are never copied.
 | Building | Authoring | Read only, from the bundle |
 | Design | Everything, including curating offers | Apply and compare the offered options |
 | Catalogue | Every product, search | Only the offered products, in the bundle |
-| World builder | Authoring scenarios, setting, site | The walkthrough: navigation, scenarios, VR |
+| World builder | Authoring scenarios, conditions, site | The walkthrough: navigation, scenarios, VR |
 | Renders | Made in the Blender part of the pipeline | Pre-rendered stills and films, in the bundle |
 | Page (one page, D1) | Every data library; overlay or browser tab | Only the offered options, as a 2D panel rendered in the 3D world; VR interaction first; loaded from the bundle (PRD T1). Smart menus at the zone pointed at apply its bundled options in place |
 | Data | Target project files; later Nai and EntityStore | Its client bundle: a filesystem package (offline), or served by Nai as a client server (online, Stage D) |
@@ -307,6 +325,12 @@ SolidCraft ────┘                                                      
 Inverse:  Parti runtime ─► EntityStore (CDC) ─► Nai ─► DSL transform ─► sink WebSockets (RPC) ─► Unreal plugin, Blender, SolidCraft
 ```
 
+**IFC through Nai** (owner, 24 November 2026; D32). Parti's objects transform to and from IFC-based objects (IFC 4.3,
+ISO 16739-1:2024) through an **IFC translator** Nai provides, built by Nai's team from Parti's request
+(`research/DN-nai-readiness.md` §5): each product class maps to an IFC entity type and Parti's attributes to IFC property
+sets by a declared mapping, so external systems (BIM tools, structural and services models, cost estimating, facility
+management) connect without Parti's model taking IFC's shape.
+
 Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
 (R5, R6), so they map onto Nai's events directly, with no translation of meaning.
 
@@ -355,13 +379,32 @@ architects, designers or users.
 ## B9. The user interface: the Project Environment
 
 The designer edition's main interface (D22), opened in the browser once a project is scaffolded (`parti-axi open`)
-and the architect's or designer's workspace until the Unreal walkthrough joins it. At its centre the **guided chat**,
-which follows the embedded workflow (A6) and guides the design, with **suggestions** at every point; around it the
-**workflow rail** (phases, steps, to-dos) and the workspace tabs: the **asset browser**, the **design workspace**,
-**quantities**, the **walkthrough**, **views**, **offers** and the **project** (plan onboarding, sources, settings). The
-layout and components are fixed as storyboards reviewed with the owner before the page's specifications are locked;
-0.1.0 builds the shell, the asset browser's first form, the design workspace, quantities and the mock walkthrough
-(CR-PRT-021, CR-PRT-014 to CR-PRT-016). The client viewer's in-world panel is B5's.
+and the architect's or designer's workspace until the Unreal walkthrough joins it. Its layout and interactions were
+reviewed as storyboards with the owner (24 November 2026; D22):
+
+- **Panels.** The **workflow panel** on the left (phases, steps, to-dos; actionable), the **workspace** in the middle,
+  the **guided chat** on the right (following the embedded workflow, A6, with **suggestions** at every point), and the
+  **asset browser** docked at the bottom. Every panel resizes, minimises, maximises, undocks and attaches again at any
+  edge; the layout is kept per user; the asset browser can be detached to its own window.
+- **The workspace has no tabs.** It is a viewport commanded by the workflow step in 0.1.0 and by the project agent later
+  (B4, workspace commands): it shows a **view** (the project, the BOM, the walkthrough, offers) or an **editor** of what
+  Parti owns (labels and tags, zones and placements on a surface, Settings), titled by what it shows (*Design · Bath 1 ›
+  East wall*). The project opens first.
+- **The asset browser:** a tree of the product classes (D32) scoped to the agent's context, with "show all classes"; a
+  filter bar (search, palette, a drop-down per filter); results with their path, count and sorts; a detail with
+  "goes with" and the shortlist; the agent's signals (filters, palette, marked assets, a note).
+- **The 2D tools** on every 2D display: pointer, select, rectangle select, rectangle clip, tag. The pointer and selection
+  are the real-life analogue of pointing at a drawing, a 2D bridge to the 3D model: each point or selection names its
+  elements in its interaction event (B4). A selection takes a placement, defines and labels a zone, or is clipped into
+  the chat.
+- **Settings** (⚙): the project, units and display, world defaults, design defaults, backend connections, the agent and
+  skills, layout, telemetry; kept in `parti.toml`, secrets only in the environment.
+- **The guiding rule:** Parti augments the CAD, Blender and Unreal with easier, assisted interactions and never
+  duplicates their editing; the geometry stays in them.
+
+0.1.0 builds the shell and its workspace driven by the workflow (CR-PRT-021, CR-PRT-022), the asset browser
+(CR-PRT-014), the surface editor and the BOM (CR-PRT-015), the mock walkthrough (CR-PRT-016) and Settings (CR-PRT-023).
+The client viewer's in-world panel is B5's.
 
 ## Documents
 
