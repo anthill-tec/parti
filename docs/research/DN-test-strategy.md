@@ -49,3 +49,20 @@ tagged accordingly.
 Unit, module, integration and the contract tests, on every push to `develop` and every pull request (the release
 workflow's test jobs). E2E runs in CI once a browser is provisioned there. Live application tests and model
 evaluations run on a workstation and report to Crucible.
+
+## Updates (24 November 2026)
+
+- **Layout and runs** (CR-PRT-001, the owner's rulings): Bun tests in `packages/<name>/test/<tier>/`, run per tier by
+  the root scripts `test:<tier>`; Python tests **tier first**, `tests/<tier>/{parti_tests,parti_axi_tests}/`, run per tier
+  with `python-crucible.py <tier> --start-dir tests/<tier>`; no test folder shares an installed package's import name.
+  Python 3.14 only.
+- **The e2e tier** is set up by its first CR (CR-PRT-017), not before.
+- **Live tests** are tagged in code (`parti.testing.live` in Python, `live(...)` in Bun) and run only with `PARTI_LIVE=1`;
+  CI never sets it. They use the real applications (SolidCraft, Blender headless, Unreal) and a target project's files
+  read in place (JohnnyHouse, the test bed), never committed.
+- **Rust** (from 0.2.0, the SolidCraft plugin, PRD-parti D34): unit and module tests through Crucible's Rust client
+  (CR-PRT-073); the plugin against a real SolidCraft is a live test.
+- **The router and project pipelines** (D38, D39) are tested with Nai's own `nai check` and `nai test` (scenarios of
+  events in and out); reporting them to Crucible is asked of Nai (DN-nai-readiness §5, item 13).
+- **The endpoints** (D35): each is contract-tested in CI with CloudEvents in and out against its endpoint definition;
+  through a running Nai it is a live test.

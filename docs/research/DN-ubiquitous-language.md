@@ -43,6 +43,10 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Label | An element's name, kind and tags; labelling is how elements are defined. Populated early from the CAD model and the drawings, proposed by the project agent, confirmed by the user (D31). | Building |
 | Surface | A face of a room that can take a finish (a wall face, a floor), declared from inside the room. One wall or slab may carry faces of several rooms, so a surface is never just one CAD object. | Building |
 | World scale | The real size of the building. Parti keeps every length at world scale (1:1) in millimetres; each system it works with (CAD, Blender, Unreal, a printed model, the map) has its own declared units and scale. | — |
+| Drawing sheet | One page of the architect's drawings (a plan, an elevation, a section), registered as a source and calibrated from a known dimension before anything is read from it (D25, D33). | Workflow |
+| Data table | The project's numbers a model is built from: levels, the wall set-out, slabs, openings and named parameters, read from the sources; a model is generated from its data tables, never edited by hand (D33). | Workflow |
+| Feature group | The bodies one build step makes from the data tables (the walls of a level, the slabs), built, checked and checkpointed together. | Workflow |
+| Model inventory | What the CAD model holds, read from the running CAD application: its bodies, components, part properties, materials with their looks, and faces; read again when the model's revision moves (`parti.model/1`, D33). | Building |
 | Calibration | Setting a working model's scale from a known dimension ("this door is 2100 mm"); the same dimension is re-checked on every import and export. | Workflow |
 | Display units | How a quantity is shown to the user, by kind: areas in square feet, room dimensions in feet and inches, components in millimetres; in bills of materials and estimates, square and running feet, SI for the rest (kg, litres, metres), pieces and boxes. Parti always stores millimetres. | — |
 | Interactive tool | A tool the user handles in the Unreal world: pick and select, smart menu, compare, operate a moving part, navigate, measuring tape, conditions controls, notes, guide. | World builder |
@@ -200,3 +204,4 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | 2026-11-24 | Added Product class (D32); Form, Material, Build-up, Texture, Aspect (DM-10); Finish, Source scan reworded. |
 | 2026-11-24 | Added Workspace, Workspace command, View, Editor, Interaction event, Clip, Palette; Project Environment, Asset browser, Selection, Pointer, Bill of materials (BOM) sharpened (D22). |
 | 2026-11-24 | Rule 7: the language is the schema. |
+| 2026-11-24 | Added Drawing sheet, Data table, Feature group and Model inventory (the building from CAD, D33; CR-PRT-003's gap analysis); Asset browser restated as the central feature (D40). |
