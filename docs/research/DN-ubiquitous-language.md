@@ -92,7 +92,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
-| Client viewer | Parti for the building's owner: a self-contained walkthrough viewer with the offered options, on Windows or Linux. | — |
+| Consumer | A person who consumes a project's deliverables, above all the walkthrough with or without VR: a home buyer, a business buyer, or the client who commissioned the project (D28). | — |
+| Client viewer | Parti for the consumer: a self-contained walkthrough viewer, on a monitor or in VR, with the offered options, on Windows or Linux. | — |
 | Smart menu | In the client viewer, a menu that opens in the 3D world at the zone or element the client points at, listing only its offered options; choosing one applies it at once. | World builder |
 | UI helper | The client viewer's limited agent: it helps the client search and apply offered sets (tile sets, interior sets), and does nothing the client could not do. | Session |
 | Offer | What the designer lets the client decide, per zone or element: a set of options with a default. | Design |
@@ -158,3 +159,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | Added Setting-out, Module, Counting rule; Shortlist with targets; Finish kinds exposed and glaze. |
 | 2026-11-24 | D26: Step narrowed to a unit within a phase; Gate gains its kinds; Checkpoint distinguished from the harness's state; added Workflow definition, Workflow run, Phase, Step kind, Step cycle, Check, Check result, Caveat, Decision, Pointer, Correction, Audit, Variant, Step record. |
 | 2026-11-24 | Added Project agent (D28). |
+| 2026-11-24 | Added Consumer; Client viewer is the consumer's (D28). |

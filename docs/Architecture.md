@@ -23,6 +23,7 @@ ships a harness of its own (D21).
 | Parti | the domain model and its formats; the workflow (D26); the `parti` library, its tools and translators (D27); the harness (D21); `parti-axi`; the skills and agent definitions; the finish tool, the world builder, the client viewer |
 | The project agent | the project's translation into Parti's formats; its rules and data tables; the steps particular to the project, as extensions of the step kinds |
 | The architect or interior designer | intent, in their own terms: pointing at things, choosing among options, stating rules, approving at the gates |
+| The consumer (home buyer, business buyer, the commissioning client) | nothing to build: they experience the deliverables, the walkthrough with or without VR, the stills and films, and choose among the options offered, in the client viewer (D22) |
 
 At its centre Parti is a guided workflow, installed into a *target project* (a project that owns a building model), that
 takes a building from the architect's drawings to a CAD model, a rendered Blender scene and an Unreal
