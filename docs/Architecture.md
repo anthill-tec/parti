@@ -15,7 +15,8 @@ Parti is an **ecosystem in which architects and interior designers create their 
 Parti provides the coding and logical framework; the **project agent** (the orchestrator agent in each target project)
 concentrates on the project's own logic (translating its data into Parti's formats, its rules, its own steps); and the
 architects and designers, domain experts rather than programmers, work in their own terms and are never asked to write
-code, data or commands.
+code, data or commands. The project agent hides the programming and scripting from them, which is one of the reasons Parti
+ships a harness of its own (D21).
 
 | Who | Provides |
 |---|---|
