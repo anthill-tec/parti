@@ -180,7 +180,7 @@ How Parti is built and run: the technical components are defined here, not in Pa
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
 | `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, the **Parti Project Environment**: the **guided chat** with the project agent (through the harness, D21; it follows the embedded workflow and guides the design workflow) beside the workflow view, the **asset browser** (0.1.0: the catalogue browser, detail and shortlist), the zone editor and the conditions controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
-| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, including the Nai agents (D29), MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.connectors` (the bus subscribers per application, D29); `parti.converters` (plan onboarding: incoming designs into Parti's metadata, D26); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
+| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, including the Nai agents (D29), MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.converters` (plan onboarding: incoming designs into Parti's metadata, D26); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
 | `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `client-viewer` | Unreal (packaged app) | its client bundle only | Deferred until after 1.0.0 (D22, D23). Self-contained walkthrough viewer (monitor or VR) with the offered options, stills and films; Windows and Linux; built and downloaded from the designer edition. Licence first (PRD Q12). |
 | `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
@@ -205,10 +205,13 @@ Assigning a finish, version one:
 The same path serves the CLI: `parti-axi` sends the command and prints the events or the refusal.
 
 **The message bus and the applications (D29).** The fan-out of step 4 is the bus. Per application (SolidCraft,
-Blender, Unreal Engine) a **connector** subscribes to it and applies what it can apply deterministically, with no agent
-and no tokens: a placement changed sets the material on the faces tagged with that surface's id. Each application's
+Blender, Unreal Engine) a pair of **connectors**, a source (the application's events into the bus) and a sink (the
+bus's events into the application), carries the events both ways; the **Nai project writes every connector**, for the
+applications and for Parti's own side alike (D34). Inside the application, its own piece (Parti's SolidCraft plugin, the
+Unreal plugin, Blender's add-on) applies what it can apply deterministically, with no agent and no tokens: a placement
+changed sets the material on the faces tagged with that surface's id. Each application's
 objects carry Parti's ids (a CAD attribute, a Blender custom property, an Unreal actor tag), so references resolve both
-ways. Events from the applications (a pick, a CAD revision) come back through the connector as commands. Work that
+ways. Events from the applications (a pick, a CAD revision) come back through the source connector as commands. Work that
 needs judgment goes through the harness's agent loop and the applications' MCP servers (D21) instead. In 0.1.0 the
 gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (B6).
 
@@ -297,9 +300,10 @@ agent). The same mechanism can carry Parti's backend itself, written in Nai's DS
 where required (owner, 24 November 2026): one such place is the messaging between the Bun gateway and the Python
 harness, two separate processes, which can be directed through Nai once both exist; until then the harness uses the
 gateway's agent API over WebSocket directly. Parti's components reach Nai through **connectors built for them on Nai's
-Rust connector SDK** (Nai's gRPC bridge is for connectors): a WebSocket connector for the gateway and the plugins, and
-a connector for the harness process; they live in Nai's ecosystem, built by Nai's team from Parti's requests
-(`research/DN-nai-readiness.md`). The inverse runs the same way: Parti's events enter Nai, are transformed into
+Rust connector SDK** (Nai's gRPC bridge is for connectors), each a **source and a sink**: for the gateway, for the
+harness process, and for each application (SolidCraft first, D34). They live in Nai's ecosystem and are **written
+entirely by the Nai project** from Parti's requests (`research/DN-nai-readiness.md`); Parti writes no connector, and
+specifies only the messages. The inverse runs the same way: Parti's events enter Nai, are transformed into
 each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
@@ -373,7 +377,7 @@ architects, designers or users.
 | Parti library (SDK) | The `parti` Python package (D27) that target projects import: the workflow, the harness and the tools. |
 | Message bus | The channel the domain's events travel on, to the page, the scene and the applications' connectors (D29). The gateway in version one; Nai later. |
 | Nai agent | A specialised agent in the harness that configures Nai's connectors and updates its DSL in a closed loop, using Nai's REST interfaces to inspect events (D29). |
-| Connector | A bus subscriber for one application that applies events deterministically and returns the application's events as commands (D29). |
+| Connector | Nai's link between the bus and one system (an application, the gateway, the harness), as a pair: a source carries the system's events into the bus, a sink carries the bus's events to it. Written entirely by the Nai project (D29, D34). |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
 
 ## B9. The user interface: the Project Environment

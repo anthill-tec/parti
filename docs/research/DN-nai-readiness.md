@@ -44,13 +44,13 @@ to Nai through it directly: they talk to the connectors that are built for them.
 
 ## 3. What follows (owner, 24 November 2026)
 
-- **New connectors for Parti's backend components, on Nai's Rust connector SDK:** a **WebSocket connector** for the
-  Bun gateway (and for the applications' plugins), and a connector for the **Python executable that contains the
-  agentic harness**. The inter-process messaging between the gateway and the harness then runs through Nai.
-- **They are built in Nai's ecosystem** (`ecosystem/nai_connector_parti_*`), by Nai's team, from Parti's specifications
-  sent as requests (CReqs); Parti consumes them. Parti stays Bun and Python, with no Rust stack of its own.
-- **SolidCraft too** (owner, 24 November 2026; PRD-parti D34): a SolidCraft connector (a Rust process joining the
-  running application to the bus), built by Nai's team as a CReq. The SolidCraft plugin inside the application is Parti's
+- **New connectors for Parti's backend components, on Nai's Rust connector SDK, each a source and a sink** (owner,
+  24 November 2026): a **WebSocket** pair for the Bun gateway (and for the applications' plugins), and a pair for the
+  **Python executable that contains the agentic harness**. The inter-process messaging between the gateway and the harness then runs through Nai.
+- **They are built in Nai's ecosystem** (`ecosystem/nai_connector_parti_*`), **entirely by the Nai project**, from
+  Parti's specifications sent as requests (CReqs); Parti writes no connector, and consumes them. Parti stays Bun and Python, with no Rust stack of its own.
+- **SolidCraft too** (owner, 24 November 2026; PRD-parti D34): a SolidCraft source and sink, so events flow to and
+  from the running application, written by the Nai project as a CReq. The SolidCraft plugin inside the application is Parti's
   own (Rust, in 0.2.0).
 - **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its connector.
 
@@ -84,8 +84,8 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 
 The items:
 
-1. Parti's connectors as CReqs: the WebSocket connector (server side, bidirectional, per-system RPC endpoint
-   definitions), and the harness process connector; their timing.
+1. Parti's connectors as CReqs, each a source and a sink: the WebSocket pair (server side, per-system RPC endpoint
+   definitions) for the gateway, and the pair for the harness process; their timing.
 2. Whether connectors and pipelines can be created and changed at runtime through an API, and the REST interfaces to
    inspect events; their paths.
 3. Measured latency for V1 and V2, or help to measure it.
@@ -105,8 +105,9 @@ The items:
 11. **The Unreal plugin on the bus** (0.4.0): the WebSocket connector's per-system RPC endpoints serving an Unreal
     plugin (picks and walkthrough events in, scene changes out), with the plugin's message shapes registered.
 
-12. **The SolidCraft connector** (0.1.0; PRD-parti D34): a Rust process on Nai's connector SDK joining SolidCraft's
-    running application (its MCP server or its control connection) to the bus: Parti's commands in (command batches, reads, snapshots), and the
-    application's events out (the design's revision moving, the selection, the view), registered as Parti's schemas.
+12. **The SolidCraft connectors** (0.1.0; PRD-parti D34): a source and a sink on Nai's connector SDK, joined to the
+    running SolidCraft (its MCP server or its control connection): the sink carries Parti's commands in (command
+    batches, reads, snapshots), the source carries the application's events out (the design's revision moving, the
+    selection, the view), registered as Parti's schemas.
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).

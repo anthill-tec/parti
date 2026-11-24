@@ -49,8 +49,8 @@ each built with `uv_build` (a pinned version range) and declaring its licence fi
   depending on `parti`). `parti-axi --version` prints the package version; with no arguments it prints its usage and
   exits 0; an unknown option prints an error and exits 2.
 
-Architecture B3's `parti.connectors`, `parti.converters` and `parti.templates` come with the CRs that need them (Nai
-integration in 0.1.0, the format converters in 0.6.0, templates in 0.5.0).
+Architecture B3's `parti.converters` and `parti.templates` come with the CRs that need them (the format converters in
+0.6.0, templates in 0.5.0). There is no `parti.connectors`: the Nai project writes every connector (PRD-parti D34).
 
 **Python 3.14 only** (owner, 2026-11-24): `.python-version` holds `3.14` and both packages declare
 `requires-python = ">=3.14"`; Parti claims only the version it tests.
