@@ -55,7 +55,9 @@ to Nai through it directly: they talk to the connectors that are built for them.
   the request and reply pairs, their schemas).
 - **Every message is a CloudEvent 1.0** in structured JSON mode, over the WebSocket subprotocol `cloudevents.json`;
   commands are request and reply CloudEvents correlated by the request's id, as the request-reply connector does; each
-  `dataschema` names a JSON Schema 2020-12 registered in Nai's registry. This builds on what Nai already has (§2).
+  `dataschema` names a JSON Schema 2020-12 registered in Nai's registry. This builds on what Nai already has (§2). **The connectors unwrap the payload** (owner, 24 November 2026): the source decodes `data` against its schema into
+  Nai's typed payload (`NaiRecord`) and keeps the envelope as the `StreamEvent`'s attributes and extensions, so the DSL
+  routes and transforms on the payload's fields; the sink wraps it back into a CloudEvent.
 - **The connectors are written entirely by the Nai project** (`ecosystem/nai_connector_*`), from Parti's requests
   (CReqs); Parti writes no connector. Parti writes the schemas, the endpoint definitions and its endpoints (the
   gateway, the harness, the plugins); its Rust is only the SolidCraft plugin, from 0.2.0.
@@ -95,7 +97,9 @@ The items:
 1. **One generic WebSocket source and one generic WebSocket sink**, as CReqs (PRD-parti D35): clients that connect to
    endpoints the systems serve, configured towards each endpoint by TOML and the endpoint's AsyncAPI 3.0 definition in
    JSON; CloudEvents 1.0 structured JSON over the subprotocol `cloudevents.json`; request and reply CloudEvents
-   correlated by the request's id; reconnection and resumption when an endpoint restarts. The existing WebSocket client
+   correlated by the request's id; the source **unwrapping each CloudEvent's `data`** into a `NaiRecord` decoded against
+   its `dataschema` (the envelope kept as the event's attributes), and the sink wrapping it again; reconnection and
+   resumption when an endpoint restarts. The existing WebSocket client
    (`run_websocket`) moved onto the connector SDK may be their start. First endpoints: Parti's gateway and harness.
 2. Whether connectors and pipelines can be created and changed at runtime through an API, and the REST interfaces to
    inspect events; their paths.
