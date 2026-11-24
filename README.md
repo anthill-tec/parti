@@ -8,7 +8,8 @@ an AI agent together.**
 
 > **Status: design stage.** The architecture (22 November 2026) and the domain PRD for 0.1.0 (23 November) are
 > reviewed; the workflow's shape, the `parti` library and the ecosystem were decided on 24 November (D26 to D30).
-> The change requests for 0.1.0 are in review. There is no application code yet, and nothing is released.
+> The roadmap to 1.0.0 was approved on 24 November ([PRD-parti D33](docs/research/PRD-parti.md)) and its change
+> requests are filed; the first are in their design checks. There is no application code yet, and nothing is released.
 
 ---
 
@@ -30,7 +31,7 @@ Parti comes in two editions built from one domain: the **designer edition**, the
 interior designers, and the **client viewer**, a self-contained walkthrough viewer (monitor or VR) that the designer
 builds and hands to the consumer, packaged with that project's options, stills and films.
 
-Its first major feature is the **finish tool**. You point at a wall, a floor or part of one in the
+At its heart is the **finish tool**. You point at a wall, a floor or part of one in the
 walkthrough, browse a catalogue of finishes (tiles, wood veneers, laminates, paints, metals and more), set them out
 as a tiler would and count what to buy, apply one, and change the time of
 day and the weather. The page and the 3D scene always show the same state.
@@ -38,7 +39,7 @@ day and the weather. The page and the 3D scene always show the same state.
 Parti grew out of **JohnnyHouse**, a house project where the whole path (drawings → parametric CAD model →
 Blender stills and films → Unreal walkthrough) was first worked out by hand, with one-off scripts. Parti
 turns that path into a product: a guided workflow, plus the maintained toolbase that replaces the scripts.
-JohnnyHouse is its first user.
+JohnnyHouse is its first user, and the test bed for Parti's library.
 
 ## The ideas it is built on
 
@@ -62,8 +63,8 @@ JohnnyHouse is its first user.
 ```text
  page (VanJS) ─┐                       ┌──────────────── gateway (Bun) ───────────────┐
  scene adapter ┼── WebSocket ─────────▶│ adapters in → pure TypeScript domain → ports │──▶ local files
- parti-axi ────┤                       │ (Building · Design · Catalogue · Quantities  │    (later: EntityStore,
- agent (AXI) ──┘                       │  · World builder · Session · Workflow)       │     Nai)
+ parti-axi ────┤                       │ (Building · Design · Catalogue · Quantities  │    (or EntityStore
+ agent (AXI) ──┘                       │  · World builder · Session · Workflow)       │     or Nai)
                                        └──────────────────────────────────────────────┘
 ```
 
@@ -71,23 +72,26 @@ JohnnyHouse is its first user.
   (`decide(state, command) → events`, `evolve(state, event) → state`), with no input or output and no
   library calls. Every outside system (Unreal, the page, makers' catalogues, files, the CAD and rendering
   applications) is reached through its own translator.
-- **Local first, Nai next.** The designer edition runs on Linux first (on Windows in a container or under WSL2);
-  the client viewer runs on Windows and Linux. 0.1.0 is local (the gateway is the message bus, events are JSON
-  files). Nai (the owner's streaming runtime, as the message bus) and EntityStore (system of record, with change data
-  capture) arrive with the first release that connects a real application; retrieval (RAG) and the knowledge base
-  move to Nai as soon as the agent harness exists. Only the adapters change.
+- **Nai as the message bus, local adapters behind the same ports.** The designer edition runs on Linux first (on
+  Windows in a container or under WSL2); the client viewer runs on Windows and Linux. Nai (the owner's streaming
+  runtime) carries the messages between the gateway, the agent harness and the applications, and EntityStore is the
+  system of record, with change data capture; retrieval (RAG) and the knowledge base move to Nai too. Local adapters
+  (the gateway as the bus, events as JSON files) stay behind the same ports, for offline work and tests. Only the
+  adapters change.
 - **A message bus to the applications.** Parti's events reach SolidCraft, Blender and Unreal through per-application
   connectors with no agent and no tokens; work that needs judgment goes through the agent and the applications' MCP
   servers, and events from any application can trigger the agent.
 - **Its own agent harness and library.** A workflow graph (LangGraph, Python) built from the domain's workflow
   (phases, step kinds, checks, gates, the correction loop), with Parti's agent definitions and skills, drives the CAD
-  system, Blender and Unreal. It and the tools generalised from the prototype's scripts ship as the `parti` Python
-  library, which every project imports. It hides the programming from the architect or designer.
+  system, Blender and Unreal. It and the tools generalised from the prototype's scripts (the step cycle, and a
+  translator per application, SolidCraft first) ship as the `parti` Python library, which every project imports. It
+  hides the programming from the architect or designer. The model is chosen in Settings: the Anthropic API, an
+  OpenAI-compatible endpoint, or the user's own installed Claude Code, signed in with their own subscription.
 - **Agent-first interface.** `parti-axi` installs Parti, sets it up inside a target project, and gives an
   agent every action a person has, including joining a live session. A Pi plugin wakes the agent when the
   user acts.
 - **Unreal.** The Unreal side is a C++ plugin, deferred until the toolchain supports a C++ stack. Until then
-  a mock scene stands in for Unreal, so the first release can be built and tested without it.
+  a mock scene stands in for Unreal, so the walkthrough can be built and tested without it.
 
 | Part | Stack |
 |---|---|
@@ -95,25 +99,19 @@ JohnnyHouse is its first user.
 | `parti` library (workflow, harness, catalogue and pipeline tools, translators, connectors) and `parti-axi` | Python (installed with `uv`) |
 | Unreal plugin | C++ (deferred) |
 
-## Stages
+## Releases
 
-Releases: **0.1.0** first, then 0.x minor releases, each reviewed with stakeholders, up to **1.0.0**, the full
-designer edition. The client viewer follows 1.0.0.
-
-| Stage | What it adds |
-|---|---|
-| **A. First release** | The finish tool end to end with the mock scene, on JohnnyHouse data: browse, filter, select, define zones, place finishes, save and reload, set time and weather; installer and agent interface |
-| **B. Unreal** | The C++ plugin, the overlay, finish assets, the world builder |
-| **C. VR** | The page as a panel inside the 3D scene |
-| **D. Data service** | Several users and sessions; EntityStore and Nai as the backend |
-| **E. Streamed** | Unreal running on servers, shown in a browser |
+Parti is released as 0.x minor releases up to **1.0.0**, the full designer edition; the client viewer follows 1.0.0.
+Each release is reviewed with the stakeholders, and ends with a major review that re-plans the releases after it.
+The roadmap is decision **D33** in [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md); the change requests,
+their order and the target dates are held on the Crucible board.
 
 ## Documentation
 
 | Document | What it holds |
 |---|---|
 | [`docs/Architecture.md`](docs/Architecture.md) | Overview; Part A, the domain-driven logical architecture; Part B, the system architecture |
-| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D33), requirements, stages, open questions |
+| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D33, the roadmap among them), requirements, open questions |
 | [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (reviewed, 0.1.0 slice) |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |
@@ -131,8 +129,9 @@ slice the next release needs.
 ## How the project is run
 
 Parti is developed with the **Model B** workflow: an orchestrator agent turns the specifications into change
-requests and drives them through test-first cycles (red, green, verify), with sub-agents per stage. Test runs
-are reported to **Crucible**, which also holds the CR queue. Sessions coordinate over **Sandesh**.
+requests and drives them through test-first cycles (red, green, verify), with sub-agents per stage. A Mainline
+orchestrator plans and writes the specifications; Track orchestrators each work one CR at a time in its own git
+worktree. Test runs are reported to **Crucible**, which also holds the CR queue. Sessions coordinate over **Sandesh**.
 
 - Branching follows **git flow**: features on `feature/*`, releases on `release/*`, `master` for releases
   only. Project setup and documentation changes land on `develop`.
@@ -150,10 +149,11 @@ hooks/                agent harness hook instances
 .github/workflows/    the release workflow
 AGENTS.md             conventions for agents working in this repository
 CHANGELOG.md          release notes
+.worktrees/           one git worktree per CR in progress (not committed)
 ```
 
-The workspace packages (schema, domain, gateway, page, mock scene, `parti-axi`, tools) arrive with the first
-CRs.
+The workspace packages (`packages/`: schema, domain, gateway, local adapters, page; `python/`: the `parti` library
+and `parti-axi`) arrive with the first CR.
 
 ## Licence
 
