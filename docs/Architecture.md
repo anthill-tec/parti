@@ -187,7 +187,7 @@ do (D16). The backend may move to Nai (D9).
 
 ## 8. Later backends
 
-- **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports.
+- **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports. Its change data capture turns every stored state change into a message for the bus (D29).
 - **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness. Also (D9, owner 2026-11-23): retrieval (RAG) for the agent harness and the knowledge base, which move to Nai as soon as the harness exists; session context and agent memory; a file catalogue, so file operations do not depend on the operating system; geospatial and map data, so the world builder builds the site around the building from map providers. Each role sits behind its own port: knowledge store, session store, file catalogue, geo data.
 
 What Nai lacks today for the interactive loop, and the requests this makes to its team, are listed in
@@ -210,8 +210,10 @@ implementation. Until then only the local adapters exist.
 plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti's event
 structure, stores them (EntityStore or an SQL database) and delivers them to the Parti runtime through its sink WebSocket
 connector, as entities Parti understands. The inverse runs the same way: Parti's events enter Nai, are transformed into
-each application's message and reach the applications through sink WebSocket connectors. MCP connects the harness to
-the same systems. One loop then carries change
+each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
+capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
+the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
+saves the agent's tokens. One loop then carries change
 traversal, workflow state, the agent's context and the UI's updates.
 
 ```text
@@ -220,7 +222,7 @@ Blender ───────┼─► WebSocket ─► Nai source connector ─
 SolidCraft ────┘                                      └─► sink WebSocket ─► Parti runtime (domain, workflow, page)
                      harness (agent loop) ──MCP──► the applications
 
-Inverse:  Parti runtime ─► Nai source connector ─► DSL transform ─► sink WebSockets ─► Unreal plugin, Blender, SolidCraft
+Inverse:  Parti runtime ─► EntityStore (CDC) ─► Nai ─► DSL transform ─► sink WebSockets (RPC) ─► Unreal plugin, Blender, SolidCraft
 ```
 
 Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
