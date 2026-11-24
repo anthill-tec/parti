@@ -213,7 +213,9 @@ connector, as entities Parti understands. The inverse runs the same way: Parti's
 each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
-saves the agent's tokens. One loop then carries change
+saves the agent's tokens. The harness also subscribes to these messages, so events trigger the agent (a building
+revised, a check failed, a pick from the walkthrough, a consumer's selection): it works only when there is something
+to judge, starting with the event as its context. One loop then carries change
 traversal, workflow state, the agent's context and the UI's updates.
 
 ```text
@@ -221,6 +223,7 @@ Unreal plugin ─┐                                      ┌─► EntityStore 
 Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL transform ─┤
 SolidCraft ────┘                                      └─► sink WebSocket ─► Parti runtime (domain, workflow, page)
                      harness (agent loop) ──MCP──► the applications
+                     Nai / EntityStore messages ──► harness: an event triggers an agent run
 
 Inverse:  Parti runtime ─► EntityStore (CDC) ─► Nai ─► DSL transform ─► sink WebSockets (RPC) ─► Unreal plugin, Blender, SolidCraft
 ```
