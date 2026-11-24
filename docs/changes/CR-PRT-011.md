@@ -5,7 +5,7 @@
 **Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.2.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.2.0 and rewritten then.
 **Priority:** High
 **Depends on:** CR-PRT-005
-**Labels:** catalogue, schema, python, library
+**Labels:** catalogue, domain, schema, python, library
 **Phase:** 0.2.0 · wave 7
 **Design reference:** `docs/research/PRD-domain.md` §4.1, §4.2, §4.2a, §4.4 (DM-10); `docs/research/PRD-parti.md` D27; `docs/Architecture.md` B3 (`parti.catalogue`)
 
@@ -46,6 +46,16 @@ one-time import of a project's existing shortlist.
 its faults), so a project's agent writes its translation against the library rather than by hand; documented with a
 synthetic example in the library's docstring and in Parti's catalogue skill (CR-PRT-013).
 
+### §S5 Queries and *goes with* (moved here from CR-PRT-005, 24 November 2026)
+
+In `packages/domain/src/catalogue/` (pure, R1): `queryCatalogue(products, filter)` with the filter fields of PRD-domain
+§4.3 (kind, licence, product class among them; each optional, lists meaning any-of), free text over name, series and
+maker's code (case- and accent-insensitive), a **palette** (a finish matches when its colour is near one of the
+palette's), and `sort: "colour-wheel" | "name" | "size"`; colour-wheel order sorts by hue, the products under the
+`minStrength` threshold after the coloured ones, by lightness. `goesWith(products, id)` returns the same `set`'s
+members, then the `pairsWith` products, then products of complementary hue (180° ± 30°) passing the strength threshold,
+at most 24 in all.
+
 ## Acceptance criteria
 
 - [ ] No module under `python/parti/src` names a project (a test greps the source for `johnnyhouse`).
@@ -57,12 +67,18 @@ synthetic example in the library's docstring and in Parti's catalogue skill (CR-
 - [ ] `RecordWriter` refuses a tile without a size, naming the field.
 - [ ] `read_shortlist` reads a synthetic file of three entries, one with a target.
 - [ ] (reviewed, not tested; workstation) JohnnyHouse's orchestrator's output in `parti.catalogue/1` builds, its report read; no file under the repository changes.
+- [ ] On `makeProducts(200, 1)`, each single-field filter returns exactly the products holding that value (one test per field); filtering by a product class returns the class's and its descendants' products.
+- [ ] Free text `"cafe"` matches a product named `Café Latte`; `kind: ["paint"]` returns only paints; `licence: ["CC0"]` only finishes with that licence.
+- [ ] A palette of one red matches a red tile and a red paint, and no blue product.
+- [ ] Colour-wheel order is non-decreasing in hue for the coloured products, and every product under the strength threshold comes after them.
+- [ ] `goesWith` lists set members first, then pairs, then complementary products, at most 24, and never the product itself.
+- [ ] Caller-existence: `queryCatalogue` and `goesWith` are called from `packages/gateway/src` (reviewed at the VERIFY of the gateway's 0.2.0 catalogue commands).
 - [ ] Caller-existence: `parti-axi catalogue build` calls `parti.catalogue.build`, and the gateway's shortlist import calls `read_shortlist` (reviewed at CR-PRT-013 and CR-PRT-012 VERIFY).
 
 ## Record format (DM-10; owner, 24 November 2026)
 
 The product model (PRD-domain §4.2a, §4.4) structures `parti.catalogue/1`'s records as identity fields (with the `class`, D32) plus **form**, **build-up**, **appearance** and **quantities**; the fields are those above, grouped; `build` also checks each record's class against the Finishes branch. The size is to be
-re-estimated at the spec review (the owner).
+re-estimated at the review before 0.2.0 (the owner), now with §S5's queries, moved here from CR-PRT-005.
 
 ## Estimated size
 
