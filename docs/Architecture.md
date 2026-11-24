@@ -215,7 +215,9 @@ capture database, makes this automatic: each state change Parti stores becomes a
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
 saves the agent's tokens. The harness also subscribes to these messages, so events trigger the agent (a building
 revised, a check failed, a pick from the walkthrough, a consumer's selection): it works only when there is something
-to judge, starting with the event as its context. One loop then carries change
+to judge, starting with the event as its context. A state change in any application (an object moved in the Unreal
+editor, a material changed in Blender, a body revised in SolidCraft) reaches it the same way, and it can act in any
+application through MCP: the loop closes across all of them. One loop then carries change
 traversal, workflow state, the agent's context and the UI's updates.
 
 ```text
