@@ -22,7 +22,7 @@ trustworthy before release.
 
 ## Acceptance criteria
 
-- [ ] (reviewed, not tested) Line coverage at least 90 % for `packages/domain`, 80 % for `gateway`, `adapters-local`, `python/parti-axi` and `python/catalogue-tools`, from the clients' coverage reports, or each exclusion justified in the PR.
+- [ ] (reviewed, not tested) Line coverage at least 90 % for `packages/domain`, 80 % for `gateway`, `adapters-local`, `python/parti-axi` and `python/parti` (the library), from the clients' coverage reports, or each exclusion justified in the PR.
 - [ ] (reviewed, not tested) Crucible's flaky-test list for the project is empty at the end.
 - [ ] (reviewed, not tested) No placeholder test remains.
 

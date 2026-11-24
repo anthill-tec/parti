@@ -26,8 +26,10 @@ references. The dependency direction of Architecture §5 holds: `domain` depends
 ### §S2 Python packages
 
 A uv workspace at the root (`pyproject.toml` with `[tool.uv.workspace] members = ["python/*"]`) and two packages:
-`python/parti-axi` (import name `parti_axi`, console script `parti-axi`) and `python/catalogue-tools` (import name
-`catalogue_tools`). Python ≥ 3.12; licence GPL-3.0-only. `parti-axi --version` prints the package version.
+`python/parti`, the library (D27; import name `parti`; licence **LGPL-3.0-only**, with `COPYING.LESSER` beside the GPL
+text in the package; empty sub-packages `parti.workflow`, `parti.harness`, `parti.catalogue`, `parti.tools`,
+`parti.translators`, `parti.units`), and `python/parti-axi` (import name `parti_axi`, console script `parti-axi`,
+GPL-3.0-only, depending on `parti`). Python ≥ 3.12. `parti-axi --version` prints the package version.
 
 ### §S3 Test layout and tiers
 
@@ -53,9 +55,10 @@ relative path inside `packages/domain` (R1: the domain is pure).
 - [ ] Each package's `src/index.ts` exports a `PACKAGE_NAME` constant equal to its `package.json` name, and a unit test per package asserts it.
 ### §S2
 - [ ] `uv sync --frozen` succeeds; `uv run parti-axi --version` prints the version in `python/parti-axi/pyproject.toml` and exits 0 (tested through `subprocess`).
-- [ ] `import catalogue_tools` succeeds under `uv run python`.
+- [ ] `import parti.workflow, parti.catalogue` succeeds under `uv run python`, and `parti.__version__` equals the version in `python/parti/pyproject.toml`.
+- [ ] Building the `parti` wheel (`uv build python/parti`) yields metadata `License-Expression: LGPL-3.0-only`, and the `parti-axi` wheel `GPL-3.0-only` with a dependency on `parti` (read from the built wheels).
 ### §S3
-- [ ] A placeholder test in each tier folder of `packages/domain` and `tests/parti_axi` is reported to Crucible under that tier by the clients (reviewed, not tested: the Crucible run's tier counts).
+- [ ] A placeholder test in each tier folder of `packages/domain`, `tests/parti` and `tests/parti_axi` is reported to Crucible under that tier by the clients (reviewed, not tested: the Crucible run's tier counts).
 ### §S4
 - [ ] The boundary test passes on the tree, and fails (asserted in the same test against a temporary file) when a domain source file imports `node:fs`.
 ### §S5

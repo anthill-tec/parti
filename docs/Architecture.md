@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape) and D27 (the `parti` library). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -20,7 +20,9 @@ walkthrough. A user and an agent work through its steps together, and each step 
 2. **Finish tool** (its first major feature). Browse a catalogue of finishes and apply them to walls, floors and parts of them in an Unreal walkthrough; set time of day and weather; one state shared by the interface and the scene.
 3. **Installer and agent interface** (`parti-axi`). Installs Parti, scaffolds it into a target project, and gives agents everything a person can do, including joining a live session alongside the user (D16).
 
-Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow definition, with Parti's agent
+Parti's Python side is one library, `parti` (D27, LGPL-3.0-only): the architectural SDK every target project imports,
+holding the workflow, the harness, the catalogue tools and the pipeline tools generalised from the prototype's scripts;
+the scaffold gives each project Parti's skills and agent definitions, `parti-axi` and the library. Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow definition, with Parti's agent
 definitions and skills, driving the CAD system, Blender and Unreal through their Python APIs and MCP servers. It is
 released in two editions from one domain (D22, §7): the **designer edition**, the full workflow for architects and
 interior designers, which 1.0.0 delivers through 0.x releases (D23); and the **client viewer**, a self-contained
@@ -101,10 +103,8 @@ workflow run, and LangGraph's own checkpointer holds the agent's state only, nev
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
 | `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, catalogue browser, detail, shortlist, zone editor, setting controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
-| `parti-axi` | Python (installed with `uv`) | gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
-| `catalogue-tools` | Python | — | Build a catalogue from a target project's records: thumbnails, colour tags, checks. Later: Unreal editor scripts for finish assets. |
-| `agent-harness` | Python | gateway (over its agent API) | Parti's own agent harness (D21): the workflow graph (LangGraph) built from the domain's Workflow definition, whose nodes call domain commands; agent definitions and skills; MCP client connections to SolidCraft, Blender and Unreal. Checkpoints and memory behind ports (local first; Nai and EntityStore later). |
-| `pipeline-tools` | Python | — | The toolbase of the workflow: data tables → commands for the CAD and rendering applications, with expected-result checks. One translator per application. |
+| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: translators from a project's records through a mapping, colour tags, thumbnails); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
+| `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `client-viewer` | Unreal (packaged app) | its client bundle only | Deferred until after 1.0.0 (D22, D23). Self-contained walkthrough viewer (monitor or VR) with the offered options, stills and films; Windows and Linux; built and downloaded from the designer edition. Licence first (PRD Q12). |
 | `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
 
@@ -192,8 +192,9 @@ Q13).
 
 ## 9. Installing into a target project
 
-`parti-axi init --target <dir>` writes a configuration file and the agent notes into the target project, and
-nothing else. The target keeps its data where it is; Parti reads it in place and writes only where the
+`parti-axi init --target <dir>` writes into the target project its configuration, Parti's skills and agent definitions
+(which teach the agent to use the `parti` library and `parti-axi`), the agent notes, and the project's dependencies on
+`parti` and `parti-axi` (D27), and nothing else. The target keeps its data where it is; Parti reads it in place and writes only where the
 configuration says (saved designs, the step log, checkpoints). When the Unreal plugin exists, the scaffold
 also connects it to the target's Unreal project.
 
@@ -239,4 +240,5 @@ architects, designers or users.
 | Command, event, query | A request to change state; a recorded change; a request to read. |
 | Aggregate | A unit of state with its own id, changed only through `decide` and `evolve`. |
 | `decide`, `evolve` | `decide(state, command) → events`; `evolve(state, event) → state`. |
+| Parti library (SDK) | The `parti` Python package (D27) that target projects import: the workflow, the harness and the tools. |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |

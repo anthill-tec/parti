@@ -45,7 +45,7 @@ Command names: `import-building`, `define-zone`, `resize-zone`, `remove-zone`, `
 `bun run --filter @parti/schema generate` writes `packages/schema/src/generated/*.ts` from the schema files; the
 generated files are committed and a test fails when they are stale. `@parti/schema` exports
 `validateMessage(value: unknown): { ok: true, message } | { ok: false, faults }` and
-`validateDeclaration(value: unknown)` with the same shape. `parti_axi.schema` validates the same files in Python
+`validateDeclaration(value: unknown)` with the same shape. `parti.schema` (the library, D27) validates the same files in Python
 (the `jsonschema` package), so both stacks read one source.
 
 ## Acceptance criteria
@@ -56,8 +56,8 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 - [ ] `validateDeclaration` accepts PRD-domain §2.4's example and refuses a surface without `room` (`missing-field`, path `/surfaces/0/room`) and a `format` other than `parti.building/1` (`unsupported-format`).
 ### §S4
 - [ ] The staleness test regenerates into a temporary folder and fails when it differs from `src/generated/`.
-- [ ] `parti_axi.schema.validate_message` returns the same fault codes as `validateMessage` for the same invalid fixtures (a shared fixture set, run by both test suites).
-- [ ] Caller-existence: by 0.1.0's end, `validateMessage` has non-test callers in `packages/gateway/src` and `validate_message` in `python/parti-axi/src` (reviewed at CR-PRT-012 and CR-PRT-013 VERIFY).
+- [ ] `parti.schema.validate_message` returns the same fault codes as `validateMessage` for the same invalid fixtures (a shared fixture set, run by both test suites).
+- [ ] Caller-existence: by 0.1.0's end, `validateMessage` has non-test callers in `packages/gateway/src` and `parti.schema.validate_message` in `python/parti-axi/src` (reviewed at CR-PRT-012 and CR-PRT-013 VERIFY).
 
 ## Estimated size
 
