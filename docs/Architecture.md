@@ -276,7 +276,10 @@ fire on each change and propagate Parti's state change to every listening party 
 agent). The same mechanism can carry Parti's backend itself, written in Nai's DSL (PRD Q13). These mechanisms are used only
 where required (owner, 24 November 2026): one such place is the messaging between the Bun gateway and the Python
 harness, two separate processes, which can be directed through Nai once both exist; until then the harness uses the
-gateway's agent API over WebSocket directly. The inverse runs the same way: Parti's events enter Nai, are transformed into
+gateway's agent API over WebSocket directly. Parti's components reach Nai through **connectors built for them on Nai's
+Rust connector SDK** (Nai's gRPC bridge is for connectors): a WebSocket connector for the gateway and the plugins, and
+a connector for the harness process; they live in Nai's ecosystem, built by Nai's team from Parti's requests
+(`research/DN-nai-readiness.md`). The inverse runs the same way: Parti's events enter Nai, are transformed into
 each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
@@ -361,6 +364,7 @@ architects, designers or users.
 | `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
 | `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
 | `research/DN-workflow-shape.md` | The workflow generalised into one repeatable graph (D26): step cycle, step kinds, gate kinds, phases, loops. Provisional while the prototype runs. |
+| `research/DN-nai-readiness.md` | Nai's and EntityStore's readiness for the message bus: findings, validation spike, the request to Nai's team. |
 | `research/DN-runbook-domain-impact.md` | The prototype's Runbook mapped onto the domain model, context by context (D26). |
 | `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
 | `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
