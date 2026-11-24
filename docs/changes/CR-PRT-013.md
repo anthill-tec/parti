@@ -24,7 +24,8 @@ A target project is also a Nai project of Parti's kind, set up with Nai's own to
   [--cad-units mm] [--area-unit sq-ft|m2] [--length-unit ft-in|mm|m] [--no-nai] [--yes]` writes `<dir>/parti.toml` (the
   project type and its template, D30: 0.1.0 ships one, an unknown type refused with the list of known ones; the folder;
   the display units with D25's defaults; the gateway port; the CAD application, its units and the declared transform;
-  the calibration tolerance, 0.5 %) and `<dir>/parti/` with the sub-folders of PRD-domain §8 and `steps/`; writes
+  the calibration tolerance, 0.5 %; the bus, `nai` or `local` with `--no-nai`, CR-PRT-031; the harness's model runner,
+  CR-PRT-029) and `<dir>/parti/` with the sub-folders of PRD-domain §8 and `steps/`; writes
   Parti's skills (`.agents/skills/parti-*`: using `parti-axi`, writing data tables and steps with the library, labelling
   and classifying; the harness's own skills come with CR-PRT-029) and agent definitions. The skills teach D28's
   division: the agent speaks to the architect or designer in the glossary's terms and display units, offers options
@@ -40,6 +41,7 @@ A target project is also a Nai project of Parti's kind, set up with Nai's own to
 - `parti-axi doctor`: one line per check: Bun, `parti.toml`, the gateway, SolidCraft's MCP server reachable, Nai (or
   `--no-nai` recorded), the logs readable.
 - `parti-axi gateway start|stop|status` runs the gateway in the background with a pid file under `parti/.run/`.
+- `parti-axi agent start|stop|status` runs the harness (`parti-harness`, CR-PRT-029) the same way.
 - `parti-axi open` starts the gateway if it is not running and prints the Project Environment's address, opening it in
   the default browser unless `--no-browser`.
 

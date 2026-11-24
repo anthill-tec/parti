@@ -12,8 +12,8 @@
 ## Context
 
 0.1.0 stores events as JSON lines and snapshots in the target project (PRD-domain §8, v0.4), behind ports so Nai
-replaces the store later without touching the domain or the gateway (CR-PRT-031 adds the Nai adapter behind the same
-ports). The logs of 0.1.0 are `building`, `workflow`, `sources` and `model`; its snapshot is the model inventory
+replaces the store later without touching the domain or the gateway (with EntityStore from 0.2.0, CR-PRT-038; CR-PRT-031
+puts Nai on the bus in 0.1.0, not in the store). The logs of 0.1.0 are `building`, `workflow`, `sources` and `model`; its snapshot is the model inventory
 (`model/inventory.json`). The design's logs and snapshots (`design.ndjson`, `design.json`, `shortlist.json`) come with
 the design in 0.2.0 (CR-PRT-007), through the same adapter.
 

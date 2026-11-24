@@ -28,7 +28,8 @@ port), serves the Project Environment (CR-PRT-021) at `/`, the endpoint at `/eve
 
 ### §S2 The endpoint (D35)
 
-Every message on `/events` is a **CloudEvent 1.0** in structured JSON: `type` the message's registry name
+Every message on `/events` is a **CloudEvent 1.0** in structured JSON, over the WebSocket subprotocol
+`cloudevents.json`: `type` the message's registry name
 (`parti.<context>.<message>/1`, CR-PRT-002), `dataschema` its JSON Schema's `$id`, `source` the sender (`parti/gateway`,
 or the connection's participant), `id` the command or event id. A command is a request; its reply (the events, or the
 refusal) carries the request's id in the extension attribute `nairequestid`. A connection first says who it is
