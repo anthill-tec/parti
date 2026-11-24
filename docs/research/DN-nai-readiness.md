@@ -62,8 +62,9 @@ to Nai through it directly: they talk to the connectors that are built for them.
   (CReqs); Parti writes no connector. Parti writes the schemas, the endpoint definitions and its endpoints (the
   gateway, the harness, the plugins); its Rust is only the SolidCraft plugin, from 0.2.0.
 - **The router is Parti's, in Nai's DSL** (owner, 24 November 2026; PRD-parti D38, D39): part of Parti's main source
-  (`nai/`), and Parti's repository is a Nai project (`nai.toml`); each target project is a Nai project of Parti's kind and
-  adds its own pipelines beside Parti's router. Nai owns the language, the runtime and the connectors.
+  (`nai/`), and Parti's repository is a Nai project (`nai.toml`); each target project is a Nai project of Parti's kind, created by
+  `nai new` from a Parti template added to Nai, with its schemas in a subdomain of Parti's domain and its own connector
+  instances run separately; the main Nai process is shared. Nai owns the language, the runtime and the connectors.
 - **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its endpoint.
 
 ## 4. Validation spike (before the first release that connects a real application)
@@ -87,12 +88,12 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 | Needed by | For | Items |
 |---|---|---|
 | 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
-| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository) |
+| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-013 `parti-axi init`) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository), 14 (the Parti template) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
 | 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
 | 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
-| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines) | 8 (the IFC translator), 14 (projects on Parti's router) |
+| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines) | 8 (the IFC translator) |
 | 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
 The items:
@@ -133,12 +134,13 @@ The items:
     (scenarios in `tests/*.test.toml`, CR-NAI-302); how their results can be reported to Crucible (for example as JUnit XML), how it deploys them to a
     running Nai and versions them, and how the harness's Nai agents change them at run time. Needed with item 1.
 
-14. **Projects that build on another project** (PRD-parti D39): `parti-axi init` runs `nai new <project> --template` with a
-    template Parti keeps (CR-NAI-034's templates): whether `nai new` takes a template from outside Nai's repository (a path
-    or a URL), and how a target project's Nai project inherits Parti's
-    router and schema namespace, deploys its own pipelines beside it in its own namespace, and is kept from changing
-    Parti's routes or schemas; and how several such projects share one running Nai (or each gets its own). Needed by the
-    0.5.0 release (templates and project pipelines).
+14. **A Parti template for Nai's project-creation tool** (PRD-parti D39), as a CReq: `nai new <project> --template
+    <Parti's template>`, run by `parti-axi init`, generating a target project's `nai.toml` (inheriting Parti's router),
+    **generating and registering its schemas** in a subdomain of Parti's domain in the schema registry (Parti's own in
+    `parti.<context>.<message>`; the naming settled together), and **generating its connector instances** (the generic
+    WebSocket source and sink, pointed at the project's endpoints), each run as a separate process with its own
+    configuration, against **one shared main Nai process**. Parti specifies the template; it is needed first in 0.1.0
+    (CR-PRT-031, CR-PRT-013), with project pipelines in 0.5.0 (CR-PRT-075).
 
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
