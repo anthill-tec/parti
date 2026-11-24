@@ -72,12 +72,12 @@ replayed (RUNBOOK P12).
 
 ## 5. The phases (a project's phases, generalised)
 
-The prototype's thirteen phases fold into seven phases; within each, the steps are instances of the kinds above,
+The prototype's thirteen phases fold into seven phases (the first named Plan onboarding by the owner, 24 November 2026); within each, the steps are instances of the kinds above,
 coarse to fine. The order is data: the owner moved print preparation after the Blender scene.
 
 | Phase | Steps (kinds), in order | Gate | Prototype phases |
 |---|---|---|---|
-| **Ph1 Intake** | sources (K1), parameters and data tables (K1) | review | P0, P2 (calibration) |
+| **Ph1 Plan onboarding** | drawing PDFs and renders (texture and style cues) converted into Parti's metadata (K1, through the format converters), parameters and data tables (K1); later, other design tools' files | review | P0, P2 (calibration) |
 | **Ph2 Model** | massing → structure → envelope and partitions per level → openings → vertical circulation → facade features → joinery, hardware, built-ins (each K2), consolidate (K3) | review after massing, walls, facade | P1, P3 to P8 |
 | **Ph3 Declare** | rooms and surfaces, parts and placements, motion, swings (K4) | — | P8 (T8.6), PA-1, P12 inputs |
 | **Ph4 Design** | catalogue intake (K1), choose (K10), place and set out (K7, K8), quantities (K8) | option | finish tool (0.1.0); tile browser; FL-1 to FL-3 |
@@ -123,7 +123,7 @@ dropped by an option gate.
 
 ```mermaid
 flowchart LR
-  Ph1[Ph1 Intake] --> Ph2[Ph2 Model] --> Ph3[Ph3 Declare] --> Ph4[Ph4 Design]
+  Ph1[Ph1 Plan onboarding] --> Ph2[Ph2 Model] --> Ph3[Ph3 Declare] --> Ph4[Ph4 Design]
   Ph3 --> Ph5[Ph5 Present]
   Ph4 --> Ph5
   Ph3 --> Ph6[Ph6 World]
@@ -176,3 +176,4 @@ kind. Each such revision is recorded in the change log below and lands in the wo
 | Date | Runbook | Change |
 |---|---|---|
 | 2026-11-24 | v0.3 (P0 to P12, 279 log rows) | First extraction. |
+| 2026-11-24 | — | Ph1 renamed Plan onboarding; renders as texture and style cues; format converters (owner). |

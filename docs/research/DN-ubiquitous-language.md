@@ -115,7 +115,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Selection | What a participant has picked: an element, a surface, a zone or a group. | Session |
 | Workflow definition | The workflow as data, versioned: its phases, step definitions, checks, caveats and gates. The same for every architectural project; a target project may adapt it (D26). | Workflow |
 | Workflow run | What has happened in one target project's workflow: step runs, check results, corrections, decisions, variants and step records (D26). | Workflow |
-| Phase | A broad, ordered, gated part of the workflow: Intake, Model, Declare, Design, Present, World, Deliver. Its order is data the owner may change (D26). | Workflow |
+| Plan onboarding | The first phase: the project's design brought into Parti, guided by the project agent: drawing PDFs, renders (texture and style cues), later other design tools' files, converted into Parti's metadata (D26). | Workflow |
+| Phase | A broad, ordered, gated part of the workflow: Plan onboarding, Model, Declare, Design, Present, World, Deliver. Its order is data the owner may change (D26). | Workflow |
 | Step | One unit of work within a phase, an instance of a step kind, run through the step cycle (D26). | Workflow |
 | Step kind | One of the twelve kinds every step is an instance of: intake, build from data, consolidate, declare, transfer, restore after transfer, apply by rule, derive, compose the scene, choose, render or package, trial (D26). | Workflow |
 | Step cycle | What every step does: read the sources, write the data, generate, apply, check against the expected numbers, checkpoint, record; on a failed check, fix the data, never the output (D26). | Workflow |
@@ -174,3 +175,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | Added Suggestion (D22). |
 | 2026-11-24 | Suggestion available everywhere; added To-do (FR-WF-15). |
 | 2026-11-24 | Added Checklist; To-do seeded from it. |
+| 2026-11-24 | Added Plan onboarding; first phase renamed from Intake. |
