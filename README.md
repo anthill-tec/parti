@@ -122,6 +122,7 @@ designer edition. The client viewer follows 1.0.0.
 | [`docs/research/DN-pipeline-prototype-johnnyhouse.md`](docs/research/DN-pipeline-prototype-johnnyhouse.md) | The pipeline as it was run by hand |
 | [`docs/research/DN-workflow-shape.md`](docs/research/DN-workflow-shape.md) | The workflow generalised into one repeatable graph |
 | [`docs/research/DN-runbook-domain-impact.md`](docs/research/DN-runbook-domain-impact.md) | The prototype's Runbook mapped onto the domain model |
+| [`docs/research/DN-nai-readiness.md`](docs/research/DN-nai-readiness.md) | Nai's and EntityStore's readiness for the message bus, and the validation spike |
 
 The design work runs in this order: the architecture (reviewed) → the glossary → the domain PRD (reviewed, for
 0.1.0) → the other per-area PRDs → change requests (CRs), which are implemented last. Each PRD is written for the
