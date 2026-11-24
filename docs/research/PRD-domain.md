@@ -1,6 +1,6 @@
 # PRD — The domain: building, design and catalogue (slice for 0.1.0)
 
-**Version:** 0.3 (reviewed; revised 24 November 2026)
+**Version:** 0.4 (re-sliced 24 November 2026 for the roadmap, PRD-parti D33)
 **Date:** 2026-11-23
 **Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-9 decided; §4 and §5–6 agreed; revised 24 November 2026 (finish kinds, setting-out and quantities, the record formats a project's own agent fills; the storyboard review: elements and labels, the product model (DM-10), the workflow slice (DM-11)). Written for the slice release 0.1.0 needs (D23, `../Architecture.md`, Documents); it grows with each
 release. Items marked **DM-n** are decisions for the owner; the text shows the recommended option.
@@ -14,6 +14,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | Date | Change |
 |---|---|
 | 2026-11-23 | First draft, for 0.1.0. |
+| 2026-11-24 | **Version 0.4, re-sliced for the roadmap** (PRD-parti D33, owner): 0.1.0 is the building from CAD. §1 rewritten; §2.6 the model and its inventory (DM-12); §2.7 the derived declaration; §2.1a labels from the model; §4.4 0.1.0 ships the first level of every branch; §6 model revisions; §7 and §8 the new message families and logs; §11 widened to the first three phases. The design (§3), the finishes catalogue (§4.1 to §4.3), setting-out and quantities move to 0.2.0, the conditions to 0.4.0; their text stays as the draft for those releases, re-reviewed before each. |
 | 2026-11-24 | From the storyboard review (owner): elements and labels (§2.1a); zones defined by a selection and labelled (§3.2); the product model and the classification (§4.4, DM-10, PRD-parti D32), so 0.1.0's finish records are structured as form, build-up, appearance and quantities; interaction events (§5, §7); the Workflow context's 0.1.0 slice (§11, DM-11); version 0.3. |
 | 2026-11-24 | "Setting" renamed "Conditions" (owner). |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
@@ -32,18 +33,27 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 
 ## 1. What 0.1.0 needs from the domain
 
-Release 0.1.0 is the finish tool end to end with the mock scene (PRD-parti Q9): a target project declares its rooms
-and surfaces; the user browses and filters a catalogue of finishes, selects a surface, divides it into zones, places
-finishes, saves and reloads, and sets the time of day and the weather as state; all of it through the page and through
-`parti-axi`, stored locally as JSON events. JohnnyHouse's four bathrooms are the first real data; the tests use
-synthetic buildings and products (NFR-10).
+Release 0.1.0 is **the building from CAD** (PRD-parti D33, owner, 24 November 2026): the first three phases of the
+workflow, Plan onboarding, Model and Declare, with the user interface that serves them.
 
-This slice therefore covers four contexts in part (Building, Design, Catalogue, Session) and the conditions of the world
-builder. It also covers the **setting-out** of each placement and the **quantities** it needs (owner, 24 November 2026), since placing a finish at
-true scale with a setting-out gives both the picture and the count (JohnnyHouse #1658). It leaves out: other layers
-than finishes, prices and cost estimates, offers and client bundles, and the agent session (all later releases).
-The **workflow** enters with a slice of its own (§11, DM-11; owner, 24 November 2026): the Design phase's steps drive the
-Project Environment's workspace until the project agent does.
+- **Plan onboarding:** the architect's drawing sheets and renders are registered as **sources**; each sheet is
+  **calibrated** from a known dimension (D25); the project's numbers are held as **data tables** (§2.6).
+- **Model:** the model is built from the data tables, **feature group** by feature group, by the `parti` library's step
+  cycle and its SolidCraft translator; the running CAD model is **read live** into a **model inventory** and read again
+  whenever its revision moves; the model's objects are **products of their class** (D31, D32), with their materials and
+  faces (§2.6, DM-12).
+- **Declare:** a draft **declaration** is **derived** from the model inventory (rooms from slabs and walls, surfaces from
+  their faces) and confirmed or corrected by the user; a declaration a project writes itself still imports (§2.7).
+
+So this slice covers the **Building** context (the declaration, now with the model), the **Catalogue** context's product
+model and classification only (§4.4), the **Session**'s selection and interaction events (§5), and the **Workflow**
+context's first three phases (§11). JohnnyHouse is the test bed: its own orchestrator moves its CAD scripts onto the
+library, and its run is the workstation acceptance; Parti's tests use synthetic buildings, drawing sheets and models
+(NFR-10).
+
+**Moved by the roadmap** (D33): the **Design** context (§3: zones, placements, schemes, the shortlist), the **finishes
+catalogue** (§4.1 to §4.3), **setting-out** and **quantities** (§3.3, §3.4a) come in **0.2.0**; the **conditions** (§5)
+in **0.4.0**. Their sections stay below as the draft for those releases, re-reviewed with the owner before each.
 
 All terms are the glossary's. A term used here and not yet in the glossary is added to it with this PRD.
 
@@ -79,12 +89,11 @@ feature, a product in the model, and later their **lesser primitives** (a produc
 each with an id under its parent). Each has a **label**: a name, a kind, an id and tags, which is what the pointer and a
 selection report (§7) and how the user and the agent speak of it.
 
-- **0.1.0:** the labels come from the declaration (ids, names, aliases, uses, CAD references, §2.4); zones are labelled
-  when defined (§3.2). Fittings the declaration names stay references.
-- **Later (with the CAD connection and the harness, D31):** the labels are populated early from the CAD model and the
-  drawings (CAD names and references, the drawings' labels); the project agent proposes labels and tags with its
-  labelling skill and the user confirms or renames them. The CAD model's objects are tagged as products by their class
-  (§4.4) as soon as the model is generated.
+- **0.1.0:** the labels come from the model inventory (CAD names as references, the products' classes, §2.6) and the
+  declaration (ids, names, aliases, uses, §2.4, §2.7); the project agent proposes labels and tags with its labelling
+  skill and the user confirms or renames them (the harness, PRD-parti D21). Zones are labelled when defined (§3.2, 0.2.0).
+- **Later:** the drawings' own labels (read from the sheets) join them; lesser primitives get their labels as they
+  become addressable (DM-9).
 
 ### 2.2 Identity and revisions (D17, D19)
 
@@ -192,7 +201,38 @@ Conventions settled with JohnnyHouse's first file (#1642):
 - **B-3** A declaration that breaks B-1, B-2 or B-4 is refused as a whole, with every fault listed; the previous revision
   stays in force.
 
-## 3. Design (context, core)
+### 2.6 The model and its inventory (DM-12; owner, 24 November 2026, PRD-parti D33)
+
+- **Data tables** hold the project's numbers (levels, the wall set-out, slabs, openings, named parameters), read from the
+  sources; the model is generated from them, **feature group** by feature group, and never edited by hand (a correction
+  edits a table row and regenerates what depends on it; PRD-parti D26).
+- **The model inventory** (`parti.model/1`) is what the running CAD model holds, read through the application's
+  translator (SolidCraft first): its **bodies** (name as a reference only, volume, bounds, the feature group that made
+  them), its **components** and their placements, **part properties** (among them the product class), **materials** with
+  their looks, and **faces** (each with an id under its body, its plane or surface kind, normal and area: the lesser
+  primitives of D31). It carries the application's units and the declared transform (D25), and the design's
+  **revision**. The application's own report and Parti's inventory are two documents: the translator turns the first
+  into the second.
+- **The model in the Building context:** each object of the inventory is a **model object** with its CAD reference and a
+  Parti id given at its first classification and kept in the design (in part properties until the SolidCraft plugin
+  keeps it as plugin data, PRD-parti D34), so it survives renames; it is a **product of its class** (D31, D32), by the
+  class stored with it, else by the project's rules, else **unclassified** and listed for the user. A face takes its
+  body's material, the body its component's, the component its material's, **by default, unless updated** (DM-10; the
+  same precedence SolidCraft applies).
+- **Read again** whenever the model's revision moves: the new inventory is compared with the last and gives a **model
+  revision** with its changes (objects added, removed, renamed, split; a material changed), §6.
+- **Rules:** **M-1** a model object's Parti id never changes once given; **M-2** an object whose class is unknown is
+  unclassified, never guessed silently; **M-3** a read that fails leaves the last inventory in force and says why.
+
+### 2.7 The derived declaration (owner, 24 November 2026, PRD-parti D33)
+
+From the model inventory Parti **derives a draft declaration** (`parti.building/1`, §2.4): rooms from the slabs and walls
+that bound them, each surface from the faces that make it, with its anchor and face frame (§2.3, DM-6), openings from the
+voids in it. The project agent labels it (§2.1a); the user **confirms or corrects** it in the page, surface by surface,
+and the confirmed declaration becomes a building revision (§2.2) under the same rules (§2.5). A declaration a project
+writes itself still imports, and is compared with the derived one.
+
+## 3. Design (context, core) — from 0.2.0 (PRD-parti D33)
 
 ### 3.1 What it holds
 
@@ -288,6 +328,9 @@ zones' visible cells (openings and keep-clear regions taken out, tile-behind reg
 - **D-4** Undo and redo apply to the user's own design changes within a session (FR-DES-4).
 
 ## 4. Catalogue (context)
+
+**In 0.1.0, §4.4 only** (the product model and the classification, CR-PRT-005); the finishes catalogue (§4.1 to §4.3)
+comes in 0.2.0 (PRD-parti D33).
 
 ### 4.1 Finishes
 
@@ -399,16 +442,18 @@ defines the attributes of each aspect, inherited down the tree; it drives the ta
 browser's tree and filters, the grouping of bills of materials by trade, the agent's context and search. Each class maps
 to an IFC entity type and predefined type (IFC 4.3, ISO 16739-1:2024; `IfcCovering` · `FLOORING`); attributes map to
 IFC property sets by a declared mapping; Uniclass 2015 or OmniClass codes may be carried as references. A new class is a
-change the owner approves. **0.1.0 ships the Finishes branch** (Finishes › Tile, Wood veneer, Laminate, Paint, Metal,
-Exposed, Glaze; mapped to `IfcCovering`), as data in the schema; materials beyond those the finishes name, and the
-other branches, grow with their layers.
+change the owner approves. **0.1.0 ships the first level of every branch** (owner, 24 November 2026, PRD-parti D33), so
+the model's objects can be tagged: Structure, Openings, Joinery, Sanitary ware, Lighting, Furniture, Services, Landscape,
+each with its first-level classes, and the **Finishes** branch (Tile, Wood veneer, Laminate, Paint, Metal, Exposed,
+Glaze; mapped to `IfcCovering`), each class mapped to its IFC entity type, as data in the schema (CR-PRT-005). Deeper
+levels and the materials beyond those named grow with their layers (0.2.0, 0.5.0).
 
 ## 5. Session (context) and the conditions
 
 - **Session:** in 0.1.0 one participant (a user) and the mock scene. It holds the **selection** (a surface or a zone,
   picked in the page or in the mock scene; FR-SEL-1 to FR-SEL-3).
-- **Conditions** (world builder, D18): time of day, date, place, weather (clear, overcast, rain). In 0.1.0 these are
-  **state only**: set from the page or `parti-axi`, shared with the mock scene, stored with the session; nothing is
+- **Conditions** (world builder, D18; **from 0.4.0**, PRD-parti D33): time of day, date, place, weather (clear,
+  overcast, rain). They are first **state only**: set from the page or `parti-axi`, shared with the mock scene, stored with the session; nothing is
   rendered from them until the Unreal plugin exists.
 - **Interaction events** (owner, 24 November 2026; PRD-parti D29): a pointing, a selection or a clip in the page is an
   event carrying its elements (ids, names, kinds, tags), the area, the world bounds, the CAD references, the view and
@@ -417,6 +462,10 @@ other branches, grow with their layers.
   with Nai (D9).
 
 ## 6. Versioning in 0.1.0 (D19)
+
+**Model revisions** (§2.6): a model read again records a model revision with its changes; the derived declaration's
+draft is refreshed from it and what changed is shown for the user to confirm, after which it is a building revision as
+below. The forward chain into the design (the table below) applies from 0.2.0, when the design exists.
 
 When a declaration is imported again (§2.2), Parti records a building revision and follows the forward chain inside
 this slice:
@@ -441,6 +490,13 @@ The schema (`schema` component) defines, versioned:
 | Interaction events (`parti.interaction.*/1`) | `pointed`, `selected`, `clipped`: each with its elements, area, world bounds, CAD references, view and step (§5) |
 | Workflow (§11) | commands `start step`, `complete step`, `tick to-do`, `set focus`; events `step started / completed`, `to-do added / ticked`, `focus set`; the **workspace commands** (`show` a view or an editor, with its subject and title) and the asset browser's **signals** (`set filters`, `set palette`, `mark assets`, `note`) |
 | Queries | `building`, `surface`, `design` (whole or per room), `catalogue` (filtered), `goes with`, `shortlist`, `follow-ups`, `history` |
+| Plan onboarding (§1; 0.1.0) | commands `register source`, `calibrate sheet`, `record data table`; events `source registered`, `sheet calibrated`, `data table recorded`; query `sources` |
+| Model (§2.6; 0.1.0) | commands `read model`, `classify object`; events `model read`, `model revised` (with its changes), `object classified`; query `model` |
+| Declare (§2.7; 0.1.0) | commands `derive declaration`, `confirm declaration` (whole or per surface); events `declaration derived`, `declaration confirmed` |
+
+**Which release carries which** (PRD-parti D33): 0.1.0 carries the Building, Session (`select`, `selection changed`),
+interaction, Workflow, Plan onboarding, Model and Declare messages; the Design and Catalogue messages come with 0.2.0,
+the conditions with 0.4.0.
 
 Every command carries a command id and the expected revision; every event carries an id and a sequence number per
 aggregate (R6).
@@ -461,6 +517,9 @@ parti/
   events/building.ndjson        building revisions (one JSON event per line)
   events/design.ndjson          the design's events
   events/workflow.ndjson        the workflow run's events (§11)
+  events/sources.ndjson         sources, calibrations and data tables (§1)
+  events/model.ndjson           model reads and revisions (§2.6)
+  model/inventory.json          snapshot of the latest model inventory (parti.model/1)
   design.json                   snapshot of the current design: what Blender and other scripts read (FR-DES-3)
   shortlist.json                snapshot of the shortlist
 ```
@@ -482,6 +541,7 @@ rename). All of it sits behind the design-store and building-store ports, so Nai
 | DM-9 | Placements on parts | **Decided (owner, 23 November 2026):** with the world builder; 0.1.0 places finishes on room surfaces only. Widened by PRD-parti D31 (owner, 24 November 2026): a product's parts and faces and a surface's pieces are addressable and take their own finish, with the CAD connection |
 | DM-6 | Face frame origin | **Decided (owner, 23 November 2026):** bottom-left as seen from inside the room; x along the face, y up |
 | DM-10 | Material, texture and the product model | **Decided (owner, 24 November 2026):** a product is its form, build-up and attributes by aspect (appearance, physical, quantities, interaction), optional with defaults; materials carry their own properties, taken by default unless updated separately; textures are the renderers' maps; 0.1.0's finish records are structured this way (§4.2a, §4.4) |
+| DM-12 | The model and its inventory | **Decided (owner, 24 November 2026, with the roadmap, PRD-parti D33):** the CAD model is read live into a model inventory (`parti.model/1`) and read again when its revision moves; its objects are products of their class (stored class, else project rules, else unclassified), with materials taken by default unless updated, and faces as lesser primitives; a Parti id kept in the design survives renames (§2.6) |
 | DM-11 | The workflow in 0.1.0 | **Decided (owner, 24 November 2026):** the Workflow context's slice of §11: a definition shipped with the template and an event-sourced run; the step drives the workspace until the agent does |
 
 ## 10. Requirements traced
@@ -495,13 +555,17 @@ D22, D29, D31, D32 (§2.1a, §3.2, §4.4, §5, §7), D26, FR-WF-14, FR-WF-15 (§
 In 0.1.0 the workflow step drives the Project Environment's workspace (PRD-parti D22); the project agent takes over with
 the harness, issuing the same commands.
 
-- **Workflow definition:** data shipped with the project template (residential, single-family home, finishes; D30):
-  the seven phases (D26), and the Design phase's steps: **catalogue intake** (K1), **choose** (K10), **place and set
-  out** (K7, K8), **BOM** (K8), **trial in the walkthrough** (K12). Each step names its checklist and the view or editor it
-  opens in the workspace.
+- **Workflow definition:** data shipped with the project template (residential, single-family home; D30): the seven
+  phases (D26) and, in 0.1.0, the steps of the first three (owner, 24 November 2026, PRD-parti D33):
+  **Plan onboarding**: intake the sources (K1), calibrate each sheet, record the data tables (K1);
+  **Model**: build from data, one step per feature group (K2), consolidate (K3);
+  **Declare**: derive the declaration (K4), confirm it (a review gate).
+  Each step runs the step cycle (read the sources, write the data, generate, apply, check against the expected numbers,
+  checkpoint, record), names its checklist and checks, and the view or editor it opens in the workspace. The Design
+  phase's steps (catalogue intake, choose, place and set out, BOM, trial in the walkthrough) come with 0.2.0.
 - **Workflow run:** event-sourced like the rest: step started, step completed, to-do added, to-do ticked, and the
-  **focus** (room › surface) the step works on. Plan onboarding, Model and Declare show as done once the declaration is
-  imported.
+  **focus** (room › surface) the step works on. A project that imports a declaration it wrote itself shows Plan onboarding, Model and
+  Declare as done.
 - **Checklist items** the domain can check are ticked by their check (a finish in every zone, no sliver cut under 50 mm,
   the BOM stated with its counting rule); the rest by the user (FR-WF-15).
 - **The page:** in the workflow panel the user picks a step or completes it; its view or editor opens in the workspace,
