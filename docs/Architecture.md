@@ -273,7 +273,10 @@ plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms 
 pushes them to the Parti runtime in near real time through its sink WebSocket connector. Parti changes state and
 updates the domain objects in the shared EntityStore; Nai's source connectors listening to EntityStore's CDC streams
 fire on each change and propagate Parti's state change to every listening party (the applications, the harness's
-agent). The same mechanism can carry Parti's backend itself, written in Nai's DSL (PRD Q13). The inverse runs the same way: Parti's events enter Nai, are transformed into
+agent). The same mechanism can carry Parti's backend itself, written in Nai's DSL (PRD Q13). These mechanisms are used only
+where required (owner, 24 November 2026): one such place is the messaging between the Bun gateway and the Python
+harness, two separate processes, which can be directed through Nai once both exist; until then the harness uses the
+gateway's agent API over WebSocket directly. The inverse runs the same way: Parti's events enter Nai, are transformed into
 each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
