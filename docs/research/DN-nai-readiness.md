@@ -81,7 +81,7 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 
 | Needed by | For | Items |
 |---|---|---|
-| 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the extension name) |
+| 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
 | 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
@@ -117,8 +117,10 @@ The items:
     in, commands and scene changes out, with each endpoint's messages registered.
 11. **The Unreal plugin on the bus** (0.4.0): any limit the generic connectors place on a game-engine endpoint
     (frame-rate event volume, binary assets by reference only).
-12. **CloudEvents extension names on the wire**: how `nai-request-id` and the `nai-*` trace extensions appear in a
-    structured JSON CloudEvent, since CloudEvents extension names are lowercase letters and digits.
+12. **The request id on the wire**: Parti's endpoints carry it as the CloudEvents extension **`nairequestid`** (owner,
+    24 November 2026; CloudEvents extension names are lowercase letters and digits), for Nai's `nai-request-id`; please
+    map it in the generic connectors, and say how the other `nai-*` trace extensions appear in a structured JSON
+    CloudEvent. Examined together during CR-PRT-074.
 
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
