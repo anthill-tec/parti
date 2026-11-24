@@ -22,7 +22,7 @@ agent API over WebSocket (CR-PRT-012) and serves its own endpoint for Nai (D35, 
 ### §S1 Messages
 
 Added to the schema (CR-PRT-002's pattern): the chat's command `say` (who, text, attachments: a clip, an element, a
-sheet) and event `said`; `agent-status` (idle, working on a step, waiting for the user, with what it waits for). Chat
+sheet; from the agent, **proposals**: commands it prepared for the user to send, CR-PRT-030) and event `said`; `agent-status` (idle, working on a step, waiting for the user, with what it waits for). Chat
 messages are kept in the `workflow` log, so a reload shows the conversation (CR-PRT-030 renders it).
 
 ### §S2 The graph
