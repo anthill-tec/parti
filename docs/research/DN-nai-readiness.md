@@ -90,10 +90,11 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 | 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
 | 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-013 `parti-axi init`) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository), 14 (the Parti template) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
+| 15 Feb 2027 | 0.2.0 (CR-PRT-076, derived views; CR-PRT-077, intake of finishes) | 16 (derived views), 17 (intake from outside sources) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
 | 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
 | 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
-| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines) | 8 (the IFC translator) |
+| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines; CR-PRT-078, intake for the other layers) | 8 (the IFC translator), 17 (more sources) |
 | 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
 **To be finalised with Nai's orchestrator** (owner, 24 November 2026): how PRD-parti D34 to D39 meet Nai (the generic
@@ -116,7 +117,8 @@ The items:
 3. Measured latency for V1 and V2, or help to measure it.
 4. Registering Parti's event schemas (`parti.<context>.<message>/1`) in the schema registry.
 5. EntityStore: the status of R1 (durable consumer-group offsets) and R2 (`version`, `schemaVersion` on change events).
-6. Q13: how much of Parti's backend processing the DSL can carry (propagation and projections; the domain's own rules).
+6. Q13: how much of Parti's backend processing the DSL can carry. Parti's side is decided (PRD-parti D41): propagation
+   and derived views only; the domain's own rules stay in Parti. Which other static tooling suits the DSL is still open.
 7. The earlier open items: queries outside a pipeline, the event store for D19, D9's layer roles.
 8. **The IFC translator** as a CReq (owner, 24 November 2026; PRD-parti D32): Parti's objects transformed to and from
    IFC-based objects (IFC 4.3, ISO 16739-1:2024), each product class mapped to an IFC entity type and predefined type
@@ -153,6 +155,18 @@ The items:
     to reset state: undo and redo on the bus, returning to a design version (D19), resuming a workflow run after a failed
     step (the step cycle's checkpoints, D26), and replaying events into a restarted endpoint. Parti asks how it works
     across connectors and EntityStore, and how far it can serve these needs; explored with Nai's orchestrator.
+
+16. **Derived views** (owner, 24 November 2026; PRD-parti D41): stateful pipelines in the DSL that combine several
+    event streams (SolidCraft's, Parti's, the harness's) into state kept in a database (EntityStore or SQL) that
+    Parti's components query: keyed state, ordering across streams, windows and late events; how the state is
+    checkpointed and rebuilt from the streams; how Parti tests such pipelines with `nai test`. Projections only: what
+    changes Parti's records returns to Parti as a command.
+
+17. **Intake from outside sources** (D41), as CReqs where a connector is missing: source connectors for HTTP APIs and
+    feeds (polling, pagination, authentication with the secret held outside configuration) and for file drops,
+    started on request by the harness's intake agents (request and reply) as well as on a schedule; the normalising
+    pipelines are Parti's; each source's rate limits and terms recorded with what it brings. First for the finishes
+    (0.2.0), then the other product layers (0.5.0).
 
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).

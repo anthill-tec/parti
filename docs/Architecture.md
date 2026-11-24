@@ -326,6 +326,16 @@ events on the wire and help debug its DSL; specialised agents in the harness, pa
 use them to configure the connectors and update the DSL in a closed loop, so Parti adapts to a project's external data
 and to new modular functionality.
 
+**Three uses of Nai's DSL** (owner, 24 November 2026; PRD D41). **Routing** the events between the systems (the router,
+D38). **Derived views:** pipelines combine the incoming event streams (SolidCraft's, Parti's, the harness's) into
+stateful information kept in a database and read by the page, the harness and the reports (a model's history,
+quantities, the agent's context, telemetry); they are projections only, and whatever changes the building, the model
+or the design returns to Parti as a command, decided by the domain (R1). **Intake from outside sources:** makers' APIs,
+feeds and other systems through Nai's connectors, open web pages through the agent's own tools, normalised by Nai
+pipelines; the harness's **intake agents**, called up by the project agent, write each asset's definition with its
+source and terms, sent to Parti as a command and held as a product draft until a person accepts it in the asset
+browser.
+
 ```text
 Unreal plugin ─┐ endpoints (CloudEvents)
 Blender ───────┼─◄ WebSocket ─ Nai WebSocket source ─► schema registry ─► DSL ─► Nai WebSocket sink ─► Parti runtime

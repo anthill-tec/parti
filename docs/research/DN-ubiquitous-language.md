@@ -82,6 +82,8 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Source scan | The texture a wood veneer or laminate is made from, with the real size it covers, its grain direction and its maps; one scan can back several finishes. | Catalogue |
 | Stain | A tint applied over a source scan; a finish is a scan plus its stain, and its colour is the colour after the stain. | Catalogue |
 | Catalogue | The products available to a layer, with the facts used to filter and match them. | Catalogue |
+| Product draft | A product found and described from an outside source (a maker's site or feed, another system), with its source and the terms its data and images come under, waiting for a person to accept it into the catalogue; a draft is never placed or counted (D41). | Catalogue |
+| Intake agent | An agent of the project's harness that fills the catalogue from outside sources when the project agent calls it up: it searches, fetches and extracts, and writes product drafts (D41). | — |
 | Suitable use | Where a product may be used: room use (bathroom, interior, outdoor) and surface kind (wall, floor). *Proposed*: the JohnnyHouse tile records call the room use `zone`; their translator maps it here. | Catalogue |
 | Quantity | How much of a product a plan needs, wastage included, computed from the placements and their setting-outs, and always stated with its counting rule. | Quantities |
 | Counting rule | How a quantity was counted: for tiles, every grid tile of which any part shows is one, cut tiles are whole, offcuts not reused; the wastage and where the rounding is applied. | Quantities |
