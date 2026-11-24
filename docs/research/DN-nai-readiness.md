@@ -61,6 +61,8 @@ to Nai through it directly: they talk to the connectors that are built for them.
 - **The connectors are written entirely by the Nai project** (`ecosystem/nai_connector_*`), from Parti's requests
   (CReqs); Parti writes no connector. Parti writes the schemas, the endpoint definitions and its endpoints (the
   gateway, the harness, the plugins); its Rust is only the SolidCraft plugin, from 0.2.0.
+- **The routing is Parti's, in Nai's DSL** (owner, 24 November 2026; PRD-parti D38): Parti writes and keeps the
+  pipelines in its own repository (`nai/`) and deploys them to Nai; Nai owns the language, the runtime and the connectors.
 - **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its endpoint.
 
 ## 4. Validation spike (before the first release that connects a real application)
@@ -84,7 +86,7 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 | Needed by | For | Items |
 |---|---|---|
 | 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
-| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events) |
+| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
 | 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
@@ -125,6 +127,10 @@ The items:
     24 November 2026; CloudEvents extension names are lowercase letters and digits), for Nai's `nai-request-id`; please
     map it in the generic connectors, and say how the other `nai-*` trace extensions appear in a structured JSON
     CloudEvent. Examined together during CR-PRT-074.
+
+13. **Pipelines from another repository** (PRD-parti D38): how Parti tests its DSL pipelines outside Nai's repository
+    (a command-line check, a test harness, fixtures of events in and out, reportable to Crucible), how it deploys them to a
+    running Nai and versions them, and how the harness's Nai agents change them at run time. Needed with item 1.
 
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
