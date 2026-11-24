@@ -91,7 +91,9 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Guide | The assistant embodied as a figure in the world, which walks with the user and talks with them by voice or text. Not the user's avatar. | Session |
 | Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
-| Designer edition | Parti for architects and interior designers: the full workflow and authoring. | — |
+| Designer edition | Parti for architects and interior designers: the full workflow and authoring, through the guided chat and components such as the asset browser. | — |
+| Guided chat | The designer edition's conversation with the project agent: where the project stands, what is next, each decision put as options with pictures, in the user's own terms (D22). | — |
+| Asset browser | Where every kind of asset is found and chosen: finishes, later furniture and fittings, and library assets not yet acquired, each choice made for a target (D22). | Catalogue |
 | Consumer | A person who consumes a project's deliverables, above all the walkthrough with or without VR: a home buyer, a business buyer, or the client who commissioned the project (D28). | — |
 | Client viewer | Parti for the consumer: a self-contained walkthrough viewer, on a monitor or in VR, with the offered options, on Windows or Linux. | — |
 | Smart menu | In the client viewer, a menu that opens in the 3D world at the zone or element the client points at, listing only its offered options; choosing one applies it at once. | World builder |
@@ -160,3 +162,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | D26: Step narrowed to a unit within a phase; Gate gains its kinds; Checkpoint distinguished from the harness's state; added Workflow definition, Workflow run, Phase, Step kind, Step cycle, Check, Check result, Caveat, Decision, Pointer, Correction, Audit, Variant, Step record. |
 | 2026-11-24 | Added Project agent (D28). |
 | 2026-11-24 | Added Consumer; Client viewer is the consumer's (D28). |
+| 2026-11-24 | Added Guided chat, Asset browser; Designer edition through them (D22). |
