@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-24 | Architecture.md split into Part A, domain design, and Part B, system architecture, where the technical components are defined (owner). |
 | 2026-11-24 | D9 reconsidered: Nai and EntityStore arrive with the first release connecting a real application, after a spike; 0.1.0 stays local with registry-ready event schemas (owner). |
 | 2026-11-24 | D29: the agent responds to state changes in any application and acts in any of them through MCP; edits made in an application's editor reach Parti this way (owner). |
 | 2026-11-24 | D29: events trigger the agent: the harness subscribes to the Nai and EntityStore messages (owner). |

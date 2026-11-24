@@ -81,6 +81,11 @@ walkthrough viewer for the building's owner, packaged with a client bundle.
 | Nothing of one target project lives in Parti's code. | NFR-10 |
 | Servers bind to 127.0.0.1 in version one; every incoming message is validated against the schema. | NFR-8 |
 
+## Part A — Domain design
+
+The business model, in the glossary's language: the contexts, what each holds and publishes, and the workflow's
+shape (D26). Nothing here names a technology.
+
 ## 4. Contexts
 
 Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the architecture review, D17, D18).
@@ -107,7 +112,13 @@ audit loops across every phase. A correction may land in an earlier phase's step
 (D19). The harness compiles the workflow definition into its LangGraph graph; the graph's state is a projection of the
 workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's.
 
-## 5. Components
+## Part B — System architecture
+
+The technical side (owner, 24 November 2026: technical components are not domain design modules, and are defined
+here): the components and their stacks, how a change travels, the message bus and the connectors (D29), where things
+run, the backends, installation, and the system-design terms (§11).
+
+## 5. Components (system architecture)
 
 | Component | Stack | Depends on | Notes |
 |---|---|---|---|
@@ -274,7 +285,7 @@ also connects it to the target's Unreal project.
 release needs (the domain PRD first for 0.1.0), and grows with the releases. 4. CRs, filed on the Crucible board,
 last: each implements settled requirements.
 
-## 11. System-design terms
+## 11. System-design terms (Part B)
 
 The software's technical vocabulary. These words describe how Parti is built; they are not part of the
 business language (`research/DN-ubiquitous-language.md`) and are never needed to discuss the product with
