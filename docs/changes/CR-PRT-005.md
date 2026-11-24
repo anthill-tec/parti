@@ -55,6 +55,14 @@ is complementary (180° ± 30°) and whose strength passes the threshold, at mos
 - [ ] `goesWith` lists set members first, then pairs, then complementary products, and never the product itself.
 - [ ] Caller-existence: `queryCatalogue` and `goesWith` are called from `packages/gateway/src` (reviewed at CR-PRT-012 VERIFY).
 
+## Test products, moved here from CR-PRT-003 (owner, 2026-11-24)
+
+`makeProducts(n, seed)` (in `packages/schema/src/test-support/products.ts`) arrives here, with the product record it
+builds, so the two never drift. Carried from CR-PRT-003's gap analysis: every open or continuous filter field
+(licence, maker, size, lightness, main colour, product class) gets an enumerated set or buckets, so "every value
+appears" is testable, and *colour strength* and *role in a set* are among the covered fields. The spec is rewritten for
+the narrowed scope (the product model and the classification) before Track 1 reaches it.
+
 ## Record format (DM-10; owner, 24 November 2026)
 
 The product model (PRD-domain §4.2a, §4.4) structures the `Product` type as identity fields (now with its `class`, D32)

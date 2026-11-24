@@ -1,75 +1,94 @@
 # CR-PRT-003 — Synthetic fixtures
 
-**Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
+**Status:** PENDING (spec drafted 2026-11-23; gap analysis 2026-11-24 by Track 2, findings G1–G14 folded in or moved; the owner's rulings on F1, F2 and G13; spec pre-review due)
+**Pre-review:** due — touches another project's surface (`parti.testing` ships in the public `parti` wheel); needed the owner's rulings.
 **Type:** feature
 **Re-targeted:** 2026-11-24, to the roadmap the owner approved (0.1.0 = the building from CAD); filed on the Crucible board.
 **Priority:** High
 **Depends on:** CR-PRT-001, CR-PRT-002
 **Labels:** fixtures, testing
 **Phase:** 0.1.0 · wave 1
-**Design reference:** `docs/research/DN-test-strategy.md` §Fixtures; `docs/research/PRD-parti.md` NFR-10; `docs/research/PRD-domain.md` §2.4, §4.1
+**Design reference:** `docs/research/DN-test-strategy.md` §Fixtures; `docs/research/PRD-parti.md` NFR-10, D25; `docs/research/PRD-domain.md` §2.4, §2.5
 
 ## Context
 
-The repository is public, so tests use synthetic data only (NFR-10): generated buildings and products, plain-colour
-swatches, never makers' images nor a target project's data.
+The repository is public, so tests use synthetic data only (NFR-10): generated buildings and drawing sheets, never
+makers' images nor a target project's data. **Each fixture arrives with the CR that defines its format** (owner,
+2026-11-24): this CR makes the fixtures whose formats exist by wave 1 (the building declaration, CR-PRT-002) and the
+drawing sheets, whose shape is plain images; the CAD data tables come with CR-PRT-024, the model inventory with
+CR-PRT-025 and the test products with CR-PRT-005 (see "Moved to other CRs").
 
 ## Scope
 
 ### §S1 Building generator
 
-`packages/schema/test-support/buildings.ts` exports `makeBuilding(spec)` returning a valid `parti.building/1`
-declaration from a compact spec (rooms with width, depth, height and level; openings and regions per side), computing
-anchors so that each wall runs left to right as seen from inside (B-4). Named presets: `oneBath` (one room, four walls,
-floor, one door, one mirror region), `twoLevels` (three rooms on two levels), `faulty` (one fault of each of B-1, B-2,
-B-4, labelled).
+`packages/schema/src/test-support/buildings.ts` (exported through `@parti/schema/test-support`) exports
+`makeBuilding(spec)` returning a valid `parti.building/1` declaration from a compact spec (rooms with width, depth,
+height and level; openings and regions per side), computing anchors so that each wall runs left to right as seen from
+inside (B-4). Named presets: `oneBath` (one room, four walls, floor, one door, one mirror region), `twoLevels` (three
+rooms on two levels).
 
-### §S2 Product generator
+`makeFaulty()` returns `{ declaration, breaches }`: a declaration that is valid against the schema but breaks the
+rules, and the list of its breaches as `{ rule, code, path }`, one each of B-1, B-2 and B-4. The breaches are held
+outside the declaration (the schema is closed, and *label* is the glossary's term for an element's name). Each breach is
+placed so that it breaks only its own rule.
 
-`makeProducts(n, seed)` returns `n` deterministic synthetic finishes of all seven kinds (tile, wood veneer, laminate, paint, metal, exposed, glaze), covering every
-filterable field of PRD-domain §4.3 and the kind-specific fields of §4.1 (scans with real size and grain direction,
-stains, licences, paint sheens and effects, colour-only veneers and laminates) (uses, surfaces, makers, colours across the wheel, lightness, warm and cool, patterns, finish classes,
-sets with pairs, sizes), with swatch and scan images generated as plain-colour PNGs into a temporary folder (none for paint, metal, exposed or glaze).
-
-### §S3 Shared to Python
+### §S2 Shared to Python
 
 The same presets are written as JSON files into `tests/fixtures/` by `bun run --filter @parti/schema fixtures`, so the
 Python tests read identical data.
 
-### §S4 The building from CAD (0.1.0's roadmap)
+### §S3 Drawing sheets for Plan onboarding
 
-In `tests/fixtures/cad/`, written by `python -m parti.testing.fixtures` (Python, since the SDK is Python):
+`parti.testing.fixtures.write_sheets(out_dir)` (in the `parti` library, so a target project's tests may use it; it
+writes only synthetic data, and the folder is a required parameter) writes, and `python -m parti.testing.fixtures
+<out_dir>` runs it; the repository's copy is in `tests/fixtures/cad/`:
 
-- **Data tables** for a synthetic two-level house (`oneHouse`): levels, the wall set-out (lines, thickness, height),
-  slabs, openings and a few named parameters, in the shape the SDK reads (CR-PRT-024), with the expected volume, bounds
-  and body count of each feature group.
-- **A model inventory** of the same house as SolidCraft would report it (bodies, components, part properties with a
-  class on some and none on others, materials with their looks, faces with their normals and areas), for the model
-  inventory's and the model's tests (CR-PRT-025, CR-PRT-026) without SolidCraft; its schema arrives with CR-PRT-025.
-- **Drawing sheets**: two plain PNG sheets (a plan and an elevation) with a dimension line of known length and known
-  pixel ends, and one render, for Plan onboarding's calibration (CR-PRT-028).
-
-All of it is generated from code, never copied from a target project.
+- **Two sheets**, a plan and an elevation, as PNGs: black lines on a plain white background. Each carries **two
+  dimension lines** in a named colour: one to calibrate from and one to check the calibration against (D25: a scale is
+  re-checked; K1 cross-checks each value on two sources).
+- **A sidecar JSON per sheet**: its kind (`plan` | `elevation`), its level, and for each dimension line its known
+  length in millimetres and its pixel ends.
+- **One render**, a PNG with a sidecar of kind `render` and no dimension lines: a render is a texture and style cue,
+  never calibrated (D33).
 
 ## Acceptance criteria
 
+### §S1
 - [ ] `validateDeclaration(makeBuilding(p))` is ok for `oneBath` and `twoLevels`.
-- [ ] `faulty` carries exactly one breach of each of B-1, B-2 and B-4, each identified by a `label` field the building context's tests use.
-- [ ] `oneBath`'s east wall anchor runs north to south (start y > end y), its west wall south to north.
-- [ ] `makeProducts(200, 1)` is deeply equal across two calls, every value of each filter field in PRD-domain §4.3 appears at least once, and each of the seven kinds appears at least 20 times; some tiles state `sizeIncludesJoint` and `piecesPerBox`.
-- [ ] At least two veneers share one source scan with different stains, and no paint or metal has an image.
-- [ ] Every swatch PNG is a single colour of the product's declared main colour (pixel check on three points).
+- [ ] `validateDeclaration(makeFaulty().declaration)` is ok (valid against the schema), and `breaches` holds exactly one breach of each of B-1, B-2 and B-4, each with its rule, code and path.
+- [ ] Each breach in `makeFaulty()` breaks only its own rule: removing any one breach removes exactly that rule's fault (checked against the rules' expected codes; the building context's tests run the rules themselves, CR-PRT-004).
+- [ ] `oneBath`'s wall anchors run left to right as seen from inside on all four sides: east north to south (start y > end y), west south to north (start y < end y), north west to east (start x < end x) and south east to west (start x > end x), with the directions stated in a test table; `twoLevels`' upper rooms carry the upper level's `floor_z`.
+### §S2
 - [ ] The JSON files in `tests/fixtures/` equal the generators' output (a test regenerates and compares).
-### §S4
-- [ ] The `oneHouse` tables' expected volumes equal the sum of their boxes and extrusions computed independently in the test, and its inventory names the same bodies as the tables' feature groups.
-- [ ] The inventory has at least one body with a class, one without, one face whose material overrides its body's, and one component whose material its bodies inherit.
-- [ ] Each sheet's dimension line, measured from the PNG's pixels, lies within one pixel of its declared ends.
+### §S3
+- [ ] On each sheet, both dimension lines, found by scanning the PNG's rows or columns for the named colour, lie within one pixel of their declared ends; the calibrating line's scale applied to the checking line gives its known length within 0.5 %.
+- [ ] Each sidecar validates against a schema in the test (kind, level, lines with length and pixel ends); the render's sidecar is of kind `render` and has no lines.
+- [ ] `write_sheets(tmp)` called twice gives the same files (PNGs compared as decoded pixels and their size, not as bytes), equal to those in `tests/fixtures/cad/`.
+- [ ] Calling `write_sheets` without a folder fails with a usage error, and nothing is written.
+
+## Moved to other CRs (owner, 2026-11-24; Track 2's findings carried with them)
+
+- **The CAD data tables** for a synthetic two-level house (`oneHouse`): to **CR-PRT-024**, with the format the SDK
+  reads and its contract tests. Carried: the expected volume needs a stated edge rule (no overlaps by construction, or
+  the union) and bounds need their own criterion (G1); *feature group*, *data table*, *model inventory* and *drawing
+  sheet* go into the glossary (G2); how bodies are named from the tables is decided there (G3); the tables also carry
+  the rooms (identity, level, `floor_z`) and an expected `parti.building/1` for `oneHouse`, the oracle for
+  CR-PRT-027's derivation (G6).
+- **The model inventory**: to **CR-PRT-025**, as two documents: SolidCraft's raw report (the translator's input) and
+  Parti's `parti.model/1` (its output, CR-PRT-026's input) (F2). Carried: a second revision of it (a body split, a body
+  renamed, a material changed) for the live re-read and CR-PRT-009 (G4); SolidCraft's units with the declared
+  transform (G5).
+- **The test products** (`makeProducts`): to **CR-PRT-005**, with the product record and the classification. Carried:
+  open or continuous filter fields need an enumerated set or buckets, and *colour strength* and *role in a set* are
+  among them (G14).
 
 ## Estimated size
 
-5 points (3 before the roadmap's §S4).
+5 points (about 4 after the moves, rounded up to the board's scale).
 
 ## Non-goals
 
 Real JohnnyHouse data (read in place by live tests and CR-PRT-017's workstation acceptance run, never committed); a
-SolidCraft design file (built from the tables by CR-PRT-024's live test).
+SolidCraft design file (built from the tables by CR-PRT-024's live test); test products, data tables and the model
+inventory (moved, above).

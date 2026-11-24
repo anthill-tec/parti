@@ -33,7 +33,8 @@ Bun client's gate runs.
 
 Bun links workspaces in isolated mode, so a package that imports another declares it: `domain`, `gateway`,
 `adapters-local` and `page` declare `"@parti/schema": "workspace:*"`. `@parti/schema`'s `package.json` has an `exports`
-map with `.` and `./test-support`.
+map with `.` and `./test-support`; the test support lives in `packages/schema/src/test-support/` (inside the type
+check's `packages/*/src`), where `live(...)` and `isLive` go and CR-PRT-003's generators follow.
 
 ### §S2 Python packages
 
