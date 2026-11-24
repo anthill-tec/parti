@@ -112,7 +112,7 @@ The items:
 9. **Interaction events** (`parti.interaction.*/1`; D29): accepted into the bus for the agents' context and, with D9,
    telemetry, but outside the design's history.
 10. **More endpoints for the same connectors**, configured, with no new connector: SolidCraft's (0.2.0, the native Rust
-    server shipped with Parti's plugin, which drives the running application through its agent connection), Blender's
+    server shipped with Parti's plugin, which drives the running application through its control protocol and receives its `design.changed` events), Blender's
     (0.3.0, its add-on in process) and Unreal's (0.4.0, its plugin in process); picks, revisions and walkthrough events
     in, commands and scene changes out, with each endpoint's messages registered.
 11. **The Unreal plugin on the bus** (0.4.0): any limit the generic connectors place on a game-engine endpoint
