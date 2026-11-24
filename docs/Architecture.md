@@ -135,7 +135,7 @@ run, the backends, installation, and the system-design terms (§11).
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
 
-## 6. How a change travels
+## 6. How a change travels (system architecture)
 
 Assigning a finish, version one:
 
@@ -156,7 +156,7 @@ ways. Events from the applications (a pick, a CAD revision) come back through th
 needs judgment goes through the harness's agent loop and the applications' MCP servers (D21) instead. In 0.1.0 the
 gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (§8).
 
-## 7. Where things run, by stage
+## 7. Where things run, by stage (system architecture)
 
 | Stage | Page | Gateway and domain | Stores | Scene |
 |---|---|---|---|---|
@@ -196,7 +196,7 @@ so the viewer needs no rules engine (PRD Q4). The viewer's licence comes first (
 In a served Parti (D, E) there are several users and sessions, and agents join a session the same way users
 do (D16). The backend may move to Nai (D9).
 
-## 8. Later backends
+## 8. Later backends (system architecture)
 
 - **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports. Its change data capture turns every stored state change into a message for the bus (D29).
 - **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness. Also (D9, owner 2026-11-23): retrieval (RAG) for the agent harness and the knowledge base, which move to Nai as soon as the harness exists; session context and agent memory; a file catalogue, so file operations do not depend on the operating system; geospatial and map data, so the world builder builds the site around the building from map providers. Each role sits behind its own port: knowledge store, session store, file catalogue, geo data.
@@ -248,7 +248,7 @@ Nai treats all its data as schema-based events. Parti's own changes are already 
 How much of the static tooling otherwise written in Python can move to Nai is an open question (`research/PRD-parti.md`
 Q13).
 
-## 9. Installing into a target project
+## 9. Installing into a target project (system architecture)
 
 Once scaffolded, the architect or designer opens the Project Environment in the browser (served by the gateway); it is
 their workspace until the Unreal walkthrough is generated, which then joins it (D22). The first thing the project agent
