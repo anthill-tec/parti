@@ -29,6 +29,8 @@ output, a dry run, and a flag for every question.
 - `parti-axi doctor` checks Bun, the configuration, the declaration's validity and the catalogue's presence, one line
   per check.
 - `parti-axi gateway start|stop|status` runs the gateway in the background with a pid file under `parti/.run/`.
+- `parti-axi open` starts the gateway if it is not running and prints the Project Environment's address (D22: the
+  browser is the designer's workspace from scaffolding on), opening it in the default browser unless `--no-browser`.
 - `parti-axi catalogue build --from <records.ndjson> [--scans <scans.ndjson>]` builds the catalogue from records in
   Parti's format (CR-PRT-011) and prints the report's counts.
 - `parti-axi building import [--file <path>]` sends `import-building` and prints the events or the faults.
@@ -46,6 +48,7 @@ summary in the display units. Exit codes: 0 ok, 1 refused or failed check, 2 usa
 
 - [ ] `init --yes` on an empty temporary folder creates `parti.toml` with `area_unit = "sq-ft"` and `length_unit = "ft-in"`, the `parti/` sub-folders of PRD-domain §8, and an `AGENTS.md` with the Parti section, the `parti-*` skills and agent definitions; a second run changes nothing (files byte-identical).
 - [ ] `init --dry-run` creates nothing and lists the files it would write.
+- [ ] (integration) `open --no-browser` on a scaffolded project starts the gateway and prints an address whose page answers 200.
 - [ ] (integration) `gateway start`, then `building import` of `oneBath`, then `state --query building --json` returns five surfaces; `gateway stop` leaves no process (pid gone).
 - [ ] `building import` of `faulty` exits 1 and its `--json` output lists the three faults.
 - [ ] `scale set blender --known "door=2100" --measured 2.1` stores `scale = 1000` for `blender`.
