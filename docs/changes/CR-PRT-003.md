@@ -51,4 +51,4 @@ Python tests read identical data.
 
 ## Non-goals
 
-Real JohnnyHouse data (used in place by CR-PRT-011 and CR-PRT-017's local acceptance run, never committed).
+Real JohnnyHouse data (read in place by CR-PRT-017's workstation acceptance run, never committed).

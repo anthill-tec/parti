@@ -20,14 +20,15 @@ output, a dry run, and a flag for every question.
 - `parti-axi init --target <dir> [--parti-dir parti] [--area-unit sq-ft|m2] [--length-unit ft-in|mm|m] [--yes]`
   writes `<dir>/parti.toml` (folder, display units with D25's defaults, gateway port, the working models' scales,
   empty) and `<dir>/parti/` with its sub-folders; writes Parti's skills (`.agents/skills/parti-*`: in 0.1.0, using
-  `parti-axi` and the finish tool, and building a catalogue with the library) and agent definitions; records the
+  `parti-axi` and the finish tool, and translating the project's own records into Parti's formats with the library
+  and building the catalogue) and agent definitions; records the
   project's dependencies on `parti` and `parti-axi` (D27); and appends Parti's section to the target project's
   `AGENTS.md` (created if absent). Re-running is safe: existing values are kept unless a flag changes them.
 - `parti-axi doctor` checks Bun, the configuration, the declaration's validity and the catalogue's presence, one line
   per check.
 - `parti-axi gateway start|stop|status` runs the gateway in the background with a pid file under `parti/.run/`.
-- `parti-axi catalogue build --from <records-dir> --mapping <file>` runs CR-PRT-011's translator with the project's
-  mapping.
+- `parti-axi catalogue build --from <records.ndjson> [--scans <scans.ndjson>]` builds the catalogue from records in
+  Parti's format (CR-PRT-011) and prints the report's counts.
 - `parti-axi building import [--file <path>]` sends `import-building` and prints the events or the faults.
 - `parti-axi scale set <model> (--units <u> --scale <s> | --known "<label>=<mm>" --measured <value>)` records a working
   model's scale (D25), calibration computing `scale = known / measured`.
@@ -47,7 +48,7 @@ summary in the display units. Exit codes: 0 ok, 1 refused or failed check, 2 usa
 - [ ] `building import` of `faulty` exits 1 and its `--json` output lists the three faults.
 - [ ] `scale set blender --known "door=2100" --measured 2.1` stores `scale = 1000` for `blender`.
 - [ ] `command define-zone --json '{...}'` prints the `zone-defined` event; an unknown command name exits 2.
-- [ ] Caller-existence: `parti_axi` calls `parti.schema.validate_message` before sending and `parti.catalogue.translate` in `catalogue build`.
+- [ ] Caller-existence: `parti_axi` calls `parti.schema.validate_message` before sending and `parti.catalogue.build` in `catalogue build`.
 
 ## Estimated size
 

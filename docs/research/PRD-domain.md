@@ -17,6 +17,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
 | 2026-11-23 | DM-7 decided as recommended (owner). |
+| 2026-11-24 | §4.2: a project's records are translated by its own orchestrator into Parti's formats (`parti.catalogue/1`, `parti.scan/1`, `parti.shortlist/1`); Parti provides the formats and the library's tools (owner). |
 | 2026-11-24 | Setting-out per placement (rule, origin, edge cuts, module) and quantities (counting rule, wastage, to buy) in 0.1.0; shortlist targets; kinds exposed and glaze (owner; JohnnyHouse #1658). |
 | 2026-11-23 | Effect paints; colour-only (provisional) finishes; cabinetry classes; renderers rebuild finishes from the catalogue (JohnnyHouse #1653). |
 | 2026-11-23 | Fifth kind: metal (owner; JohnnyHouse #1651); scans as records of their own. |
@@ -236,7 +237,7 @@ offset (x, y) of the pattern's origin, rotation (0 or 90 degrees) (FR-DES-2).
   undone in one step. Applying a scheme to *another* room (matching zones by kind and side) comes later.
 - **Shortlist:** products set aside, each with a note (FR-DES-5) and, optionally, a **target** (owner, 24 November 2026): the room, the
   surface and the role (base, band, border, feature) it is chosen for, since twice JohnnyHouse had to ask which bathroom
-  and which course a shortlisted tile was for (#1658). The shortlist can be filtered by target. JohnnyHouse's `selections.json` is read once into the
+  and which course a shortlisted tile was for (#1658). The shortlist can be filtered by target. A project's existing shortlist is read once, in `parti.shortlist/1` (JohnnyHouse's orchestrator translates its `selections.json`), into the
   shortlist so its existing shortlist is not lost (DN-first-consumer, need 3).
 
 ### 3.4a Quantities (owner, 24 November 2026)
@@ -294,10 +295,23 @@ materials from the catalogue finish and checks after every import that no materi
 as a **reference**, like CAD body names (§2.2).
 Products are **read-only** in Parti: the catalogue is built by importing records, never edited by the user.
 
-### 4.2 Reading a target project's records (FR-CAT-4)
+### 4.2 A target project's records: Parti's format, the project's translation (FR-CAT-4)
 
-Each source has its own **translator**. JohnnyHouse's tile records (`tiles.ndjson`, `tile.schema.json`) are the first.
-Notable mappings:
+**Who translates** (owner, 24 November 2026): a target project's own records are translated by **that project's orchestrator agent**, never by
+Parti. Parti provides the foundations: the **catalogue record format** (`parti.catalogue/1`, in the schema beside
+`parti.building/1`), and the library's tools (`parti.catalogue`, D27) to validate the records, derive what can be derived
+(picture orientation, colour tags, thumbnails), build the catalogue and report every record it could not take. It is
+the same division as the building declaration (§2.4): Parti defines the format, the project fills it.
+
+**The record format** `parti.catalogue/1`: newline-delimited JSON, one record per finish, with the fields of §4.1 by kind
+(id, kind, maker or source and licence, name, series, set, role in set, pairs with, maker's code, product address,
+suitable use, suitable surfaces, classification basis and confidence, size, whether it includes the joint, pieces per
+box, thickness, finish class, colour, scan and stain, sheen and effect, treatment, metallic and roughness, images as
+paths relative to the target project, asset references); scans as records of their own (`parti.scan/1`); and shortlist
+entries (product, note, target) for a project's existing shortlist (`parti.shortlist/1`).
+
+**JohnnyHouse, the first project** (evidence for the format, and guidance for its orchestrator's translation; none of it
+in Parti's code):
 
 | JohnnyHouse field | Parti | Note |
 |---|---|---|
@@ -307,8 +321,8 @@ Notable mappings:
 | `classification.basis`, `.confidence` | how the suitable use was decided, and how sure | carried and shown, not hidden: 778 records were filed by a size rule |
 | `size_mm`, `thickness_mm`, `finish`, `finish_class`, `body`, `design`, `colour.*` | size, thickness, finish, finish class, body, design, colour description | |
 | `images.swatch`, `.room`, thumbnails | images | **referenced in place** in the target project, never copied (NFR-10) |
-| (finishes database, #1648) `finishes.ndjson`: kind, source, licence, scan, stain, sheen, Unreal assets | kind, source and licence, source scan, stain, sheen, asset references | a second translator input beside the tiles; ids `WV-`, `LM-`, `PT-` kept |
-| (missing) | **picture orientation** | `size_mm` does not say which way the swatch picture is laid (NW-021: 300 × 600, picture 1000 × 500 px, landscape). The translator derives it from the picture's pixel size and records it; a record whose picture and size disagree beyond a tolerance is flagged (JohnnyHouse #1638). |
+| (finishes database, #1648) `finishes.ndjson`: kind, source, licence, scan, stain, sheen, Unreal assets | kind, source and licence, source scan, stain, sheen, asset references | a second source beside the tiles, translated by JohnnyHouse's orchestrator; ids `WV-`, `LM-`, `PT-` kept |
+| (missing) | **picture orientation** | `size_mm` does not say which way the swatch picture is laid (NW-021: 300 × 600, picture 1000 × 500 px, landscape). The library's catalogue build derives it from the picture's pixel size and records it; a record whose picture and size disagree beyond a tolerance is flagged (JohnnyHouse #1638). |
 
 ### 4.3 Queries (FR-CAT-2, FR-CAT-3)
 
