@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-012
 **Labels:** page, ui, catalogue
 **Phase:** 0.1.0 · wave 4
-**Design reference:** `docs/research/PRD-parti.md` FR-CAT-2, FR-CAT-3, FR-DES-5, D22 (designer edition), D25; `docs/research/PRD-domain.md` §4.3; `docs/Architecture.md` §5 (`page`)
+**Design reference:** `docs/research/PRD-parti.md` FR-CAT-2, FR-CAT-3, FR-DES-5, D22 (designer edition), D25; `docs/research/PRD-domain.md` §4.3; `docs/Architecture.md` B3 (`page`)
 
 ## Context
 

@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-011, CR-PRT-012
 **Labels:** cli, python, installer
 **Phase:** 0.1.0 · wave 4
-**Design reference:** `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25; `docs/Architecture.md` §5 (`parti-axi`), §9; `docs/research/PRD-domain.md` §2.3a, §8
+**Design reference:** `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25; `docs/Architecture.md` B3 (`parti-axi`), B7; `docs/research/PRD-domain.md` §2.3a, §8
 
 ## Context
 

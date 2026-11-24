@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-012
 **Labels:** mock-scene, testing
 **Phase:** 0.1.0 · wave 4
-**Design reference:** `docs/research/PRD-parti.md` FR-SCN-1, Q9, Q17; `docs/Architecture.md` §5 (`mock-scene`); `docs/research/DN-test-strategy.md`
+**Design reference:** `docs/research/PRD-parti.md` FR-SCN-1, Q9, Q17; `docs/Architecture.md` B3 (`mock-scene`); `docs/research/DN-test-strategy.md`
 
 ## Context
 

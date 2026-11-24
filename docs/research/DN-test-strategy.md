@@ -3,7 +3,7 @@
 **Date:** 2026-11-23
 **Status:** Approved by the owner (23 November 2026). Answers `PRD-parti.md` Q10.
 **Author:** Parti orchestrator (vidushi-parti)
-**Related:** `PRD-parti.md` (R1–R8 in `../Architecture.md` §3, NFR-1, NFR-10), `DN-ubiquitous-language.md`
+**Related:** `PRD-parti.md` (R1–R8 in `../Architecture.md` A4 and B2, NFR-1, NFR-10), `DN-ubiquitous-language.md`
 
 ## The rule
 

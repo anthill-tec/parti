@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-001
 **Labels:** schema, contract
 **Phase:** 0.1.0 · wave 1
-**Design reference:** `docs/research/PRD-domain.md` §7 (messages), §2.4 (declaration); `docs/Architecture.md` §3 R5, R6, R8, §6
+**Design reference:** `docs/research/PRD-domain.md` §7 (messages), §2.4 (declaration); `docs/Architecture.md` A4 (R5, R6), B2 (R8), B4
 
 ## Context
 
@@ -77,4 +77,4 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 
 ## Non-goals
 
-C++, Rust or Avro generation (later, Architecture §5); messages of later releases (PRD-domain §7, last paragraph).
+C++, Rust or Avro generation (later, Architecture B3); messages of later releases (PRD-domain §7, last paragraph).

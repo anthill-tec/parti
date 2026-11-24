@@ -2,11 +2,11 @@
 
 **Date:** 2026-11-24
 **Status:** §2a and §2b decided as D26 (owner, 24 November 2026): the Workflow context's shape, folded into the glossary,
-Architecture §4 and PRD-parti §8A. The rest of §3 (Building, Design, Catalogue, Session, World builder) are proposals,
+Architecture A2 and PRD-parti §8A. The rest of §3 (Building, Design, Catalogue, Session, World builder) are proposals,
 taken up with each context's PRD for the release that needs them. Provisional while the prototype runs.
 **Author:** Parti orchestrator (vidushi-parti)
 **Source:** JohnnyHouse `docs/research/RUNBOOK.md` v0.3 (read in place; Sandesh #1660), its LOG, and #1640 to #1658
-**Related:** `../Architecture.md` §4 (contexts), `PRD-parti.md` §8A (workflow outline), D17, D18, D19, D21, D24, Q17;
+**Related:** `../Architecture.md` A2 (contexts), `PRD-parti.md` §8A (workflow outline), D17, D18, D19, D21, D24, Q17;
 `PRD-domain.md` (the 0.1.0 slice); `DN-ubiquitous-language.md`
 
 ## 1. Why
@@ -114,7 +114,7 @@ Two aggregates, kept apart as definition and history:
 
 - Glossary: Step (narrowed to the unit within a phase); new Phase, Check, Check result, Correction, Decision, Variant,
   Caveat, Step record, Pointer; Gate gains its kinds; Checkpoint distinguished from the harness's checkpointer.
-- Architecture §4, Workflow row: aggregates Workflow definition and Workflow run, as above.
+- Architecture A2, Workflow row: aggregates Workflow definition and Workflow run, as above.
 - PRD-parti §8A: its 13 rows renamed phases; FR-WF-1 (steps within phases), FR-WF-2 (the step record), FR-WF-4 (check
   results with "not checked"), FR-WF-7 (caveats on the step definition), FR-WF-9 (gate kinds) restated; a new
   FR-WF for corrections.
@@ -128,7 +128,7 @@ Each prototype concept, the Parti context it belongs to, whether Parti already h
 
 | Prototype | Parti today | Proposal |
 |---|---|---|
-| Phase (P0 to P12), with its gate | Step (glossary), Pipeline (Architecture §4) | **Phase**: an ordered, gated group of steps; the order is a decision the owner may change |
+| Phase (P0 to P12), with its gate | Step (glossary), Pipeline (Architecture A2) | **Phase**: an ordered, gated group of steps; the order is a decision the owner may change |
 | Step (`CP-03`, `T12.3`), closed by a check and a saved checkpoint | Step, Checkpoint | keep: a step is planned, has its checks, and its result is a revision |
 | Correction (`CP-16b` … `CP-16o`): a revision of a done step's result, with trigger, cause, fix and check | Revision (D19), Follow-up action | **Correction**: a revision of a step's result, recording its trigger (agent re-reading the sources, owner pointing, seen in a view, audit), cause, fix, check, and the step it lands in, which may be in an earlier phase than the one being worked; it makes later steps' results stale |
 | Variant (`VAR-1`), a comparison copy | Option, offer (D22) | **Variant**: an alternative kept beside the main line for comparison, never replacing it until chosen |
@@ -196,7 +196,7 @@ Each prototype concept, the Parti context it belongs to, whether Parti already h
 2. **Rules (finish by selector):** 0.1.0, or with the workflow in 0.2.0.
 3. **The Workflow PRD:** written next, with this Runbook as its primary evidence, for 0.2.0; or after 0.1.0 ships.
 4. **Where the building concepts go** (parts, placements, motion tables, operable elements, surfaces outside rooms):
-   recorded in Architecture §4 and the glossary now as decided names, specified with the world builder's PRD.
+   recorded in Architecture A2 and the glossary now as decided names, specified with the world builder's PRD.
 
 ## 5. What recurs, and would be the engine's core
 

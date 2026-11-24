@@ -6,12 +6,12 @@
 **Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-006, CR-PRT-007, CR-PRT-008, CR-PRT-009, CR-PRT-010, CR-PRT-020
 **Labels:** gateway, websocket
 **Phase:** 0.1.0 · wave 3
-**Design reference:** `docs/Architecture.md` §5 (gateway), §6 (how a change travels), §3 (R5–R8); `docs/research/PRD-parti.md` NFR-7, NFR-8
+**Design reference:** `docs/Architecture.md` B3 (gateway), B4 (how a change travels), §3 (R5–R8); `docs/research/PRD-parti.md` NFR-7, NFR-8
 
 ## Context
 
 The gateway is the one process the page, the mock scene and `parti-axi` connect to. It runs every command through
-the domain, stores the events, and fans them out to every connection (Architecture §6).
+the domain, stores the events, and fans them out to every connection (Architecture B4).
 
 ## Scope
 

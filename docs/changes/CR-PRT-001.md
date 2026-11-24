@@ -6,12 +6,12 @@
 **Depends on:** —
 **Labels:** setup, bun, python, ci
 **Phase:** 0.1.0 · wave 1
-**Design reference:** `docs/Architecture.md` §5 (components), §3 (R1–R8); `docs/research/DN-test-strategy.md` (tiers, fixtures, CI); `AGENTS.md` (Crucible clients)
+**Design reference:** `docs/Architecture.md` B3 (components), A4 and B2 (R1–R10); `docs/research/DN-test-strategy.md` (tiers, fixtures, CI); `AGENTS.md` (Crucible clients)
 
 ## Context
 
 The repository holds only the scaffold: a private root `package.json` with no workspaces, an empty `tests/` package
-and two repository guard tests. Every later 0.1.0 CR needs the component layout of Architecture §5, the two stacks
+and two repository guard tests. Every later 0.1.0 CR needs the component layout of Architecture B3, the two stacks
 (Bun and Python) wired, and tests discovered by the Crucible clients and by CI in the tiers of the test strategy.
 
 ## Scope
@@ -21,7 +21,7 @@ and two repository guard tests. Every later 0.1.0 CR needs the component layout 
 Root `package.json` declares `"workspaces": ["packages/*"]`. Six packages, each with `package.json` (name
 `@parti/<name>`, `"private": true`, `"type": "module"`, licence `GPL-3.0-only`), `src/index.ts` and `test/`:
 `schema`, `domain`, `gateway`, `adapters-local`, `page`, `mock-scene`. A root `tsconfig.json` (strict) with project
-references. The dependency direction of Architecture §5 holds: `domain` depends on `@parti/schema` only.
+references. The dependency direction of Architecture B3 holds: `domain` depends on `@parti/schema` only.
 
 ### §S2 Python packages
 

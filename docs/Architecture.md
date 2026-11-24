@@ -1,15 +1,22 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
-This document is the system overview: the parts, how they connect, and the rules that keep them apart. The
-reasons and the detailed analysis are in the PRDs and design notes under `research/`; this document does not
+This document has an overview and two parts, kept apart on purpose (owner, 24 November 2026):
+
+- **Part A, the domain-driven logical architecture:** the business model in the glossary's language: the bounded
+  contexts, how they relate (the context map), the logical rules, versioning, the workflow and project types. It names
+  no technology, no process and no store.
+- **Part B, the system architecture:** how Parti is built and run: the components and their stacks, ports and adapters,
+  how a change travels, the message bus, where things run, the backends, installation, and the system-design terms.
+
+The reasons and the detailed analysis are in the PRDs and design notes under `research/`; this document does not
 repeat them.
 
-## 1. What Parti is
+## 1. What Parti is (overview)
 
 Parti is an **ecosystem in which architects and interior designers create their projects with agentic help** (D28).
 Parti provides the coding and logical framework; the **project agent** (the orchestrator agent in each target project)
@@ -38,11 +45,88 @@ Parti's Python side is one library, `parti` (D27, LGPL-3.0-only): the architectu
 holding the workflow, the harness, the catalogue tools and the pipeline tools generalised from the prototype's scripts;
 the scaffold gives each project Parti's skills and agent definitions, `parti-axi` and the library. Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow definition, with Parti's agent
 definitions and skills, driving the CAD system, Blender and Unreal through their Python APIs and MCP servers. It is
-released in two editions from one domain (D22, §7): the **designer edition**, the full workflow for architects and
+released in two editions from one domain (D22, B5): the **designer edition**, the full workflow for architects and
 interior designers, which 1.0.0 delivers through 0.x releases (D23); and the **client viewer**, a self-contained
-walkthrough viewer for the building's owner, packaged with a client bundle.
+walkthrough viewer for the consumer, packaged with a client bundle.
 
-## 2. The whole in one picture
+## Part A — Domain-driven logical architecture
+
+The business model in the glossary's language. Nothing in Part A names a technology, a process or a store.
+
+## A1. The ubiquitous language
+
+Every name in Part A is the glossary's (`research/DN-ubiquitous-language.md`): one meaning each, shared with the
+architects, designers and users. The system's own technical vocabulary is Part B's (B8).
+
+## A2. Bounded contexts
+
+Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the architecture review, D17, D18).
+
+| Context | Aggregates and main data | Commands (examples) | Publishes |
+|---|---|---|---|
+| **Workflow** (frames the others) | Workflow definition (versioned data): phases, step definitions of twelve step kinds with their checks, caveats and invalidated-by edges, gates of four kinds. Workflow run (per target project): step runs with their to-dos, check results, corrections, decisions, variants, step records (D26, FR-WF-15) | start step; record check; pass gate; record decision; add, tick to-do; raise, resolve correction; branch, choose variant; checkpoint | step started / checked / completed / stale; correction raised / resolved; decision recorded |
+| **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
+| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
+| **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
+| **Quantities** (computational module) | The engine behind every product layer's bills of materials (construction, finishes, lighting, furnishing, plumbing, appliances, D30): quantities per plan; bill of materials per work-contract role; estimates later | (queries) quantities, bill of materials | — (derived from plans) |
+| **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
+| **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
+| **Asset delivery** | Mapping from a product to what a scene can draw; the client bundle, per client project and revision (D22) | prepare product for a scene | product ready / failed |
+| **Identity** (service stage) | Users, access | — | — |
+
+Design refers to products and to building elements by id; it asks Catalogue and Building whether a placement
+is allowed through their published facts, never by reading their storage.
+
+## A3. Context map
+
+How the contexts relate. Design is the core; the others serve it or are derived from it.
+
+| Upstream | Downstream | Relationship |
+|---|---|---|
+| Building | Design, Quantities, World builder, Asset delivery | published facts (surfaces, openings, regions) by id; a building revision flows forward (D19) |
+| Catalogue | Design, Quantities, Asset delivery | published facts (suitable surfaces and use, sizes, kinds); Design never reads the catalogue's storage |
+| Design (core) | Quantities, World builder, Asset delivery | placements and schemes by id; quantities are derived, never entered |
+| Session | Design, World builder | the selection and the participants |
+| Workflow | every context | frames them: a step's outputs (a building, a design, a world) are the inputs of later steps; corrections revise them |
+| A target project's records, the applications (CAD, Blender, Unreal), the page, the scene | the contexts | through translators only (R3), speaking the published language (R5) |
+
+## A4. Logical rules
+
+| | Rule | Source |
+|---|---|---|
+| R1 | The domain is pure: its rules are plain functions over plain data, `decide(state, command) → events` and `evolve(state, event) → state`, keyed by aggregate id. No input or output, no outside terms. | D8, D10, NFR-1 |
+| R2 | Everything outside the domain is reached through a **port** named in domain terms (the design store, the catalogue store, the session channel, asset delivery). How a port is implemented is Part B's. | NFR-5 |
+| R3 | Every outside system has its own **translator** (anti-corruption layer): the scene, the page, each project's records, local files, each driven application, later Nai and EntityStore. No outside term crosses into the domain. | D8, NFR-4 |
+| R4 | Contexts know one another by identifier and published events only. | NFR-3 |
+| R5 | One **published language**: one versioned message schema (commands, events, queries, snapshots) is the only contract between the domain and everything outside it. | NFR-6 |
+| R6 | Commands are safe to repeat; every change is an event with an id and a per-aggregate sequence number; state is rebuilt from events; a stale change is refused. | NFR-2 |
+
+## A5. Versioning and the forward chain
+
+Everything is versioned and changes flow forward (D19): the building, each plan and each scenario has revisions;
+elements keep stable ids across revisions; a change upstream is allowed, and what it affects downstream is marked
+stale and listed as follow-up actions; nothing downstream changes, or stays wrong, silently. The detail is in
+`research/PRD-domain.md` §2.2 and §6.
+
+## A6. The workflow
+
+Workflow frames the other contexts: a step's outputs (a building, a design) are what the later steps, the
+finish tool and the world builder work on. Its shape (D26, `research/DN-workflow-shape.md`): phases of steps, each step
+running one step cycle (sources → data → generate → apply → check → checkpoint → record), gates, and the correction and
+audit loops across every phase. A correction may land in an earlier phase's step; its revision then flows forward
+(D19). How the harness runs it is Part B's (B3, the `parti` library).
+
+## A7. Project types and templates
+
+A project is residential or commercial, each with sub-types; its type's template is data that sets the layers present
+(and so the bills of materials), the workflow's phases and steps, catalogues, default rules and gates, chosen at
+scaffolding and adaptable after (D30).
+
+## Part B — System architecture
+
+How Parti is built and run: the technical components are defined here, not in Part A (owner, 24 November 2026).
+
+## B1. The whole in one picture
 
 ```
  TARGET PROJECT (e.g. JohnnyHouse)                PARTI (installed tool)
@@ -68,57 +152,16 @@ walkthrough viewer for the building's owner, packaged with a client bundle.
    CAD · Blender · Unreal editor  ◀── their own agent interfaces ── PIPELINE TOOLS (Python)
 ```
 
-## 3. Rules that hold everywhere
+## B2. System rules
 
-| Rule | Source |
-|---|---|
-| The domain is pure: plain functions over plain data, `decide(state, command) → events`, `evolve(state, event) → state`, keyed by aggregate id. No input or output, no library calls, no outside terms. | D8, D10, NFR-1 |
-| Everything outside the domain is reached through a port named in domain terms, with an adapter behind it. | NFR-5 |
-| Every outside system has its own translator (anti-corruption layer): the scene, the page, each maker's feed, local files, each driven application, later Nai and EntityStore. | D8, NFR-4 |
-| Contexts know one another by identifier and published events only. | NFR-3 |
-| One message schema, versioned, is the only contract between page, gateway and scene adapters. Types are generated from it. | NFR-6 |
-| Commands are safe to repeat; every change is an event with an id and a per-aggregate sequence number; state is rebuilt from events; stale changes are refused. | NFR-2 |
-| Nothing of one target project lives in Parti's code. | NFR-10 |
-| Servers bind to 127.0.0.1 in version one; every incoming message is validated against the schema. | NFR-8 |
+| | Rule | Source |
+|---|---|---|
+| R7 | Nothing of one target project lives in Parti's code; a project's own translation is its project agent's work (D27). | NFR-10 |
+| R8 | Servers bind to 127.0.0.1 in version one; every incoming message is validated against the schema. | NFR-8 |
+| R9 | The domain is implemented as pure TypeScript with no imports beyond the schema's generated types; types for every stack are generated from the one schema (R5). | D8, NFR-1, NFR-6 |
+| R10 | Between stages only adapters change; the domain, the schema and the page do not. | D9 |
 
-## Part A — Domain design
-
-The business model, in the glossary's language: the contexts, what each holds and publishes, and the workflow's
-shape (D26). Nothing here names a technology.
-
-## 4. Contexts
-
-Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the architecture review, D17, D18).
-
-| Context | Aggregates and main data | Commands (examples) | Publishes |
-|---|---|---|---|
-| **Workflow** (frames the others) | Workflow definition (versioned data): phases, step definitions of twelve step kinds with their checks, caveats and invalidated-by edges, gates of four kinds. Workflow run (per target project): step runs with their to-dos, check results, corrections, decisions, variants, step records (D26, FR-WF-15) | start step; record check; pass gate; record decision; add, tick to-do; raise, resolve correction; branch, choose variant; checkpoint | step started / checked / completed / stale; correction raised / resolved; decision recorded |
-| **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
-| **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
-| **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
-| **Quantities** (computational module) | The engine behind every product layer's bills of materials (construction, finishes, lighting, furnishing, plumbing, appliances, D30): quantities per plan; bill of materials per work-contract role; estimates later | (queries) quantities, bill of materials | — (derived from plans) |
-| **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
-| **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
-| **Asset delivery** | Mapping from a product to what a scene can draw; the client bundle, per client project and revision (D22) | prepare product for a scene | product ready / failed |
-| **Identity** (service stage) | Users, access | — | — |
-
-Design refers to products and to building elements by id; it asks Catalogue and Building whether a placement
-is allowed through their published facts, never by reading their storage.
-
-Workflow frames the other contexts: a step's outputs (a building, a design) are what the later steps, the
-finish tool and the world builder work on. Its shape (D26, `research/DN-workflow-shape.md`): phases of steps, each step
-running one step cycle (sources → data → generate → apply → check → checkpoint → record), gates, and the correction and
-audit loops across every phase. A correction may land in an earlier phase's step; its revision then flows forward
-(D19). The harness compiles the workflow definition into its LangGraph graph; the graph's state is a projection of the
-workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's.
-
-## Part B — System architecture
-
-The technical side (owner, 24 November 2026: technical components are not domain design modules, and are defined
-here): the components and their stacks, how a change travels, the message bus and the connectors (D29), where things
-run, the backends, installation, and the system-design terms (§11).
-
-## 5. Components (system architecture)
+## B3. Components
 
 | Component | Stack | Depends on | Notes |
 |---|---|---|---|
@@ -135,7 +178,11 @@ run, the backends, installation, and the system-design terms (§11).
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
 
-## 6. How a change travels (system architecture)
+The harness compiles the workflow definition (A6) into its LangGraph graph; the graph's state is a projection of the
+workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's. Ports (R2) are
+implemented by adapters: local files in version one, EntityStore and Nai later (B6).
+
+## B4. How a change travels, and the message bus
 
 Assigning a finish, version one:
 
@@ -154,9 +201,9 @@ and no tokens: a placement changed sets the material on the faces tagged with th
 objects carry Parti's ids (a CAD attribute, a Blender custom property, an Unreal actor tag), so references resolve both
 ways. Events from the applications (a pick, a CAD revision) come back through the connector as commands. Work that
 needs judgment goes through the harness's agent loop and the applications' MCP servers (D21) instead. In 0.1.0 the
-gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (§8).
+gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (B6).
 
-## 7. Where things run, by stage (system architecture)
+## B5. Where things run, by stage, and the editions
 
 | Stage | Page | Gateway and domain | Stores | Scene |
 |---|---|---|---|---|
@@ -175,7 +222,7 @@ the rules are never copied.
 
 | | Designer edition | Client viewer |
 |---|---|---|
-| Who | Architects, interior designers | The building's owner |
+| Who | Architects, interior designers | The consumer: home buyer, business buyer, the commissioning client (D28) |
 | Platform | Linux first (D2) | Windows and Linux, natively; macOS possibly later. Built and downloaded from the designer edition, per platform (PRD Q14) |
 | Workflow, agent harness, CAD, Blender | Yes | No; only a UI helper agent that searches and applies offered sets (tile sets, interior sets) through the viewer's own commands |
 | Building | Authoring | Read only, from the bundle |
@@ -196,7 +243,7 @@ so the viewer needs no rules engine (PRD Q4). The viewer's licence comes first (
 In a served Parti (D, E) there are several users and sessions, and agents join a session the same way users
 do (D16). The backend may move to Nai (D9).
 
-## 8. Later backends (system architecture)
+## B6. Backends
 
 - **EntityStore** (the owner's Quarkus service on Redis and MongoDB, with change streams): system of record for Catalogue, Design, Building and review records, behind the catalogue-store and design-store ports. Its change data capture turns every stored state change into a message for the bus (D29).
 - **Nai** (the owner's Rust streaming runtime with its own DSL, connectors and provider plugins): the domain's `decide` and `evolve` functions map onto keyed pipeline stages or a custom provider; session traffic through a two-way session connector; embeddings for search by likeness. Also (D9, owner 2026-11-23): retrieval (RAG) for the agent harness and the knowledge base, which move to Nai as soon as the harness exists; session context and agent memory; a file catalogue, so file operations do not depend on the operating system; geospatial and map data, so the world builder builds the site around the building from map providers. Each role sits behind its own port: knowledge store, session store, file catalogue, geo data.
@@ -248,7 +295,7 @@ Nai treats all its data as schema-based events. Parti's own changes are already 
 How much of the static tooling otherwise written in Python can move to Nai is an open question (`research/PRD-parti.md`
 Q13).
 
-## 9. Installing into a target project (system architecture)
+## B7. Installing into a target project
 
 Once scaffolded, the architect or designer opens the Project Environment in the browser (served by the gateway); it is
 their workspace until the Unreal walkthrough is generated, which then joins it (D22). The first thing the project agent
@@ -262,30 +309,7 @@ pipelines later) turn the incoming design into Parti's own metadata.
 configuration says (saved designs, the step log, checkpoints). When the Unreal plugin exists, the scaffold
 also connects it to the target's Unreal project.
 
-## 10. Documents
-
-| Document | Holds |
-|---|---|
-| `Architecture.md` (this) | The overview. |
-| `research/PRD-parti.md` | Parti's design contract: decisions, requirements, stages, open questions. |
-| `research/DN-ubiquitous-language.md` | The living glossary: the business language shared with architects, designers and users. |
-| `research/DN-test-strategy.md` | How Parti is tested: tiers, fakes only at ports, contract and live tests for the applications, synthetic fixtures. |
-| `research/PRD-domain.md` | Per-area PRD 1, the domain: building, design and catalogue. Draft, written for the 0.1.0 slice. |
-| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain (above): building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface, with the agent harness (D21); (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets; (7) the client viewer and the client bundle (D22). `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
-| `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |
-| `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
-| `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
-| `research/DN-workflow-shape.md` | The workflow generalised into one repeatable graph (D26): step cycle, step kinds, gate kinds, phases, loops. Provisional while the prototype runs. |
-| `research/DN-runbook-domain-impact.md` | The prototype's Runbook mapped onto the domain model, context by context (D26). |
-| `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
-| `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
-
-**Order of the design work.** 1. This architecture, reviewed. 2. The glossary (`research/DN-ubiquitous-language.md`).
-3. The domain PRD, then the other per-area PRDs, each with its review page. Each is written for the slice the next
-release needs (the domain PRD first for 0.1.0), and grows with the releases. 4. CRs, filed on the Crucible board,
-last: each implements settled requirements.
-
-## 11. System-design terms (Part B)
+## B8. System-design terms
 
 The software's technical vocabulary. These words describe how Parti is built; they are not part of the
 business language (`research/DN-ubiquitous-language.md`) and are never needed to discuss the product with
@@ -308,3 +332,26 @@ architects, designers or users.
 | Message bus | The channel the domain's events travel on, to the page, the scene and the applications' connectors (D29). The gateway in version one; Nai later. |
 | Connector | A bus subscriber for one application that applies events deterministically and returns the application's events as commands (D29). |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
+
+## Documents
+
+| Document | Holds |
+|---|---|
+| `Architecture.md` (this) | The overview. |
+| `research/PRD-parti.md` | Parti's design contract: decisions, requirements, stages, open questions. |
+| `research/DN-ubiquitous-language.md` | The living glossary: the business language shared with architects, designers and users. |
+| `research/DN-test-strategy.md` | How Parti is tested: tiers, fakes only at ports, contract and live tests for the applications, synthetic fixtures. |
+| `research/PRD-domain.md` | Per-area PRD 1, the domain: building, design and catalogue. Draft, written for the 0.1.0 slice. |
+| `research/PRD-<topic>.md` (to be written) | Detailed analysis per area: (1) the domain (above): building, layers, catalogue, quantities and bills of materials, drafted first by the orchestrator with the owner; (2) the message schema and state model; (3) the page; (4) the installer and agent interface, with the agent harness (D21); (5) the pipeline workflow and toolbase; (6) the world builder, the Unreal plugin and finish assets; (7) the client viewer and the client bundle (D22). `PRD-parti.md` then keeps the decisions and the map, and its detailed sections move out. |
+| `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |
+| `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
+| `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
+| `research/DN-workflow-shape.md` | The workflow generalised into one repeatable graph (D26): step cycle, step kinds, gate kinds, phases, loops. Provisional while the prototype runs. |
+| `research/DN-runbook-domain-impact.md` | The prototype's Runbook mapped onto the domain model, context by context (D26). |
+| `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
+| `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
+
+**Order of the design work.** 1. This architecture, reviewed. 2. The glossary (`research/DN-ubiquitous-language.md`).
+3. The domain PRD, then the other per-area PRDs, each with its review page. Each is written for the slice the next
+release needs (the domain PRD first for 0.1.0), and grows with the releases. 4. CRs, filed on the Crucible board,
+last: each implements settled requirements.

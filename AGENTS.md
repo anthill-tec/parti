@@ -4,10 +4,10 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 
 ## Design references
 - Architecture (system overview): `docs/Architecture.md`
-- Design contract: `docs/research/PRD-parti.md` (decisions D1–D23; per-area PRDs to follow, listed in `docs/Architecture.md` §10; the domain PRD `docs/research/PRD-domain.md` is in draft for 0.1.0, written by the orchestrator with the owner)
+- Design contract: `docs/research/PRD-parti.md` (decisions D1–D23; per-area PRDs to follow, listed in `docs/Architecture.md`, Documents; the domain PRD `docs/research/PRD-domain.md` is in draft for 0.1.0, written by the orchestrator with the owner)
 - Test strategy: `docs/research/DN-test-strategy.md` (approved 2026-11-23): tiers, fakes only at ports, never mock our own code, synthetic fixtures
-- Ubiquitous Language: `docs/research/DN-ubiquitous-language.md` (the living glossary; business terms only, one meaning each). System-design terms: `docs/Architecture.md` §11
-- Order of the design work: architecture (reviewed 2026-11-22/23) → glossary → domain PRD (in review) → other per-area PRDs → CRs last (`docs/Architecture.md` §10); each PRD is written for the slice the next release needs
+- Ubiquitous Language: `docs/research/DN-ubiquitous-language.md` (the living glossary; business terms only, one meaning each). System-design terms: `docs/Architecture.md` B8
+- Order of the design work: architecture (reviewed 2026-11-22/23) → glossary → domain PRD (in review) → other per-area PRDs → CRs last (`docs/Architecture.md`, Documents); each PRD is written for the slice the next release needs
 - Releases (PRD D23): 0.1.0 first (on the Crucible board), interim 0.x as specs break down, 1.0.0 = the full designer edition; stakeholders review each 0.x (the owner represents the external ones)
 - Stakeholder and evidence source: JohnnyHouse (prototype), reached over Sandesh; trial T4 runs with it
 - Review pages: `.lavish/<document>.html`, machine-local and gitignored; every decision taken there is applied to `docs/` and committed

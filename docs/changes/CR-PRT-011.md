@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-005
 **Labels:** catalogue, schema, python, library
 **Phase:** 0.1.0 · wave 3
-**Design reference:** `docs/research/PRD-domain.md` §4.1, §4.2; `docs/research/PRD-parti.md` D27; `docs/Architecture.md` §5 (`parti.catalogue`)
+**Design reference:** `docs/research/PRD-domain.md` §4.1, §4.2; `docs/research/PRD-parti.md` D27; `docs/Architecture.md` B3 (`parti.catalogue`)
 
 ## Context
 

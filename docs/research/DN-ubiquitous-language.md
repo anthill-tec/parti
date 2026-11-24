@@ -4,14 +4,14 @@
 **Status:** Living document. First version approved by the owner in the architecture review (22 November 2026).
 **Author:** antonyj (owner)
 **Co-author:** Parti orchestrator (vidushi-parti)
-**Related:** `PRD-parti.md` (D17, D18), `../Architecture.md` §4 (contexts) and §11 (system-design terms)
+**Related:** `PRD-parti.md` (D17, D18), `../Architecture.md` A2 (contexts) and B8 (system-design terms)
 
 ## What this is
 
 The business language of Parti: the words used to discuss the project with the people it serves, namely
 architects, designers and the project's beneficiaries (its users), and the words the domain model is named
 with. It holds no software terms: the system-design words (page, gateway, adapter, port, event, aggregate, …)
-are listed in `Architecture.md` §11 and are never needed to discuss the product.
+are listed in `Architecture.md` B8 and are never needed to discuss the product.
 
 ## Rules
 

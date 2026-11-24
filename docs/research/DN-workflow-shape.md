@@ -161,9 +161,9 @@ K11), Unreal steps (K4 to K12), the declaration for Parti (K4), the finishes dat
 
 - The twelve step kinds stand as separate kinds: K6 (restore after transfer) and K7 (apply by rule) differ in their
   checks (none lost, against a count touched), and K9 (compose the scene) carries the rendered-view gate.
-- *Phase*, not *stage*: "stage" already names Parti's deployment stages (`../Architecture.md` §7).
+- *Phase*, not *stage*: "stage" already names Parti's deployment stages (`../Architecture.md` B5).
 - The seven phases stand, with Design (Ph4) between the declaration and the two renderers.
-- Folded into the glossary, Architecture §4 and PRD-parti §8A (FR-WF-11 to FR-WF-14). Next, the Workflow PRD, written
+- Folded into the glossary, Architecture A2 and A6 and PRD-parti §8A (FR-WF-11 to FR-WF-14). Next, the Workflow PRD, written
   for the release that first ships the harness.
 
 ## 11. Keeping it current while the prototype runs

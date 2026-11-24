@@ -6,7 +6,7 @@
 **Depends on:** CR-PRT-002
 **Labels:** adapter, storage
 **Phase:** 0.1.0 · wave 2
-**Design reference:** `docs/research/PRD-domain.md` §8; `docs/research/PRD-parti.md` Q11, D9; `docs/Architecture.md` §3 (R2, R6)
+**Design reference:** `docs/research/PRD-domain.md` §8; `docs/research/PRD-parti.md` Q11, D9; `docs/Architecture.md` A4 (R2, R6)
 
 ## Context
 
