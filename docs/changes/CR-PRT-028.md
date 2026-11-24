@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, workflow, sources, units
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-domain.md` §1, §7, §8 (v0.4); `docs/research/PRD-parti.md` D25, D26 (K1), D33; `docs/research/DN-ubiquitous-language.md` (Source, Drawing sheet, Calibration, Data table)
 
 ## Context

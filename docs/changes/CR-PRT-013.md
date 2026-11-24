@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-012, CR-PRT-024, CR-PRT-027, CR-PRT-028
 **Labels:** cli, python, installer, nai
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25, D28, D30, D33, D39; `docs/Architecture.md` B3 (`parti-axi`), B7; `docs/research/PRD-domain.md` §1, §2.3a, §2.6, §2.7, §8
 
 ## Context

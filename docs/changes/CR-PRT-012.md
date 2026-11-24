@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-008, CR-PRT-009, CR-PRT-010, CR-PRT-022, CR-PRT-026, CR-PRT-027, CR-PRT-028
 **Labels:** gateway, websocket, cloudevents
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/Architecture.md` B3 (gateway), B4 (how a change travels; the message bus), B6, §3 (R5–R8); `docs/research/PRD-parti.md` NFR-7, NFR-8, D16, D29, D33, D35; `docs/research/PRD-domain.md` §5, §7, §8, §11
 
 ## Context

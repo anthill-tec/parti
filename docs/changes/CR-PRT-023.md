@@ -6,7 +6,7 @@
 **Priority:** Medium
 **Depends on:** CR-PRT-013, CR-PRT-021, CR-PRT-029, CR-PRT-031
 **Labels:** page, ui, configuration
-**Phase:** 0.1.0 · wave 5
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/PRD-parti.md` D21, D22 (e), D25, D30, D33, D35; `docs/Architecture.md` B9; `.lavish/storyboards.html` storyboard 8 and card `#wf-driver-proposal`, approved by the owner (24 November 2026; the menu named **Settings**)
 
 ## Context

@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-013, CR-PRT-023, CR-PRT-030, CR-PRT-031, CR-PRT-032, CR-PRT-033
 **Labels:** e2e, acceptance
-**Phase:** 0.1.0 · wave 6
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/PRD-parti.md` Q9, D23, D33; `docs/research/PRD-domain.md` §1, §11; `docs/research/DN-test-strategy.md` (E2E, live tests); `docs/research/DN-pipeline-prototype-johnnyhouse.md`
 
 ## Context

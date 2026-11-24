@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-010, CR-PRT-012
 **Labels:** nai, bus, schema
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/research/PRD-parti.md` D9, D29, D33, D35, D38, D39; `docs/research/DN-nai-readiness.md` §3, §4, §5; `docs/Architecture.md` B3 (`nai/`), B4, B6
 
 ## Context
@@ -69,7 +69,7 @@ subdomain under Parti's domain, its connector instances pointing at the project'
 
 - **Nai's readiness.** The generic connectors, the registry's namespaces, the request id, pipelines from another
   repository and the template are Nai's work (§5 items 1, 4, 12, 13, 14), needed by 21 December 2026. If they are late,
-  0.1.0 ships with `bus = "local"` and this CR moves to 0.2.0, decided at the wave-4 boundary with the owner.
+  0.1.0 ships with `bus = "local"` and this CR moves to 0.2.0, decided at the wave-3 boundary with the owner.
 
 ## Non-goals
 

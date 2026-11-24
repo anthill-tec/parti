@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-012, CR-PRT-021, CR-PRT-027, CR-PRT-028
 **Labels:** page, ui, project-environment, sources, building
-**Phase:** 0.1.0 · wave 5
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/PRD-parti.md` D22, D25, D26 (K1), D33; `docs/research/PRD-domain.md` §1, §2.3, §2.7, §6, §11; `.lavish/storyboards.html` storyboards 0 and 1, approved by the owner (24 November 2026)
 
 ## Context

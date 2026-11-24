@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-012, CR-PRT-022, CR-PRT-024
 **Labels:** harness, python, agent, workflow
-**Phase:** 0.1.0 · wave 4
+**Phase:** 0.1.0 · wave 3
 **Design reference:** `docs/research/PRD-parti.md` D16, D21, D26, D28, D29, D33, D35; `docs/research/PRD-domain.md` §11 (DM-11); `docs/Architecture.md` B3 (`parti.harness`), B4, B6
 
 ## Context
@@ -83,7 +83,7 @@ directly (`bus = "local"`).
 
 ## Estimated size
 
-13 points. If the gap analysis finds it larger, §S4's skills split into a CR of their own in wave 5.
+13 points. If the gap analysis finds it larger, §S4's skills split into a CR of their own in wave 4.
 
 ## Non-goals
 

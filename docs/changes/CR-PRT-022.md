@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, workflow, schema
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-domain.md` §1, §11 (v0.4, DM-11), §7; `docs/research/PRD-parti.md` D22, D26, D30, D33, FR-WF-14, FR-WF-15; `docs/Architecture.md` A2 (Workflow), B4; `.lavish/storyboards.html` card `#wf-driver-proposal`, approved by the owner (24 November 2026)
 
 ## Context

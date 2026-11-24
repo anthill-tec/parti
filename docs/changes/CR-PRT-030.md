@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-021, CR-PRT-029
 **Labels:** page, ui, project-environment, harness
-**Phase:** 0.1.0 · wave 5
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/PRD-parti.md` D21, D22, D26, D28, D29; `docs/Architecture.md` B3 (`page`: the guided chat); `.lavish/storyboards.html` storyboards 0 and 6, approved by the owner (24 November 2026)
 
 ## Context

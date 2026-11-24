@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, catalogue, schema
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-domain.md` §4.2a, §4.4 (DM-10), §2.6 (DM-12); `docs/research/PRD-parti.md` D31, D32, D33, D40; FR-CAT-1
 
 ## Context

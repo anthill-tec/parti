@@ -87,7 +87,7 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 
 | Needed by | For | Items |
 |---|---|---|
-| 10 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
+| 10 Dec 2026 | the validation spike (§4) before 0.1.0's wave 3 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the request id, `nairequestid`) |
 | 21 Dec 2026 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-013 `parti-axi init`) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events), 13 (pipelines from Parti's repository), 14 (the Parti template) |
 | 6 Jan 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
 | 6 Jan 2027 | 0.2.0 (CR-PRT-076, derived views; CR-PRT-077, intake of finishes) | 16 (derived views), 17 (intake from outside sources) |

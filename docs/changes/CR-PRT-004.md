@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, building, units
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-domain.md` §2 (all), §2.3a, §6; `docs/research/PRD-parti.md` D17, D19, D25
 
 ## Context

@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-004, CR-PRT-005, CR-PRT-025
 **Labels:** domain, building, catalogue
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 2
 **Design reference:** `docs/research/PRD-domain.md` §2.1a, §2.6 (v0.4, DM-12), §4.4, §7; `docs/research/PRD-parti.md` D31, D32, D33
 
 ## Context

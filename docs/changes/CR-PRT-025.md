@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-024
 **Labels:** library, python, cad, solidcraft, schema
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 2
 **Design reference:** `docs/research/PRD-domain.md` §2.6 (v0.4, DM-12), §8; `docs/research/PRD-parti.md` D25, D31, D33, D34; `docs/research/DN-ubiquitous-language.md` (Model inventory, Feature group)
 
 ## Context

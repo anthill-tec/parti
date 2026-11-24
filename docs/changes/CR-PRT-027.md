@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-004, CR-PRT-026
 **Labels:** domain, building, workflow
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 2
 **Design reference:** `docs/research/PRD-domain.md` §2.3, §2.4, §2.5, §2.7 (v0.4), §7, §11; `docs/research/PRD-parti.md` D17, D33
 
 ## Context

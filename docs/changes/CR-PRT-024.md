@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-001, CR-PRT-003
 **Labels:** library, python, workflow, cad, solidcraft
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-parti.md` D25, D26, D27, D33, D34; `docs/research/PRD-domain.md` §2.6 (v0.4); `docs/Architecture.md` B3 (`parti`); `docs/research/DN-pipeline-prototype-johnnyhouse.md` (the prototype; "What the step cycle must also cover"); `docs/research/DN-test-strategy.md` (contract and live tests)
 
 ## Context
@@ -113,7 +113,7 @@ CR-PRT-027's derivation (G6). The repository's copy is under `tests/fixtures/cad
 
 ## Estimated size
 
-13 points. If the gap analysis finds it larger, §S6 (part files and placements) splits into a CR of its own in wave 3.
+13 points. If the gap analysis finds it larger, §S6 (part files and placements) splits into a CR of its own in wave 2.
 
 ## Non-goals
 

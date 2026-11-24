@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-022
 **Labels:** page, ui, project-environment
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 2
 **Design reference:** `docs/research/PRD-parti.md` D22 (the Project Environment, its interaction model (a) to (f), suggestions), D25, D28, D29, FR-WF-14; `docs/research/PRD-domain.md` §2.1a, §7, §11; `docs/Architecture.md` B3 (`page`), B4, B9; `.lavish/storyboards.html` storyboards 0 to 2 and card `#wf-driver-proposal`, approved by the owner (24 November 2026)
 
 ## Context

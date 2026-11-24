@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-017
 **Labels:** testing, hygiene
-**Phase:** 0.1.0 · wave 6
+**Phase:** 0.1.0 · wave 4
 **Design reference:** `docs/research/DN-test-strategy.md`; the `git-workflow` skill §Releases (test hygiene before a release)
 
 ## Context

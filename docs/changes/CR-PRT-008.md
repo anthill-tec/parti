@@ -6,7 +6,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-002
 **Labels:** domain, session, interaction
-**Phase:** 0.1.0 · wave 2
+**Phase:** 0.1.0 · wave 1
 **Design reference:** `docs/research/PRD-domain.md` §2.1a, §5, §7 (v0.4); `docs/research/PRD-parti.md` D29, D31; FR-SEL-1 to FR-SEL-3
 
 ## Context
