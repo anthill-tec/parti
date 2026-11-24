@@ -19,14 +19,14 @@ the domain, stores the events, and fans them out to every connection (Architectu
 
 `packages/gateway/src/main.ts` (Bun): `parti-gateway --target <dir> [--port <n>]` reads the target project's
 configuration, binds a WebSocket server and an HTTP server to `127.0.0.1` only (NFR-8; default port 4710), serves the
-page's built files at `/`, and prints one JSON line `{ "ready": true, "port": <n> }` when listening.
+Project Environment (CR-PRT-021) at `/` and the mock scene at `/scene`, and prints one JSON line `{ "ready": true, "port": <n> }` when listening.
 
 ### §S2 Command path
 
 For each message: `validateMessage` (refusal `invalid-message` with the schema's faults otherwise); route by command to
 `decideBuilding`, `decideDesign` or `decideSession`; append the events through the event store with the aggregate's
 expected sequence; run `followBuilding` after `building-revised` and append its events; send the events to every
-connection; rewrite the snapshots. A command id seen before returns the original outcome without new events (safe to
+connection (in 0.1.0 this fan-out is the message bus, D29; events carry their registry names, CR-PRT-002); rewrite the snapshots. A command id seen before returns the original outcome without new events (safe to
 repeat, R6).
 
 ### §S3 Queries and joining

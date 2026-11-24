@@ -18,8 +18,9 @@
 ### §S1 E2E suite
 
 `tests/e2e/test_release_0_1_0.py` (driven by the Python client, a real browser through Playwright): `parti-axi init`
-on a temporary target project; synthetic catalogue built; `oneBath` imported; then, through the page: filter, shortlist,
-select the east wall, add a dado band, place two products, save a scheme, change and apply it back, set the weather;
+on a temporary target project, then `parti-axi open`; synthetic catalogue built; `oneBath` imported; then, through
+the Project Environment: filter, shortlist,
+select the east wall, add a dado band, place two products with their setting-out, read the quantities, save a scheme, change and apply it back, set the weather;
 the scene reflects each step; `parti-axi state` agrees; restart the gateway and everything is still there; re-import
 the building without its floor and resolve the follow-ups.
 

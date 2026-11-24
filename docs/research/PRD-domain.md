@@ -1,8 +1,8 @@
 # PRD — The domain: building, design and catalogue (slice for 0.1.0)
 
-**Version:** 0.1 (draft for the owner's review)
+**Version:** 0.2 (reviewed; revised 24 November 2026)
 **Date:** 2026-11-23
-**Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-6 decided as recommended; §4 and §5–6 agreed. Written for the slice release 0.1.0 needs (D23, `../Architecture.md`, Documents); it grows with each
+**Status:** Reviewed by the owner (23 November 2026): DM-1 to DM-9 decided; §4 and §5–6 agreed; revised 24 November 2026 (finish kinds, setting-out and quantities, the record formats a project's own agent fills). Written for the slice release 0.1.0 needs (D23, `../Architecture.md`, Documents); it grows with each
 release. Items marked **DM-n** are decisions for the owner; the text shows the recommended option.
 **Author:** Parti orchestrator (vidushi-parti), with the owner
 **Builds on:** `PRD-parti.md` (D17, D19, D22, D23, §4, Q9, Q11), `DN-ubiquitous-language.md`, `DN-test-strategy.md`

@@ -3,8 +3,8 @@
 Project-level conventions for every session/agent working this repo. Scaffolded by `modelb-axi init`.
 
 ## Design references
-- Architecture (system overview): `docs/Architecture.md`
-- Design contract: `docs/research/PRD-parti.md` (decisions D1–D23; per-area PRDs to follow, listed in `docs/Architecture.md`, Documents; the domain PRD `docs/research/PRD-domain.md` is in draft for 0.1.0, written by the orchestrator with the owner)
+- Architecture: `docs/Architecture.md` (overview; Part A the domain-driven logical architecture; Part B the system architecture)
+- Design contract: `docs/research/PRD-parti.md` (decisions D1–D30; per-area PRDs to follow, listed in `docs/Architecture.md`, Documents; the domain PRD `docs/research/PRD-domain.md`, reviewed for 0.1.0, written by the orchestrator with the owner)
 - Test strategy: `docs/research/DN-test-strategy.md` (approved 2026-11-23): tiers, fakes only at ports, never mock our own code, synthetic fixtures
 - Ubiquitous Language: `docs/research/DN-ubiquitous-language.md` (the living glossary; business terms only, one meaning each). System-design terms: `docs/Architecture.md` B8
 - Order of the design work: architecture (reviewed 2026-11-22/23) → glossary → domain PRD (in review) → other per-area PRDs → CRs last (`docs/Architecture.md`, Documents); each PRD is written for the slice the next release needs

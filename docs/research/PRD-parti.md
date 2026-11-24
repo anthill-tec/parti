@@ -1,6 +1,6 @@
 # PRD — Parti: a guided workflow from drawings to an Unreal walkthrough
 
-**Version:** 0.2 (architecture review applied, 22 November 2026)
+**Version:** 0.3 (architecture review applied, 22 November 2026; D24 to D30 added, 23 and 24 November 2026)
 **Date:** 2026-11-22
 **Status:** DRAFT, reviewed with the architecture on 22 November 2026. Decisions in §3 are the owner's; items marked "proposed" or "open" are not yet confirmed. Detailed sections move to the per-area PRDs as they are written.
 **Author:** antonyj (owner)

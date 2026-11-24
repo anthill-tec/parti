@@ -20,7 +20,8 @@ conversions (D25) live here too, as pure functions every other part uses.
 
 `packages/domain/src/building/`: types `Building`, `Room`, `Surface`, `Opening`, `Region`, `Guide`, `Step`, `Site`,
 `Quality` mirroring the declaration (PRD-domain §2.1, §2.4), keyed by declared ids. `initialBuilding` is empty at
-revision 0.
+revision 0. Guides (with `towards`), steps, quality marks (a word or `{ level, note }`) and `references.columns` are
+kept as declared (PRD-domain §2.4).
 
 ### §S2 Import and rules
 

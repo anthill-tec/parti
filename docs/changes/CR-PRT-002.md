@@ -59,7 +59,7 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 ### §S1–§S3
 - [ ] `validateMessage` accepts one valid example of each of the 15 commands, 15 events, 9 queries, the answer, the refusal and the snapshot (fixtures in `packages/schema/test/fixtures/valid/`).
 - [ ] `validateMessage` refuses: an unknown `name` (fault code `unknown-message`); a missing `commandId` (`missing-field`, path `/commandId`); a negative `expectedRevision` (`invalid-value`); an extra top-level field (`unknown-field`).
-- [ ] `validateDeclaration` accepts PRD-domain §2.4's example and refuses a surface without `room` (`missing-field`, path `/surfaces/0/room`) and a `format` other than `parti.building/1` (`unsupported-format`).
+- [ ] `validateDeclaration` accepts PRD-domain §2.4's example and a declaration with `references.columns`, quality objects (`{ level, note }`), `guides` with `towards` and `steps`, and refuses a surface without `room` (`missing-field`, path `/surfaces/0/room`) and a `format` other than `parti.building/1` (`unsupported-format`).
 ### §S3a
 - [ ] Every schema file under `packages/schema/v1/` has an `$id` matching `^parti\.[a-z]+\.[a-z-]+/[0-9]+$`, and no two share one.
 ### §S4

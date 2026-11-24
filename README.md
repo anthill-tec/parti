@@ -2,27 +2,37 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-**A guided workflow that takes a building from the architect's drawings to an interactive Unreal Engine
-walkthrough, worked through by a person and an AI agent together.**
+**An ecosystem in which architects and interior designers create their projects with agentic help: a guided
+workflow from the architect's drawings to an interactive Unreal Engine walkthrough, worked through by a person and
+an AI agent together.**
 
-> **Status: design stage.** The architecture has been reviewed and agreed (22 November 2026). The domain
-> PRD comes next. There is no application code yet, and nothing is released.
+> **Status: design stage.** The architecture (22 November 2026) and the domain PRD for 0.1.0 (23 November) are
+> reviewed; the workflow's shape, the `parti` library and the ecosystem were decided on 24 November (D26 to D30).
+> The change requests for 0.1.0 are in review. There is no application code yet, and nothing is released.
 
 ---
 
 ## What Parti is
 
+Parti provides the coding and logical framework (the workflow, the `parti` library, the agent harness, the skills);
+the agent in each project (the project agent) concentrates on that project's own logic; and the architects and
+designers, domain experts rather than programmers, work in their own terms and never write code. The consumers of a
+project's deliverables (home buyers, business buyers, the client) walk the result, with or without VR.
+
 Parti is installed into a *target project*: a building project that owns its drawings, its CAD model, its
-Unreal project and its data. It then guides the work on that building step by step, with tested tools at
+Unreal project and its data. The architect or designer then works in the **Parti Project Environment** in the browser:
+a guided chat that follows the workflow and offers suggestions at every step, beside the asset browser, the design
+workspace, quantities and the walkthrough. It then guides the work on that building step by step, with tested tools at
 every step. An agent works alongside the user in the same live session: it sees what the user selects,
 follows what they do, and can do everything a person can.
 
 Parti comes in two editions built from one domain: the **designer edition**, the full workflow for architects and
 interior designers, and the **client viewer**, a self-contained walkthrough viewer (monitor or VR) that the designer
-builds and hands to the building's owner, packaged with that project's options, stills and films.
+builds and hands to the consumer, packaged with that project's options, stills and films.
 
 Its first major feature is the **finish tool**. You point at a wall, a floor or part of one in the
-walkthrough, browse a catalogue of finishes (tiles first, paints later), apply one, and change the time of
+walkthrough, browse a catalogue of finishes (tiles, wood veneers, laminates, paints, metals and more), set them out
+as a tiler would and count what to buy, apply one, and change the time of
 day and the weather. The page and the 3D scene always show the same state.
 
 Parti grew out of **JohnnyHouse**, a house project where the whole path (drawings → parametric CAD model →
@@ -62,11 +72,17 @@ JohnnyHouse is its first user.
   library calls. Every outside system (Unreal, the page, makers' catalogues, files, the CAD and rendering
   applications) is reached through its own translator.
 - **Local first, Nai next.** The designer edition runs on Linux first (on Windows in a container or under WSL2);
-  the client viewer runs on Windows and Linux. Retrieval (RAG) and the knowledge base move to the owner's Nai
-  (streaming runtime) as soon as the agent harness exists; the rest of the data layer moves to Nai and EntityStore
-  (system of record) when Parti takes on several users and sessions. Only the adapters change.
-- **Its own agent harness.** A workflow graph (LangGraph, Python) built from the domain's workflow, with Parti's
-  agent definitions and skills, drives the CAD system, Blender and Unreal through their Python APIs and MCP servers.
+  the client viewer runs on Windows and Linux. 0.1.0 is local (the gateway is the message bus, events are JSON
+  files). Nai (the owner's streaming runtime, as the message bus) and EntityStore (system of record, with change data
+  capture) arrive with the first release that connects a real application; retrieval (RAG) and the knowledge base
+  move to Nai as soon as the agent harness exists. Only the adapters change.
+- **A message bus to the applications.** Parti's events reach SolidCraft, Blender and Unreal through per-application
+  connectors with no agent and no tokens; work that needs judgment goes through the agent and the applications' MCP
+  servers, and events from any application can trigger the agent.
+- **Its own agent harness and library.** A workflow graph (LangGraph, Python) built from the domain's workflow
+  (phases, step kinds, checks, gates, the correction loop), with Parti's agent definitions and skills, drives the CAD
+  system, Blender and Unreal. It and the tools generalised from the prototype's scripts ship as the `parti` Python
+  library, which every project imports. It hides the programming from the architect or designer.
 - **Agent-first interface.** `parti-axi` installs Parti, sets it up inside a target project, and gives an
   agent every action a person has, including joining a live session. A Pi plugin wakes the agent when the
   user acts.
@@ -76,7 +92,7 @@ JohnnyHouse is its first user.
 | Part | Stack |
 |---|---|
 | Message schema, domain, gateway, page, mock scene | TypeScript on Bun; VanJS for the page |
-| `parti-axi` (installer and agent interface), catalogue tools, pipeline tools | Python (installed with `uv`) |
+| `parti` library (workflow, harness, catalogue and pipeline tools, translators, connectors) and `parti-axi` | Python (installed with `uv`) |
 | Unreal plugin | C++ (deferred) |
 
 ## Stages
@@ -96,16 +112,18 @@ designer edition. The client viewer follows 1.0.0.
 
 | Document | What it holds |
 |---|---|
-| [`docs/Architecture.md`](docs/Architecture.md) | The system overview: parts, rules, contexts, components, stages |
-| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D23), requirements, stages, open questions |
-| [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (draft, 0.1.0 slice) |
+| [`docs/Architecture.md`](docs/Architecture.md) | Overview; Part A, the domain-driven logical architecture; Part B, the system architecture |
+| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D30), requirements, stages, open questions |
+| [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (reviewed, 0.1.0 slice) |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |
 | [`docs/research/DN-founding-design-record.md`](docs/research/DN-founding-design-record.md) | The original design discussion |
 | [`docs/research/DN-first-consumer-johnnyhouse.md`](docs/research/DN-first-consumer-johnnyhouse.md) | The first user: its data, its Unreal project, its needs |
 | [`docs/research/DN-pipeline-prototype-johnnyhouse.md`](docs/research/DN-pipeline-prototype-johnnyhouse.md) | The pipeline as it was run by hand |
+| [`docs/research/DN-workflow-shape.md`](docs/research/DN-workflow-shape.md) | The workflow generalised into one repeatable graph |
+| [`docs/research/DN-runbook-domain-impact.md`](docs/research/DN-runbook-domain-impact.md) | The prototype's Runbook mapped onto the domain model |
 
-The design work runs in this order: the architecture (reviewed) → the glossary → the domain PRD (in review, for
+The design work runs in this order: the architecture (reviewed) → the glossary → the domain PRD (reviewed, for
 0.1.0) → the other per-area PRDs → change requests (CRs), which are implemented last. Each PRD is written for the
 slice the next release needs.
 
@@ -139,6 +157,8 @@ CRs.
 ## Licence
 
 Parti is free software under the [GNU General Public License v3.0](LICENSE) only (SPDX: `GPL-3.0-only`).
+The `parti` library is the one exception: LGPL-3.0-only, so a project's own scripts may import it under any licence
+(D27).
 You may use, study, change and share it. If you distribute Parti or a work based on it, you must do so
 under the same licence and make the complete source available.
 

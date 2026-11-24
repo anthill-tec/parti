@@ -1,4 +1,4 @@
-# CR-PRT-015 — Page: surfaces and zones
+# CR-PRT-015 — Project Environment: the design workspace and quantities
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
@@ -10,8 +10,9 @@
 
 ## Context
 
-The second half of the designer edition's page: choosing a surface, dividing it into zones, placing finishes, schemes,
-undo, the setting, and the follow-ups after a building change.
+The **Design** and **Quantities** tabs of the Project Environment (D22, storyboards 3 and 4): choosing a surface,
+dividing it into zones, placing finishes with their setting-out, schemes, undo, quantities, the setting, and the
+follow-ups after a building change. They render inside the shell (CR-PRT-021).
 
 ## Scope
 
@@ -41,6 +42,12 @@ rule and exclusions shown under the numbers; wastage and rounding changeable as 
 
 Time, date and weather controls; a follow-ups list after a building change, each leading to its zone.
 
+### §S5 Cues
+
+Cues (CR-PRT-021) beside the selection: on a surface *Add a band*, *Add a panel*, *Measure this wall*; on a zone
+with a placement *Full at floor* / *Centred*, *Copy to another room*; on quantities *Per room*, *Per trade*,
+*Show the counting rule*.
+
 ## Acceptance criteria
 
 - [ ] (e2e) Selecting `oneBath`'s east wall draws it with its mirror region, and shows its width as feet and inches.
@@ -51,6 +58,7 @@ Time, date and weather controls; a follow-ups list after a building change, each
 - [ ] After re-importing the building without its floor, the follow-ups list shows the orphaned floor zones.
 - [ ] Choosing `full-start` at the bottom on the east wall shows a bottom cut of 0 mm in the drawing.
 - [ ] After placing a tile, the quantities panel shows laid and to-buy for the room equal to the `quantities` query's, with the counting rule beneath.
+- [ ] Selecting the dado band shows the cues *Full at floor* and *Centred*; clicking *Centred* re-sets the placement with equal edge cuts.
 - [ ] The surface view's area label for a 3048 × 3048 mm floor reads `100 sq ft`.
 
 ## Estimated size
