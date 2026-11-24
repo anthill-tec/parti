@@ -148,5 +148,11 @@ The items:
     configuration, against **one shared main Nai process**. Parti specifies the template; it is needed first in 0.1.0
     (CR-PRT-031, CR-PRT-013), with project pipelines in 0.5.0 (CR-PRT-075).
 
+15. **To explore: Nai's checkpointing, rewind and restart on error** (owner, 24 November 2026; not yet a decision).
+    Nai checkpoints its pipelines and can rewind and start again from a checkpoint when an error occurs. Parti may use it
+    to reset state: undo and redo on the bus, returning to a design version (D19), resuming a workflow run after a failed
+    step (the step cycle's checkpoints, D26), and replaying events into a restarted endpoint. Parti asks how it works
+    across connectors and EntityStore, and how far it can serve these needs; explored with Nai's orchestrator.
+
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
