@@ -268,7 +268,9 @@ soon as the agent harness exists. 0.1.0's event schemas are registry-ready, so t
 | Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), the message bus between Parti and the applications (D29), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
 | Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data, telemetry events (usage, timings such as NFR-11's responsiveness, agent runs), and later their distillation for data mining (a secondary need, D9) | Nai and EntityStore |
 
-**Nai as the message bus (D29).** Applications connect over WebSocket to Nai's source connector (Unreal through a
+**Nai, the platform in the middle (D29).** Between Parti's own processes (gateway, harness), the applications, the
+stores and the data services, every message that crosses a process boundary can pass through Nai, which transforms,
+routes, stores and observes it; within one process, components call each other directly. **Nai as the message bus.** Applications connect over WebSocket to Nai's source connector (Unreal through a
 plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti events and
 pushes them to the Parti runtime in near real time through its sink WebSocket connector. Parti changes state and
 updates the domain objects in the shared EntityStore; Nai's source connectors listening to EntityStore's CDC streams
