@@ -204,10 +204,11 @@ Assigning a finish, version one:
 
 The same path serves the CLI: `parti-axi` sends the command and prints the events or the refusal.
 
-**The message bus and the applications (D29).** The fan-out of step 4 is the bus. Per application (SolidCraft,
-Blender, Unreal Engine) a pair of **connectors**, a source (the application's events into the bus) and a sink (the
-bus's events into the application), carries the events both ways; the **Nai project writes every connector**, for the
-applications and for Parti's own side alike (D34). Inside the application, its own piece (Parti's SolidCraft plugin, the
+**The message bus and the applications (D29).** The fan-out of step 4 is the bus. Each system (SolidCraft,
+Blender, Unreal Engine, and Parti's own gateway and harness) serves a WebSocket endpoint, and Nai's one generic
+WebSocket **source** (the system's events into the bus) and **sink** (the bus's events into the system), configured
+towards each endpoint by its definition, carry CloudEvents both ways (D35); the **Nai project writes every connector**
+(D34). Inside the application, its own piece (Parti's SolidCraft plugin, the
 Unreal plugin, Blender's add-on) applies what it can apply deterministically, with no agent and no tokens: a placement
 changed sets the material on the faces tagged with that surface's id. Each application's
 objects carry Parti's ids (a CAD attribute, a Blender custom property, an Unreal actor tag), so references resolve both
@@ -291,20 +292,22 @@ soon as the agent harness exists. 0.1.0's event schemas are registry-ready, so t
 
 **Nai, the platform in the middle (D29).** Between Parti's own processes (gateway, harness), the applications, the
 stores and the data services, every message that crosses a process boundary can pass through Nai, which transforms,
-routes, stores and observes it; within one process, components call each other directly. **Nai as the message bus.** Applications connect over WebSocket to Nai's source connector (Unreal through a
-plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti events and
+routes, stores and observes it; within one process, components call each other directly. **Nai as the message bus.** Each application serves a WebSocket endpoint through its plugin (SolidCraft through
+the Rust server shipped with Parti's plugin), and Nai's generic WebSocket source connects to it (D35); the events'
+schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti events and
 pushes them to the Parti runtime in near real time through its sink WebSocket connector. Parti changes state and
 updates the domain objects in the shared EntityStore; Nai's source connectors listening to EntityStore's CDC streams
 fire on each change and propagate Parti's state change to every listening party (the applications, the harness's
 agent). The same mechanism can carry Parti's backend itself, written in Nai's DSL (PRD Q13). These mechanisms are used only
 where required (owner, 24 November 2026): one such place is the messaging between the Bun gateway and the Python
 harness, two separate processes, which can be directed through Nai once both exist; until then the harness uses the
-gateway's agent API over WebSocket directly. Parti's components reach Nai through **connectors built for them on Nai's
-Rust connector SDK** (Nai's gRPC bridge is for connectors), each a **source and a sink**: for the gateway, for the
-harness process, and for each application (SolidCraft first, D34). They live in Nai's ecosystem and are **written
+gateway's agent API over WebSocket directly. Parti's components reach Nai the same way: the gateway and the harness each serve a WebSocket
+endpoint, and Nai's generic WebSocket **source and sink**, built on its Rust connector SDK (Nai's gRPC bridge is for
+connectors), connect to every endpoint as clients, configured by its **AsyncAPI** definition in JSON, with every
+message a **CloudEvent** whose `dataschema` names a JSON Schema in Nai's registry (D34, D35). They live in Nai's ecosystem and are **written
 entirely by the Nai project** from Parti's requests (`research/DN-nai-readiness.md`); Parti writes no connector, and
 specifies only the messages. The inverse runs the same way: Parti's events enter Nai, are transformed into
-each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
+each application's message and reach the applications through the WebSocket sink. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
 saves the agent's tokens. The harness also subscribes to these messages, so events trigger the agent (a building
@@ -318,9 +321,9 @@ use them to configure the connectors and update the DSL in a closed loop, so Par
 and to new modular functionality.
 
 ```text
-Unreal plugin ─┐
-Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL ─► sink WebSocket ─► Parti runtime
-SolidCraft ────┘                                                                                           │ updates
+Unreal plugin ─┐ endpoints (CloudEvents)
+Blender ───────┼─◄ WebSocket ─ Nai WebSocket source ─► schema registry ─► DSL ─► Nai WebSocket sink ─► Parti runtime
+SolidCraft ────┘ (Rust server)                                                                                          │ updates
                                                                                                            ▼
          listeners (applications, harness) ◄─ sink / events ◄─ Nai source connectors on CDC ◄─ EntityStore (shared)
                      harness (agent loop) ──MCP──► the applications
@@ -377,7 +380,9 @@ architects, designers or users.
 | Parti library (SDK) | The `parti` Python package (D27) that target projects import: the workflow, the harness and the tools. |
 | Message bus | The channel the domain's events travel on, to the page, the scene and the applications' connectors (D29). The gateway in version one; Nai later. |
 | Nai agent | A specialised agent in the harness that configures Nai's connectors and updates its DSL in a closed loop, using Nai's REST interfaces to inspect events (D29). |
-| Connector | Nai's link between the bus and one system (an application, the gateway, the harness), as a pair: a source carries the system's events into the bus, a sink carries the bus's events to it. Written entirely by the Nai project (D29, D34). |
+| Connector | Nai's link between the bus and the systems: a source carries a system's events into the bus, a sink carries the bus's events to it. One generic WebSocket source and sink, configured towards each system's endpoint by its definition; written entirely by the Nai project (D29, D34, D35). |
+| Endpoint | The WebSocket server a system on the bus offers (the gateway, the harness, each application's plugin), exchanging CloudEvents (D35). |
+| Endpoint definition | The AsyncAPI 3.0 document, in JSON, that describes an endpoint: its address, the CloudEvent types it sends and receives, its request and reply pairs, and their schemas (D35). |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
 
 ## B9. The user interface: the Project Environment

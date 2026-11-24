@@ -32,7 +32,9 @@ or measured. Feeds D9 (reconsidered), D29 and Q13.
 | Nai sink connector into EntityStore | Exists | `ecosystem/nai_connector_entitystore_sink`; CR-NAI-330 COMPLETED (2026-06-24) |
 | Request-reply (RPC-like) connector | Exists | `ecosystem/nai_connector_request_reply` |
 | WebSocket as a **client** (Nai connects out to a WebSocket server) | Exists | `crates/nai_runtime/src/connector/http.rs` (`run_websocket`); predates the connector SDK refactor (DN-Wave-10 notes it for modernisation) |
-| WebSocket **server** for plugins or the gateway to connect into Nai, and a WebSocket sink | **Missing** | none found; WebSocket in service mode is deferred (`docs/research/PRD-Service-Backend-Mode.md` Q7) |
+| WebSocket **server** for plugins or the gateway to connect into Nai, and a WebSocket sink | **Missing**, and **no longer needed** (PRD-parti D35: every system serves its own endpoint and Nai connects out as a client) | none found; WebSocket in service mode is deferred (`docs/research/PRD-Service-Backend-Mode.md` Q7) |
+| CloudEvents in the connector SDK | **Exists** | `StreamEvent` is a CloudEvents 1.0 envelope (`crates/nai_runtime/src/stream.rs`); `cloudevents-sdk` in the SDK, config-driven `[event_mapping]` (`docs/research/PRD-Bridge-Client-SDK-Connector-Architecture.md` §3); request-reply correlates by the CloudEvent `id` and `nai-request-id` |
+| JSON Schema in the schema registry | **Exists** | `crates/nai_codecs/src/json_schema.rs` (Confluent-compatible), beside Avro and Protobuf |
 | Connector for a Python process (the harness) | **Missing** | none specific; the request-reply and HTTP connectors are the nearest |
 | Creating and changing connectors and pipelines at runtime through an API (for the Nai agents) | Unconfirmed | to ask Nai's team |
 | REST interfaces to inspect events on the wire | To confirm | the owner reports them; their paths were not located in this read |
@@ -42,25 +44,30 @@ or measured. Feeds D9 (reconsidered), D29 and Q13.
 (`crates/nai_bridge_proto/proto/bridge.proto`), which is the bridge **for connectors**. Parti's components do not talk
 to Nai through it directly: they talk to the connectors that are built for them.
 
-## 3. What follows (owner, 24 November 2026)
+## 3. What follows (owner, 24 November 2026; PRD-parti D34, D35)
 
-- **New connectors for Parti's backend components, on Nai's Rust connector SDK, each a source and a sink** (owner,
-  24 November 2026): a **WebSocket** pair for the Bun gateway (and for the applications' plugins), and a pair for the
-  **Python executable that contains the agentic harness**. The inter-process messaging between the gateway and the harness then runs through Nai.
-- **They are built in Nai's ecosystem** (`ecosystem/nai_connector_parti_*`), **entirely by the Nai project**, from
-  Parti's specifications sent as requests (CReqs); Parti writes no connector, and consumes them. Parti stays Bun and Python, with no Rust stack of its own.
-- **SolidCraft too** (owner, 24 November 2026; PRD-parti D34): a SolidCraft source and sink, so events flow to and
-  from the running application, written by the Nai project as a CReq. The SolidCraft plugin inside the application is Parti's
-  own (Rust, in 0.2.0).
-- **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its connector.
+- **Every system on the bus serves a WebSocket endpoint**: Parti's gateway (Bun), the harness (Python), and each
+  application through its plugin (the Unreal plugin and the Blender add-on in process; SolidCraft through the native
+  Rust server shipped with Parti's plugin, since SolidCraft's plugins are WebAssembly with no network).
+- **Nai's side is one generic WebSocket source and one generic WebSocket sink**, connecting to those endpoints as
+  clients, configured towards each endpoint (custom endpoints, no code per system) by their TOML configuration and the
+  endpoint's **definition**, an **AsyncAPI 3.0** document in JSON (the address, the CloudEvent types sent and received,
+  the request and reply pairs, their schemas).
+- **Every message is a CloudEvent 1.0** in structured JSON mode, over the WebSocket subprotocol `cloudevents.json`;
+  commands are request and reply CloudEvents correlated by the request's id, as the request-reply connector does; each
+  `dataschema` names a JSON Schema 2020-12 registered in Nai's registry. This builds on what Nai already has (§2).
+- **The connectors are written entirely by the Nai project** (`ecosystem/nai_connector_*`), from Parti's requests
+  (CReqs); Parti writes no connector. Parti writes the schemas, the endpoint definitions and its endpoints (the
+  gateway, the harness, the plugins); its Rust is only the SolidCraft plugin, from 0.2.0.
+- **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its endpoint.
 
 ## 4. Validation spike (before the first release that connects a real application)
 
 | # | Scenario | Pass |
 |---|---|---|
-| V1 | A test plugin sends a pick over WebSocket to the Parti connector; the registry accepts it; the DSL turns it into `selection-changed` and pushes it to the gateway | arrives at the gateway; p95 under 100 ms on one workstation |
+| V1 | A test plugin serving its endpoint sends a pick as a CloudEvent; Nai's WebSocket source receives it; the registry accepts it; the DSL turns it into `selection-changed` and pushes it to the gateway | arrives at the gateway; p95 under 100 ms on one workstation |
 | V2 | The gateway writes a placement to EntityStore over REST; the CDC source connector emits it; the DSL addresses it to the plugin; the plugin's RPC endpoint receives it | received once, in order per aggregate; p95 under 250 ms end to end |
-| V3 | The harness subscribes through its connector and receives V2's change; it sends a command back to the gateway through Nai | both directions arrive; no loss across a harness restart (offsets resumed) |
+| V3 | The harness, through its endpoint, receives V2's change; it sends a command back to the gateway through Nai | both directions arrive; no loss across a harness restart (offsets resumed) |
 | V4 | A message failing the schema | refused with a named fault; dead-letter queue holds it; nothing reaches the gateway |
 | V5 | A Nai agent changes a DSL transform through the API and re-runs V1 | the new transform applies without restarting Nai, or the restart cost is stated |
 | V6 | EntityStore restarts during V2 | no change lost or duplicated once R1 (durable offsets) is in place; stated behaviour before it |
@@ -74,18 +81,22 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 
 | Needed by | For | Items |
 |---|---|---|
-| 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry) |
-| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-025 live read) | 1 (the two connectors), 3 (latency), 9 (interaction events), 12 (the SolidCraft connector) |
+| 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry); 12 (the extension name) |
+| 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness) | 1 (the generic WebSocket source and sink), 3 (latency), 9 (interaction events) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
-| 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 |
-| 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 11 |
+| 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
+| 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
+| 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
 | 30 Jun 2027 | 0.5.0 (CR-PRT-058) | 8 (the IFC translator) |
 | 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
 The items:
 
-1. Parti's connectors as CReqs, each a source and a sink: the WebSocket pair (server side, per-system RPC endpoint
-   definitions) for the gateway, and the pair for the harness process; their timing.
+1. **One generic WebSocket source and one generic WebSocket sink**, as CReqs (PRD-parti D35): clients that connect to
+   endpoints the systems serve, configured towards each endpoint by TOML and the endpoint's AsyncAPI 3.0 definition in
+   JSON; CloudEvents 1.0 structured JSON over the subprotocol `cloudevents.json`; request and reply CloudEvents
+   correlated by the request's id; reconnection and resumption when an endpoint restarts. The existing WebSocket client
+   (`run_websocket`) moved onto the connector SDK may be their start. First endpoints: Parti's gateway and harness.
 2. Whether connectors and pipelines can be created and changed at runtime through an API, and the REST interfaces to
    inspect events; their paths.
 3. Measured latency for V1 and V2, or help to measure it.
@@ -100,14 +111,14 @@ The items:
    management. Its timing, and whether it runs as a pipeline on the bus.
 9. **Interaction events** (`parti.interaction.*/1`; D29): accepted into the bus for the agents' context and, with D9,
    telemetry, but outside the design's history.
-10. **Blender through Nai** (0.3.0): the harness process connector, or a sibling, usable from Blender's embedded Python
-    (headless and in the running application), so the Blender translator's commands and events travel on the bus.
-11. **The Unreal plugin on the bus** (0.4.0): the WebSocket connector's per-system RPC endpoints serving an Unreal
-    plugin (picks and walkthrough events in, scene changes out), with the plugin's message shapes registered.
+10. **More endpoints for the same connectors**, configured, with no new connector: SolidCraft's (0.2.0, the native Rust
+    server shipped with Parti's plugin, which drives the running application through its agent connection), Blender's
+    (0.3.0, its add-on in process) and Unreal's (0.4.0, its plugin in process); picks, revisions and walkthrough events
+    in, commands and scene changes out, with each endpoint's messages registered.
+11. **The Unreal plugin on the bus** (0.4.0): any limit the generic connectors place on a game-engine endpoint
+    (frame-rate event volume, binary assets by reference only).
+12. **CloudEvents extension names on the wire**: how `nai-request-id` and the `nai-*` trace extensions appear in a
+    structured JSON CloudEvent, since CloudEvents extension names are lowercase letters and digits.
 
-12. **The SolidCraft connectors** (0.1.0; PRD-parti D34): a source and a sink on Nai's connector SDK, joined to the
-    running SolidCraft (its MCP server or its control connection): the sink carries Parti's commands in (command
-    batches, reads, snapshots), the source carries the application's events out (the design's revision moving, the
-    selection, the view), registered as Parti's schemas.
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
