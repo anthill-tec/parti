@@ -209,7 +209,9 @@ implementation. Until then only the local adapters exist.
 **Nai as the message bus (D29).** Applications connect over WebSocket to Nai's source connector (Unreal through a
 plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti's event
 structure, stores them (EntityStore or an SQL database) and delivers them to the Parti runtime through its sink WebSocket
-connector, as entities Parti understands. MCP connects the harness to the same systems. One loop then carries change
+connector, as entities Parti understands. The inverse runs the same way: Parti's events enter Nai, are transformed into
+each application's message and reach the applications through sink WebSocket connectors. MCP connects the harness to
+the same systems. One loop then carries change
 traversal, workflow state, the agent's context and the UI's updates.
 
 ```text
@@ -217,6 +219,8 @@ Unreal plugin ─┐                                      ┌─► EntityStore 
 Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL transform ─┤
 SolidCraft ────┘                                      └─► sink WebSocket ─► Parti runtime (domain, workflow, page)
                      harness (agent loop) ──MCP──► the applications
+
+Inverse:  Parti runtime ─► Nai source connector ─► DSL transform ─► sink WebSockets ─► Unreal plugin, Blender, SolidCraft
 ```
 
 Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
