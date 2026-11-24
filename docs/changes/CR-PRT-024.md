@@ -44,8 +44,8 @@ classification (PRD-domain §2.6).
 named by §S1's rule. `expected(tables, group) -> Expectations`: body count, each body's volume and bounds, computed from
 the tables alone, independently of SolidCraft. **Provenance:** each body maps back to its table and row, and
 `dependents(tables, changed_rows)` names the groups a change touches (a wall's group and the openings in it), so a
-correction regenerates only what depends on it (JohnnyHouse's gap 4; the live pointer into a body is CR-PRT-025's and
-the harness's).
+correction regenerates only what depends on it (JohnnyHouse's gap 4; what the user points at in the CAD is read
+by CR-PRT-025's `pointed`, and the harness starts the correction from it, CR-PRT-029).
 
 ### §S3 Applying it
 

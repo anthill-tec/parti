@@ -37,7 +37,7 @@ Checkpoints and memory sit behind ports, local files in 0.1.0 (`parti/.harness/`
 
 The harness joins the gateway as a participant of kind `agent` (`hello`, D16) and acts through its tools only:
 the domain's commands and queries (CR-PRT-012), the library (`parti.workflow.run_step`, `parti.tools.tables`,
-CR-PRT-024), the model read and write-back (CR-PRT-025), and SolidCraft's MCP server as a client for what needs judgment
+CR-PRT-024), the model read, write-back and what the user points at (CR-PRT-025), and SolidCraft's MCP server as a client for what needs judgment
 (D21). Rules: **H-1** the agent never sends `decide-gate`, `confirm-declaration` or a caveat on the user's behalf: it
 proposes, the user decides (D26); **H-2** every change it makes is a command whose events every panel shows (D29); **H-3**
 it never edits the model by hand: a correction edits a table row and runs the step again (D26). It sends the workspace
@@ -49,7 +49,8 @@ commands (`show`, `set-focus`) as the workflow step does, so the workspace follo
 its checklist and when to ask the user (D21): **intake** (register the sources, ask for a missing licence or level),
 **read a sheet** (propose the calibration's dimension lines and the table values off a sheet, each value cross-checked
 on two sources, K1), **build from data** (write or correct the tables, run each feature group's step, explain a failed
-check by its worst offender), **label and classify** (propose labels, tags and classes for unclassified objects, the
+check by its worst offender; a correction the user points out in the CAD starts from what they selected, through
+CR-PRT-025's `pointed`, at the table row behind it), **label and classify** (propose labels, tags and classes for unclassified objects, the
 user confirming), **declare** (derive, explain the faults, prepare the confirmation). Each skill speaks in the glossary's
 terms and the display units, and never asks the user for code, data or commands (D28).
 

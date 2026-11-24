@@ -57,7 +57,16 @@ them as plugin data instead (D34), and this write moves behind the same call.
 document); it reads once at start. The caller posts the inventory to the gateway as `read-model` (CR-PRT-012, CR-PRT-026).
 From 0.2.0, SolidCraft's push (`design.changed` through the native server, D34) replaces the poll behind the same call.
 
-### §S5 Test data (Track 2's F2, G4, G5)
+### §S5 What the user points at (JohnnyHouse's gap 4)
+
+`parti.translators.solidcraft.pointed(session) -> Pointed`: the CAD's current **selection** (SolidCraft's
+`selection.get`: bodies, faces and edges with their points), each mapped to its model object and face id by the last
+inventory, with a **picture** of the current view (`screenshot`) when the session has a window. With CR-PRT-024's
+provenance it names the table row behind each selected body, so a correction the user points out starts there and
+regenerates only what depends on it (the harness's build-from-data skill, CR-PRT-029). Read-only: it changes nothing
+in the design.
+
+### §S6 Test data (Track 2's F2, G4, G5)
 
 `parti.testing.fixtures.one_house_model()` gives, for CR-PRT-024's `one_house()`, the two documents: a recorded
 SolidCraft **report** (synthetic, written to match what the read gets) and the expected `parti.model/1`. It gives also a
@@ -72,6 +81,7 @@ re-read and CR-PRT-009 (G4), and a report in centimetres with its transform (G5)
 - [ ] `to_inventory` on the centimetre report with its transform gives the same inventory within 0.01 mm; without the transform it is refused with `unsupported-units`.
 - [ ] With the fake session, a read failing on the third body returns its fault and no inventory.
 - [ ] `tag` then `read` gives the body's Parti id and class back; renaming the body and reading again keeps both; tagging it with another id is refused with `id-conflict`.
+- [ ] With the fake session's selection holding one face of `L0.walls.W3`, `pointed` gives that object's id, the face's id and, with `one_house()`'s provenance, the row `W3` of the walls table; the session's revision is unchanged.
 - [ ] `watch` with the fake session calls `on_revision` once at start, once per revision change and once when the document id changes, and not when the revision is unchanged.
 - [ ] Live (`PARTI_LIVE=1`): `one_house()` built headless (CR-PRT-024) and read gives an inventory whose bodies, volumes and bounds equal CR-PRT-024's expectations within its tolerances.
 - [ ] Caller-existence: `read` and `watch` are called by `parti-axi model read` and `model watch` (CR-PRT-013), `tag` by `model watch` for the write-back the gateway sends (CR-PRT-012, CR-PRT-026), reviewed at their VERIFY.
