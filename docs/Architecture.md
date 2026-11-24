@@ -269,9 +269,11 @@ soon as the agent harness exists. 0.1.0's event schemas are registry-ready, so t
 | Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data, telemetry events (usage, timings such as NFR-11's responsiveness, agent runs) | Nai and EntityStore |
 
 **Nai as the message bus (D29).** Applications connect over WebSocket to Nai's source connector (Unreal through a
-plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti's event
-structure, stores them (EntityStore or an SQL database) and delivers them to the Parti runtime through its sink WebSocket
-connector, as entities Parti understands. The inverse runs the same way: Parti's events enter Nai, are transformed into
+plugin); the events' schemas sit in Nai's schema registry; Nai's DSL transforms incoming messages into Parti events and
+pushes them to the Parti runtime in near real time through its sink WebSocket connector. Parti changes state and
+updates the domain objects in the shared EntityStore; Nai's source connectors listening to EntityStore's CDC streams
+fire on each change and propagate Parti's state change to every listening party (the applications, the harness's
+agent). The same mechanism can carry Parti's backend itself, written in Nai's DSL (PRD Q13). The inverse runs the same way: Parti's events enter Nai, are transformed into
 each application's message and reach the applications through sink WebSocket connectors. EntityStore, a change data
 capture database, makes this automatic: each state change Parti stores becomes a message, and the sink connectors call
 the applications by RPC to apply it. MCP connects the harness to the same systems for what needs judgment; the CDC path
@@ -286,9 +288,11 @@ use them to configure the connectors and update the DSL in a closed loop, so Par
 and to new modular functionality.
 
 ```text
-Unreal plugin ─┐                                      ┌─► EntityStore / SQL
-Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL transform ─┤
-SolidCraft ────┘                                      └─► sink WebSocket ─► Parti runtime (domain, workflow, page)
+Unreal plugin ─┐
+Blender ───────┼─► WebSocket ─► Nai source connector ─► schema registry ─► DSL ─► sink WebSocket ─► Parti runtime
+SolidCraft ────┘                                                                                           │ updates
+                                                                                                           ▼
+         listeners (applications, harness) ◄─ sink / events ◄─ Nai source connectors on CDC ◄─ EntityStore (shared)
                      harness (agent loop) ──MCP──► the applications
                      Nai / EntityStore messages ──► harness: an event triggers an agent run
 
