@@ -2,6 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (0.1.0 = the building from CAD); filed on the Crucible board.
 **Priority:** High
 **Depends on:** —
 **Labels:** setup, bun, python, ci
@@ -18,9 +19,9 @@ and two repository guard tests. Every later 0.1.0 CR needs the component layout 
 
 ### §S1 Bun workspaces
 
-Root `package.json` declares `"workspaces": ["packages/*"]`. Six packages, each with `package.json` (name
+Root `package.json` declares `"workspaces": ["packages/*"]`. Five packages, each with `package.json` (name
 `@parti/<name>`, `"private": true`, `"type": "module"`, licence `GPL-3.0-only`), `src/index.ts` and `test/`:
-`schema`, `domain`, `gateway`, `adapters-local`, `page`, `mock-scene`. A root `tsconfig.json` (strict) with project
+`schema`, `domain`, `gateway`, `adapters-local`, `page` (the `mock-scene` package comes with CR-PRT-016, in 0.4.0). A root `tsconfig.json` (strict) with project
 references. The dependency direction of Architecture B3 holds: `domain` depends on `@parti/schema` only.
 
 ### §S2 Python packages
@@ -37,6 +38,12 @@ Bun tests live in `packages/<name>/test/<tier>/*.test.ts`; Python tests in `test
 `<tier>` one of `unit`, `module`, `integration`, `e2e`. Both Crucible clients (`bun-crucible.py test`,
 `python-crucible.py test`) discover and report them; the repository guard tests stay where they are.
 
+**Live tests** (DN-test-strategy: on a workstation, outside CI) are tagged as live: in Python with the decorator
+`parti.testing.live`, in Bun with the helper `live(...)` from `@parti/schema/test-support`. A live test runs only when
+the environment variable `PARTI_LIVE=1` is set, and is skipped (reported as skipped) otherwise; CI never sets it. Live
+tests are where the real applications (SolidCraft) and a target project's own files are used, read in place on the
+workstation and never committed (NFR-10; the owner's note of 2026-11-24 on borrowing JohnnyHouse's data).
+
 ### §S4 Dependency boundary check
 
 A module test fails when any file under `packages/domain/src` imports anything other than `@parti/schema` or a
@@ -50,7 +57,7 @@ relative path inside `packages/domain` (R1: the domain is pure).
 ## Acceptance criteria
 
 ### §S1
-- [ ] `bun install --frozen-lockfile` succeeds at the root and `bun pm ls` lists the six `@parti/*` packages.
+- [ ] `bun install --frozen-lockfile` succeeds at the root and `bun pm ls` lists the five `@parti/*` packages.
 - [ ] `bunx tsc -b` exits 0 on the empty packages.
 - [ ] Each package's `src/index.ts` exports a `PACKAGE_NAME` constant equal to its `package.json` name, and a unit test per package asserts it.
 ### §S2
@@ -59,6 +66,7 @@ relative path inside `packages/domain` (R1: the domain is pure).
 - [ ] Building the `parti` wheel (`uv build python/parti`) yields metadata `License-Expression: LGPL-3.0-only`, and the `parti-axi` wheel `GPL-3.0-only` with a dependency on `parti` (read from the built wheels).
 ### §S3
 - [ ] A placeholder test in each tier folder of `packages/domain`, `tests/parti` and `tests/parti_axi` is reported to Crucible under that tier by the clients (reviewed, not tested: the Crucible run's tier counts).
+- [ ] A live-tagged test in each stack is skipped without `PARTI_LIVE` and runs with `PARTI_LIVE=1` (asserted by running the clients both ways on a probe test, then removing the probe; reviewed in VERIFY), and `release.yml` sets no `PARTI_LIVE`.
 ### §S4
 - [ ] The boundary test passes on the tree, and fails (asserted in the same test against a temporary file) when a domain source file imports `node:fs`.
 ### §S5

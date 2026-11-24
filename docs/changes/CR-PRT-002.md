@@ -2,17 +2,24 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (0.1.0 = the building from CAD); filed on the Crucible board.
 **Priority:** High
 **Depends on:** CR-PRT-001
 **Labels:** schema, contract
 **Phase:** 0.1.0 · wave 1
-**Design reference:** `docs/research/PRD-domain.md` §7 (messages), §2.4 (declaration); `docs/Architecture.md` A4 (R5, R6), B2 (R8), B4
+**Design reference:** `docs/research/PRD-domain.md` §7 (messages), §2.4 (declaration); `docs/Architecture.md` A4 (R5, R6), B2 (R8), B4; `docs/research/DN-ubiquitous-language.md` rule 7
 
 ## Context
 
 One versioned message schema is the only contract between the page, the gateway, the scene adapters and `parti-axi`
 (R5); types are generated from it, and every incoming message is validated against it (R8). PRD-domain §7 lists
 0.1.0's commands, events and queries; §2.4 defines the declaration file, which the schema also covers.
+
+Under the roadmap of 24 November 2026, this CR lays the schema's frame (envelopes, registry names, generation,
+validation, the glossary's schema column) with the Building and Session messages. Every later CR adds its own
+context's messages to the same files under the same rules: the workflow (CR-PRT-022), the sources (CR-PRT-028), the
+model inventory and the model's products (CR-PRT-025, CR-PRT-026), the declaration's derivation (CR-PRT-027); the
+design messages arrive in 0.2.0 and the conditions in 0.4.0.
 
 ## Scope
 
@@ -29,16 +36,14 @@ JSON Schema (draft 2020-12) files in `packages/schema/v1/`: `envelope.schema.jso
   "causedBy" (commandId), "payload" }`.
 - **refusal:** `{ "type": "refusal", "commandId", "faults": [ { "code", "message", "path"? } ] }`.
 - **query / answer:** `{ "type": "query", "name", "queryId", "params" }` → `{ "type": "answer", "queryId", "result" }`.
-- **snapshot:** `{ "type": "snapshot", "revision", "building", "design", "session" }`, sent to a client on joining.
+- **snapshot:** `{ "type": "snapshot", "revision", "building", "session" }`, sent to a client on joining; later CRs add
+  their context's part (`model`, `workflow`, `sources`; `design` in 0.2.0) as optional members.
 
-### §S3 The 0.1.0 messages
+### §S3 The messages of this CR
 
-Command names: `import-building`, `define-zone`, `resize-zone`, `remove-zone`, `place-product`, `clear-zone`,
-`save-scheme`, `apply-scheme`, `add-to-shortlist`, `remove-from-shortlist`, `undo`, `redo`, `select`, `set-time`,
-`set-weather` (`place-product` with an optional `setOut`; `add-to-shortlist` with an optional `target`). Event names: `building-revised`, `zone-defined`, `zone-resized`, `zone-removed`, `product-placed`,
-`zone-cleared`, `scheme-saved`, `scheme-applied`, `shortlisted`, `unshortlisted`, `selection-changed`,
-`conditions-changed`, `follow-up-raised`, `follow-up-resolved`, `set-out-changed`. Query names: `building`, `surface`, `design`, `catalogue`,
-`goes-with`, `shortlist`, `follow-ups`, `history`, `quantities`. Each payload's fields follow PRD-domain §2–§6.
+Commands: `import-building`, `select`. Events: `building-revised`, `selection-changed`. Queries: `building`,
+`surface`, `history`. Each payload's fields follow PRD-domain §2 (the building) and §5 (the selection). The other
+names of PRD-domain §7 are not in this CR (see Context).
 
 ### §S3a Registry-ready
 
@@ -54,10 +59,19 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 `validateDeclaration(value: unknown)` with the same shape. `parti.schema` (the library, D27) validates the same files in Python
 (the `jsonschema` package), so both stacks read one source.
 
+### §S5 The glossary's schema column (rule 7)
+
+The Terms table of `docs/research/DN-ubiquitous-language.md` gains a fourth column, **Schema**, naming for each term
+that is data the schema type it names: a message `$id` (`parti.building.building-revised/1`) or a type defined in a
+schema file (`parti.building/1#/$defs/surface`). A term that is not data leaves it empty. A repository guard test
+(beside the existing ones in `tests/`) reads the column and every schema file, and fails when a schema type or message
+`$id` has no term naming it, or when a Schema cell names a type that no schema file defines. Later CRs that add
+messages add their terms' Schema cells in the same change.
+
 ## Acceptance criteria
 
 ### §S1–§S3
-- [ ] `validateMessage` accepts one valid example of each of the 15 commands, 15 events, 9 queries, the answer, the refusal and the snapshot (fixtures in `packages/schema/test/fixtures/valid/`).
+- [ ] `validateMessage` accepts one valid example of each of the 2 commands, 2 events and 3 queries of §S3, the answer, the refusal and the snapshot (fixtures in `packages/schema/test/fixtures/valid/`).
 - [ ] `validateMessage` refuses: an unknown `name` (fault code `unknown-message`); a missing `commandId` (`missing-field`, path `/commandId`); a negative `expectedRevision` (`invalid-value`); an extra top-level field (`unknown-field`).
 - [ ] `validateDeclaration` accepts PRD-domain §2.4's example and a declaration with `references.columns`, quality objects (`{ level, note }`), `guides` with `towards` and `steps`, and refuses a surface without `room` (`missing-field`, path `/surfaces/0/room`) and a `format` other than `parti.building/1` (`unsupported-format`).
 ### §S3a
@@ -65,6 +79,10 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 ### §S4
 - [ ] The staleness test regenerates into a temporary folder and fails when it differs from `src/generated/`.
 - [ ] `parti.schema.validate_message` returns the same fault codes as `validateMessage` for the same invalid fixtures (a shared fixture set, run by both test suites).
+### §S5
+- [ ] The glossary's Terms table has the Schema column; the guard test passes on the tree, and fails (asserted in the same test against temporary copies) when a message `$id` is added with no term, and when a Schema cell names an unknown type.
+- [ ] Every `$id` of this CR's schema files has its term in the glossary.
+### Wiring
 - [ ] Caller-existence: by 0.1.0's end, `validateMessage` has non-test callers in `packages/gateway/src` and `parti.schema.validate_message` in `python/parti-axi/src` (reviewed at CR-PRT-012 and CR-PRT-013 VERIFY).
 
 ## Estimated size
@@ -77,4 +95,4 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 
 ## Non-goals
 
-C++, Rust or Avro generation (later, Architecture B3); messages of later releases (PRD-domain §7, last paragraph).
+C++, Rust or Avro generation (later, Architecture B3); the other contexts' messages (their own CRs, see Context); messages of later releases (PRD-domain §7, last paragraph).

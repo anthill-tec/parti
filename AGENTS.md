@@ -4,7 +4,7 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 
 ## Design references
 - Architecture: `docs/Architecture.md` (overview; Part A the domain-driven logical architecture; Part B the system architecture)
-- Design contract: `docs/research/PRD-parti.md` (decisions D1–D32; per-area PRDs to follow, listed in `docs/Architecture.md`, Documents; the domain PRD `docs/research/PRD-domain.md`, reviewed for 0.1.0, written by the orchestrator with the owner)
+- Design contract: `docs/research/PRD-parti.md` (decisions D1–D33; per-area PRDs to follow, listed in `docs/Architecture.md`, Documents; the domain PRD `docs/research/PRD-domain.md`, reviewed for 0.1.0, written by the orchestrator with the owner)
 - Test strategy: `docs/research/DN-test-strategy.md` (approved 2026-11-23): tiers, fakes only at ports, never mock our own code, synthetic fixtures
 - Ubiquitous Language: `docs/research/DN-ubiquitous-language.md` (the living glossary; business terms only, one meaning each). System-design terms: `docs/Architecture.md` B8
 - Order of the design work: architecture (reviewed 2026-11-22/23) → glossary → domain PRD (in review) → other per-area PRDs → CRs last (`docs/Architecture.md`, Documents); each PRD is written for the slice the next release needs
@@ -17,19 +17,21 @@ Project-level conventions for every session/agent working this repo. Scaffolded 
 
 ## Identity & naming (registry: `.env` at the project root)
 - Project **Parti** · token `parti` · acronym `PRT` · owner `anthill-tec`.
-- Orchestrator label: `vidushi-parti` (mode: solo; mode-aware — solo `vidushi-<token>`, multi `Mainline-<token>`).
+- Orchestrator label: `Mainline-parti` (mode: **multi**, from 2026-11-24, owner; mode-aware — solo `vidushi-<token>`, multi `Mainline-<token>`). Track orchestrators: `track1-parti` and `track2-parti` (Crucible own-run ids), each in its own Pi session. The CRs filed before the switch were filed as `vidushi-parti`.
 - CR ids: `CR-PRT-NNN`. Crucible agentIds follow the stack client's agent-naming header — never improvised; see the `crucible` skill's Identity section.
 - Sandesh project: `Parti` (`SANDESH_PROJECT`; addresses `Mainline - Parti` / `Track <N> - Parti`).
 - Sandesh address: `SANDESH_ADDRESS` in `.env` is `Mainline - Parti`, loaded by direnv through `.envrc`; a Track launches with `env SANDESH_ADDRESS="Track <N> - Parti" pi`.
 
 ## Workflow rules
 - **Services extension of `/bootstrap` and `/shutdown`** (owner's directive): Mainline/Solo runs the `parti-services` skill (`.agents/skills/parti-services/`): Bring-up at bootstrap (Parti's own services, its web interface opened in Chrome via `chrome-ui-relay`), Teardown at shutdown. Every service the orchestrator starts, it stops; a pre-existing one it never stops (ledger: `.run/services.json`). **System-level services (Crucible, Sandesh, lean-ctx) are not managed by this project's orchestrator**: never checked, started, stopped or opened by the extension.
-- **git flow for all git workflow** (owner's directive): `git flow feature|bugfix|release|hotfix …`; never commit directly to `master`, nor code to `develop`. Exception: project meta/setup changes (`.env` registry, `AGENTS.md`, setup tooling config) are committed directly on `develop`. Initialized with defaults (`master`, `develop`, `feature/` `bugfix/` `release/` `hotfix/` `support/`, no version-tag prefix). **One-time exception (owner, 2026-11-22):** `master` was fast-forwarded to `develop` at `3e3e16b` (no history rewritten), so CI and GitHub's licence detection work before the first release. From here on, `master` again moves only through `git flow release finish` (or a hotfix).
+- **Tracks work every CR in its own worktree, through `worktree-flow`** (owner, 2026-11-24): `~/.agents/scripts/worktree-flow.py start|status|sync|finish|abort --cr <CR>` (worktrees under `.worktrees/`, gitignored); enter it with `modelb_worktree_enter` right after `start`, exit with `modelb_worktree_exit` after `finish` or `abort`. `finish` is the git-flow feature finish for a CR (a `--no-ff` merge into `develop`, serialised by a lock), run only on the owner's merge sign-off relayed by Mainline. Never `git flow feature start` for a CR in the shared main tree. The worktree tools come from the `@anthill-tec/modelb-pi` Pi package (see the capability contract below).
+- **git flow for all git workflow** (owner's directive): `git flow feature|bugfix|release|hotfix …`, with a CR's feature branch made and closed by `worktree-flow` (above); never commit directly to `master`, nor code to `develop`. Exception: project meta/setup changes (`.env` registry, `AGENTS.md`, setup tooling config) are committed directly on `develop`. Initialized with defaults (`master`, `develop`, `feature/` `bugfix/` `release/` `hotfix/` `support/`, no version-tag prefix). **One-time exception (owner, 2026-11-22):** `master` was fast-forwarded to `develop` at `3e3e16b` (no history rewritten), so CI and GitHub's licence detection work before the first release. From here on, `master` again moves only through `git flow release finish` (or a hotfix).
 - **CI** (`.github/workflows/release.yml`, extended from the modelb-axi scaffold with parts of Crucible's): every push to `develop`, `master`, `release/**` or `hotfix/**`, and every pull request, runs `test-bun` and `test-python` (with a zizmor audit of the workflow). The test jobs are unconditional and gate every publish. `create-release` runs only on `master` and only releases a version tag at HEAD. Locally, tests run through the Crucible clients, never directly.
 - A **wave** is a grouping of CRs marking an execution boundary; setup tasks and releases are NOT waves.
 - The Crucible board holds the queue and the execution state (plans, cycles, milestones); `docs/changes/` holds the specs.
 - Run context (post-036): workflow cycle context is attached by the tooling at ingest time — never hand-export cycle identifiers into the environment or into this file.
 - Registrations are manual in scaffold v1 — complete them from the Setup section below.
+- **Waves are numbered across the whole project**, not per release (the board orders its queue by wave number across releases): 0.1.0 is waves 1–6, 0.2.0 waves 7–9, 0.4.0 waves 10–11; later releases continue the count when their CRs are filed. Within a wave, `wave-sequence` places the listed CRs first, so a wave shared by both Tracks is sequenced lane by lane with the lane holding the other's dependencies sent last.
 
 ## Setup
 Pre-wave tasks — not a wave; a wave is a grouping of CRs.

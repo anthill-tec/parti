@@ -113,7 +113,7 @@ designer edition. The client viewer follows 1.0.0.
 | Document | What it holds |
 |---|---|
 | [`docs/Architecture.md`](docs/Architecture.md) | Overview; Part A, the domain-driven logical architecture; Part B, the system architecture |
-| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D32), requirements, stages, open questions |
+| [`docs/research/PRD-parti.md`](docs/research/PRD-parti.md) | The design contract: the owner's decisions (D1–D33), requirements, stages, open questions |
 | [`docs/research/PRD-domain.md`](docs/research/PRD-domain.md) | The domain: building, design and catalogue (reviewed, 0.1.0 slice) |
 | [`docs/research/DN-ubiquitous-language.md`](docs/research/DN-ubiquitous-language.md) | The living glossary: the business language |
 | [`docs/research/DN-test-strategy.md`](docs/research/DN-test-strategy.md) | How Parti is tested |
