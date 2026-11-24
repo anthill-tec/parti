@@ -61,8 +61,9 @@ to Nai through it directly: they talk to the connectors that are built for them.
 - **The connectors are written entirely by the Nai project** (`ecosystem/nai_connector_*`), from Parti's requests
   (CReqs); Parti writes no connector. Parti writes the schemas, the endpoint definitions and its endpoints (the
   gateway, the harness, the plugins); its Rust is only the SolidCraft plugin, from 0.2.0.
-- **The routing is Parti's, in Nai's DSL** (owner, 24 November 2026; PRD-parti D38): Parti writes and keeps the
-  pipelines in its own repository (`nai/`) and deploys them to Nai; Nai owns the language, the runtime and the connectors.
+- **The router is Parti's, in Nai's DSL** (owner, 24 November 2026; PRD-parti D38, D39): part of Parti's main source
+  (`nai/`), and Parti's repository is a Nai project (`nai.toml`); each target project is a Nai project of Parti's kind and
+  adds its own pipelines beside Parti's router. Nai owns the language, the runtime and the connectors.
 - **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its endpoint.
 
 ## 4. Validation spike (before the first release that connects a real application)
@@ -91,7 +92,7 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 | 15 Feb 2027 | 0.2.0 (CR-PRT-074, Parti's SolidCraft plugin and its endpoint) | 10 (SolidCraft's endpoint configured) |
 | 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 (Blender's endpoint configured) |
 | 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 10 (Unreal's endpoint configured), 11 |
-| 30 Jun 2027 | 0.5.0 (CR-PRT-058) | 8 (the IFC translator) |
+| 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines) | 8 (the IFC translator), 14 (projects on Parti's router) |
 | 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
 The items:
@@ -128,9 +129,16 @@ The items:
     map it in the generic connectors, and say how the other `nai-*` trace extensions appear in a structured JSON
     CloudEvent. Examined together during CR-PRT-074.
 
-13. **Pipelines from another repository** (PRD-parti D38): how Parti tests its DSL pipelines outside Nai's repository
-    (a command-line check, a test harness, fixtures of events in and out, reportable to Crucible), how it deploys them to a
+13. **Pipelines from another repository** (PRD-parti D38): Nai's CLI already has `nai check`, `nai run` and `nai test`
+    (scenarios in `tests/*.test.toml`, CR-NAI-302); how their results can be reported to Crucible (for example as JUnit XML), how it deploys them to a
     running Nai and versions them, and how the harness's Nai agents change them at run time. Needed with item 1.
+
+14. **Projects that build on another project** (PRD-parti D39): `parti-axi init` runs `nai new <project> --template` with a
+    template Parti keeps (CR-NAI-034's templates): whether `nai new` takes a template from outside Nai's repository (a path
+    or a URL), and how a target project's Nai project inherits Parti's
+    router and schema namespace, deploys its own pipelines beside it in its own namespace, and is kept from changing
+    Parti's routes or schemas; and how several such projects share one running Nai (or each gets its own). Needed by the
+    0.5.0 release (templates and project pipelines).
 
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).
