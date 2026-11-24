@@ -194,9 +194,10 @@ What Nai lacks today for the interactive loop, and the requests this makes to it
 `research/DN-founding-design-record.md`. The owner's assessment (22 November 2026): a WebSocket connector is not a
 major issue, since Nai already has HTTP in and out connectors. Nai supports custom connectors that talk to Parti over
 WebSockets where needed, usually built with the LangChain agentic SDK, the same toolkit as the agent harness (D21;
-owner, 23 November 2026). Neither is used in version one (D9). Retrieval (RAG) and the knowledge base move to Nai
-as soon as the agent harness exists; everything else moves when Parti takes on the multi-user, multi-session
-implementation. Until then only the local adapters exist.
+owner, 23 November 2026). Neither is used in 0.1.0 (D9). They come in with the first release that connects a real application (Blender or
+Unreal connectors, the message bus of D29), after a spike once Nai's team confirms the source and sink connectors and
+the schema registry (D9, reconsidered by the owner, 24 November 2026); retrieval (RAG) and the knowledge base move as
+soon as the agent harness exists. 0.1.0's event schemas are registry-ready, so the move changes adapters only.
 
 **What runs where** (owner, 23 November 2026), in three layers:
 

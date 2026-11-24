@@ -40,6 +40,12 @@ Command names: `import-building`, `define-zone`, `resize-zone`, `remove-zone`, `
 `setting-changed`, `follow-up-raised`, `follow-up-resolved`, `set-out-changed`. Query names: `building`, `surface`, `design`, `catalogue`,
 `goes-with`, `shortlist`, `follow-ups`, `history`, `quantities`. Each payload's fields follow PRD-domain §2–§6.
 
+### §S3a Registry-ready
+
+Every command, event and query schema carries a stable registry name and version in its `$id`
+(`parti.<context>.<message>/1`, for example `parti.design.zone-defined/1`), so the files can be registered in Nai's
+schema registry unchanged when the bus moves there (D9, D29).
+
 ### §S4 Generated types and validation
 
 `bun run --filter @parti/schema generate` writes `packages/schema/src/generated/*.ts` from the schema files; the
@@ -54,6 +60,8 @@ generated files are committed and a test fails when they are stale. `@parti/sche
 - [ ] `validateMessage` accepts one valid example of each of the 15 commands, 15 events, 9 queries, the answer, the refusal and the snapshot (fixtures in `packages/schema/test/fixtures/valid/`).
 - [ ] `validateMessage` refuses: an unknown `name` (fault code `unknown-message`); a missing `commandId` (`missing-field`, path `/commandId`); a negative `expectedRevision` (`invalid-value`); an extra top-level field (`unknown-field`).
 - [ ] `validateDeclaration` accepts PRD-domain §2.4's example and refuses a surface without `room` (`missing-field`, path `/surfaces/0/room`) and a `format` other than `parti.building/1` (`unsupported-format`).
+### §S3a
+- [ ] Every schema file under `packages/schema/v1/` has an `$id` matching `^parti\.[a-z]+\.[a-z-]+/[0-9]+$`, and no two share one.
 ### §S4
 - [ ] The staleness test regenerates into a temporary folder and fails when it differs from `src/generated/`.
 - [ ] `parti.schema.validate_message` returns the same fault codes as `validateMessage` for the same invalid fixtures (a shared fixture set, run by both test suites).
