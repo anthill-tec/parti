@@ -50,8 +50,8 @@ to Nai through it directly: they talk to the connectors that are built for them.
 - **They are built in Nai's ecosystem** (`ecosystem/nai_connector_parti_*`), by Nai's team, from Parti's specifications
   sent as requests (CReqs); Parti consumes them. Parti stays Bun and Python, with no Rust stack of its own.
 - **SolidCraft too** (owner, 24 November 2026; PRD-parti D34): a SolidCraft connector (a Rust process joining the
-  application's agent-control port or MCP server to the bus) and a SolidCraft plugin (a Rust WebAssembly component inside
-  the application, which has no network access of its own), both built by Nai's team as CReqs.
+  running application to the bus), built by Nai's team as a CReq. The SolidCraft plugin inside the application is Parti's
+  own (Rust, in 0.2.0).
 - **LangChain is Python (and JavaScript) only**, so the harness stays Python (D21); it reaches Nai through its connector.
 
 ## 4. Validation spike (before the first release that connects a real application)
@@ -76,7 +76,6 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 |---|---|---|
 | 15 Dec 2026 | the validation spike (§4) before 0.1.0's wave 4 | a **workstation install** of Nai with EntityStore, one command on Linux, versioned (V7); 2 (runtime API, REST paths); 4 (schema registry) |
 | 4 Jan 2027 | 0.1.0 (CR-PRT-031, Nai integration; CR-PRT-012 gateway; CR-PRT-029 harness; CR-PRT-025 live read) | 1 (the two connectors), 3 (latency), 9 (interaction events), 12 (the SolidCraft connector) |
-| 15 Feb 2027 | 0.2.0, and 0.1.0's model work in place of part properties | 13 (the SolidCraft plugin) |
 | 15 Feb 2027 | 0.2.0 (CR-PRT-038, EntityStore for the design and the catalogue) | 5 (R1, R2), 6 (Q13), 7 (queries outside a pipeline, the event store for D19) |
 | 31 Mar 2027 | 0.3.0 (CR-PRT-044, Blender through Nai) | 10 |
 | 15 May 2027 | 0.4.0 (CR-PRT-049, the Unreal plugin) | 11 |
@@ -107,12 +106,7 @@ The items:
     plugin (picks and walkthrough events in, scene changes out), with the plugin's message shapes registered.
 
 12. **The SolidCraft connector** (0.1.0; PRD-parti D34): a Rust process on Nai's connector SDK joining SolidCraft's
-    agent-control port (or its MCP server) to the bus: Parti's commands in (command batches, reads, snapshots), and the
+    running application (its MCP server or its control connection) to the bus: Parti's commands in (command batches, reads, snapshots), and the
     application's events out (the design's revision moving, the selection, the view), registered as Parti's schemas.
-13. **The SolidCraft plugin** (PRD-parti D34): a Rust WebAssembly component (`craft:plugin`) inside SolidCraft that keeps
-    Parti's ids and product classes in the design, runs a project's own checks as evaluation checks (pass or fail with
-    the worst value), imports Parti's data tables, and builds a feature group from them as one undoable step; its
-    permissions declared in its manifest and approved by the user at install.
-
 Parti asks for: a CReq id and a date for each item; Nai's release schedule; and a notice when each lands in an
 installable Nai release. Nai's Mainline needs a cross-project grant to reply over Sandesh (an owner action).

@@ -46,6 +46,7 @@ Pre-wave tasks — not a wave; a wave is a grouping of CRs.
 - [x] Confirm the remote owner matches `REPO_OWNER` in `.env` before the first wave-boundary gate — 2026-11-22 (`origin` = `anthill-tec/parti`, private; gh login `antojk`)
 
 ## Skill freeze (derived from --stacks: bun, python)
+- rust (from 0.2.0, PRD-parti D34; owner, 2026-11-24): Parti's SolidCraft plugin only. CR-PRT-073 adds the stack: the toolchain, a CI job, Crucible's Rust client, and the Rust RED/GREEN/VERIFY/FIX agents re-rendered with `modelb-axi agents`.
 - bun: use the generated RED/GREEN/VERIFY/FIX agents, rendered at scaffold time; re-render them with `modelb-axi agents`.
 - python: use the generated RED/GREEN/VERIFY/FIX agents, rendered at scaffold time; re-render them with `modelb-axi agents`.
 
