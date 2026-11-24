@@ -33,8 +33,8 @@ or measured. Feeds D9 (reconsidered), D29 and Q13.
 | Request-reply (RPC-like) connector | Exists | `ecosystem/nai_connector_request_reply` |
 | WebSocket as a **client** (Nai connects out to a WebSocket server) | Exists | `crates/nai_runtime/src/connector/http.rs` (`run_websocket`); predates the connector SDK refactor (DN-Wave-10 notes it for modernisation) |
 | WebSocket **server** for plugins or the gateway to connect into Nai, and a WebSocket sink | **Missing**, and **no longer needed** (PRD-parti D35: every system serves its own endpoint and Nai connects out as a client) | none found; WebSocket in service mode is deferred (`docs/research/PRD-Service-Backend-Mode.md` Q7) |
-| CloudEvents in the connector SDK | **Exists** | `StreamEvent` is a CloudEvents 1.0 envelope (`crates/nai_runtime/src/stream.rs`); `cloudevents-sdk` in the SDK, config-driven `[event_mapping]` (`docs/research/PRD-Bridge-Client-SDK-Connector-Architecture.md` §3); request-reply correlates by the CloudEvent `id` and `nai-request-id` |
-| JSON Schema in the schema registry | **Exists** | `crates/nai_codecs/src/json_schema.rs` (Confluent-compatible), beside Avro and Protobuf |
+| CloudEvents in the connector SDK | **Exists** | Nai's `StreamEvent` is a CloudEvents 1.0 envelope around a typed payload (CR-NAI-101, the CloudEvents SDK migration); config-driven `[event_mapping]` (`docs/research/PRD-Bridge-Client-SDK-Connector-Architecture.md` §3); request-reply correlates by the CloudEvent's id (CR-NAI-323) |
+| JSON Schema in the schema registry | **Exists** | CR-NAI-178 (the JSON-Schema codec, Confluent-compatible), beside Avro and Protobuf |
 | Connector for a Python process (the harness) | **Missing** | none specific; the request-reply and HTTP connectors are the nearest |
 | Creating and changing connectors and pipelines at runtime through an API (for the Nai agents) | Unconfirmed | to ask Nai's team |
 | REST interfaces to inspect events on the wire | To confirm | the owner reports them; their paths were not located in this read |
