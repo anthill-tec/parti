@@ -25,6 +25,38 @@ it touches, checks by measurement, says what was not checked, the owner tries it
 rework came from acting before the bodies the owner meant were identified, from silent failures, and from finishes
 living only in Unreal; most reading went on finding where things are and which way they move.
 
+## 2a. Phases, steps and corrections (the LOG, 279 rows)
+
+The owner pointed at the shape (24 November 2026): broad **phases**, and within them minor **steps**, and the
+**corrections** ("revisions") made along the way to fix issues. The LOG shows it exactly:
+
+- **Phases** P0 to P12, broad and ordered, each with an owner gate at its end (G1 to G7). The order is itself a decision:
+  print preparation (P9) was moved after the Blender scene (P10) by the owner.
+- **Steps**: a planned checkpoint per feature group (`CP-03` columns, `CP-04` slabs, …), 126 of them in CAD, each closed
+  by a numeric check (volume and bounding box exact, body count) and a saved file.
+- **Corrections**: a revision of a step already done, logged under the same number with a letter (`CP-06b`, `CP-13b` to
+  `CP-13d`, `CP-16b` to `CP-16o`): **48 of the 174 CAD rows (28 %)**. One step (`CP-16`, the roof and stair hall) took
+  fourteen corrections. Each correction has a **trigger**, a **cause**, a **fix** and its own **check**:
+
+  | Trigger | CAD corrections | Example |
+  |---|---|---|
+  | found by the agent re-reading the sources (sheets, sections, elevations, renders) | 28 | `CP-16k` entrance rebuilt as a ramp per the ground-floor sheet, the south elevation and render R2 |
+  | pointed at by the owner | 13 | `CP-34c` "the render is not dimensionally right, the lattice must cover the whole opening" |
+  | seen in a rendered view or the live window | 4 | `CP-16b` "seen in the user's SolidCraft window" |
+  | a systematic audit | 3 | `CP-13b` doorway audit level by level; `SA-1` structural audit |
+
+- **In the Unreal phase** the balance turns: 31 of its 48 rows were started by the owner, mostly by pointing at a fault
+  in the walkthrough.
+- **Corrections cross phases**: faults found in the walkthrough (P12) were fixed at the source in CAD (`CP-126` to
+  `CP-128`), then carried forward as a **patch** of the changed bodies (`UE-32`), making the world-only steps stale.
+- **Variants**: `VAR-1`, a comparison copy kept beside the main model ("model it for comparison, do not take away the
+  current"), is an option, not a correction.
+
+What this means for the model: the workflow is not a list of steps done once. It is **phases of planned steps, each step's
+result revised by corrections**, where a correction may land in an earlier phase's step and then flows forward through
+the revision chain (D19). The correction is the most frequent unit of work in the whole project, so it must be
+first-class, not a free-text log line.
+
 ## 3. The mapping
 
 Each prototype concept, the Parti context it belongs to, whether Parti already has it, and the proposal.
@@ -33,7 +65,10 @@ Each prototype concept, the Parti context it belongs to, whether Parti already h
 
 | Prototype | Parti today | Proposal |
 |---|---|---|
-| Phase, step (T12.3), checkpoint (CP-xx) | Step, Checkpoint (glossary); Pipeline (Architecture §4) | keep |
+| Phase (P0 to P12), with its gate | Step (glossary), Pipeline (Architecture §4) | **Phase**: an ordered, gated group of steps; the order is a decision the owner may change |
+| Step (`CP-03`, `T12.3`), closed by a check and a saved checkpoint | Step, Checkpoint | keep: a step is planned, has its checks, and its result is a revision |
+| Correction (`CP-16b` … `CP-16o`): a revision of a done step's result, with trigger, cause, fix and check | Revision (D19), Follow-up action | **Correction**: a revision of a step's result, recording its trigger (agent re-reading the sources, owner pointing, seen in a view, audit), cause, fix, check, and the step it lands in, which may be in an earlier phase than the one being worked; it makes later steps' results stale |
+| Variant (`VAR-1`), a comparison copy | Option, offer (D22) | **Variant**: an alternative kept beside the main line for comparison, never replacing it until chosen |
 | A numeric check closing each step (counts and bounds; swing measured; no material lost; door between two rooms; layer area = room area; a ball stopped by walls) | "record check" command, no model | **Check**: a named check a step definition carries; its **result** is pass or fail, the measured values, the worst offender, and what was **not checked** |
 | ↻ steps made stale by a new building import | Stale, Follow-up action (D19) | **Invalidation edges** in the step definition: "building revised" makes these steps stale; their follow-up is to replay them |
 | Owner gates G1 to G7; G7: scripts prove position and motion, the owner tries feel | Gate | a gate names its **kind**: owner review, owner trial (play), taste option |
@@ -87,6 +122,9 @@ Each prototype concept, the Parti context it belongs to, whether Parti already h
 | A frame conversion per tool (mm ↔ cm, mirrored Y, the level lift) | D25 declared transforms | confirmed |
 
 ## 4. Decisions for the owner
+
+0. **The workflow's shape:** Phase → Step → Correction, with Variant beside it (§2a): adopt as the Workflow context's
+   model and the glossary's terms.
 
 1. **Does any of this enter 0.1.0?** 0.1.0's slice (the finish tool against the mock scene) is not contradicted by any
    of it: placements per zone already follow building revisions (CR-PRT-009), setting-out and quantities are in.
