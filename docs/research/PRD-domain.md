@@ -490,8 +490,8 @@ The schema (`schema` component) defines, versioned:
 | Interaction events (`parti.interaction.*/1`) | `pointed`, `selected`, `clipped`: each with its elements, area, world bounds, CAD references, view and step (§5) |
 | Workflow (§11) | commands `start step`, `complete step`, `tick to-do`, `set focus`; events `step started / completed`, `to-do added / ticked`, `focus set`; the **workspace commands** (`show` a view or an editor, with its subject and title) and the asset browser's **signals** (`set filters`, `set palette`, `mark assets`, `note`) |
 | Queries | `building`, `surface`, `design` (whole or per room), `catalogue` (filtered), `goes with`, `shortlist`, `follow-ups`, `history` |
-| Plan onboarding (§1; 0.1.0) | commands `register source`, `calibrate sheet`, `record data table`; events `source registered`, `sheet calibrated`, `data table recorded`; query `sources` |
-| Model (§2.6; 0.1.0) | commands `read model`, `classify object`; events `model read`, `model revised` (with its changes), `object classified`; query `model` |
+| Plan onboarding (§1; 0.1.0) | commands `register source`, `calibrate sheet`, `record data table`; events `source registered`, `source revised`, `sheet calibrated`, `data table recorded`; query `sources` |
+| Model (§2.6; 0.1.0) | commands `read model`, `classify object`; events `model read`, `model revised` (with its changes), `model read failed`, `object classified`; query `model` |
 | Declare (§2.7; 0.1.0) | commands `derive declaration`, `confirm declaration` (whole or per surface); events `declaration derived`, `declaration confirmed` |
 
 **Which release carries which** (PRD-parti D33): 0.1.0 carries the Building, Session (`select`, `selection changed`),

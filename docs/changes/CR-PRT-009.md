@@ -1,35 +1,57 @@
 # CR-PRT-009 — Versioning in 0.1.0: building and model revisions
 
-**Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
+**Status:** PENDING (spec drafted 2026-11-23; rewritten 2026-11-24 for the roadmap; gap analysis not yet run)
 **Type:** feature
-**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: **to be rewritten**: building and model revisions (PRD-domain §6, §2.6); design versions move to CR-PRT-007 (0.2.0).
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: rewritten: building and model revisions (PRD-domain §6, §2.6); design versions and the design\'s forward chain (`followBuilding`) move to CR-PRT-007 (0.2.0).
 **Priority:** High
 **Depends on:** CR-PRT-004, CR-PRT-026
-**Labels:** domain, versioning
+**Labels:** domain, versioning, building
 **Phase:** 0.1.0 · wave 3
-**Design reference:** `docs/research/PRD-domain.md` §6; `docs/research/PRD-parti.md` D19
+**Design reference:** `docs/research/PRD-domain.md` §2.2, §2.6, §2.7, §6 (v0.4); `docs/research/PRD-parti.md` D17, D19, D33
 
 ## Context
 
-When the building is imported again, the design must follow the change without anything changing silently (D19's
-forward chain, inside this slice). The domain is pure (R1): plain functions over plain data, no input or output, no imports beyond `@parti/schema`.
+Nothing changes silently (D19). In 0.1.0 two things are versioned: the **model**, read again whenever its revision moves
+(PRD-domain §2.6), and the **building**, revised when a declaration is confirmed or imported (§2.2). A model revision
+refreshes the derived declaration's draft and shows the user what changed; once confirmed, it is a building revision.
+The forward chain into the design comes with the design (CR-PRT-007, 0.2.0). The domain is pure (R1).
 
 ## Scope
 
-`followBuilding(design, revised)` is the process step run after every `building-revised`: it returns the design events
-of PRD-domain §6's table. A removed surface's zones and placements are **orphaned** (`follow-up-raised`, kind
-`orphaned`); a resized surface's zones now outside it are flagged (`follow-up-raised`, kind `outside-surface`); a new
-surface gets its field zone (`zone-defined`); changed openings and regions need no event (cut-outs are computed).
-`resolve-follow-up` is not a command: a follow-up is resolved (`follow-up-resolved`) when the user's own change removes
-its cause (the zone resized inside, removed, or re-placed).
+### §S1 Model revisions
+
+`diffModels(previous, next) -> ModelChanges`: objects **added**, **removed**, **renamed** (same Parti id, another CAD
+name), **split** (one Parti id on several bodies: the largest by volume keeps the id, the others get new ids recorded
+as split from it), **material changed** (an effective material differs, §2.6), and **resized** (bounds moved by more
+than 0.5 mm). Objects with a Parti id are matched by it (M-1); objects without one by CAD name, and a name matching
+nothing is added and removed, never guessed. `read-model` (CR-PRT-026) on a model already read yields `model-revised`
+carrying the changes, instead of `model-read`; an unchanged revision yields nothing.
+
+### §S2 A failed read
+
+A read that fails is recorded as `model-read-failed` with its fault; the last inventory stays in force (M-3) and the
+query `model` says it is stale and why.
+
+### §S3 The draft follows
+
+After `model-revised`, `followModel(declarationState, changes)` marks the derived draft **stale** (CR-PRT-027) and lists
+the surfaces the changes touch (an object removed or resized under a surface's faces); the user re-derives and
+confirms. A confirmed declaration's building revision carries CR-PRT-004's changes (`diffBuildings`).
+
+### §S4 History
+
+The query `history` lists the model and building revisions in order, each with its changes and what caused it (a read,
+a confirmation, an import), for the Model and Building views and `parti-axi`.
 
 ## Acceptance criteria
 
-- [ ] Re-importing `oneBath` without its floor raises one `orphaned` follow-up per floor zone, and their placements remain readable in the design (not deleted).
-- [ ] Shrinking a wall so a panel lies outside raises `outside-surface` for that panel only; resizing the panel inside resolves it.
-- [ ] A surface added in the new revision gets exactly one field zone.
-- [ ] Moving the door changes `visibleCells` but raises no follow-up.
-- [ ] Caller-existence: the gateway calls `followBuilding` after every accepted `import-building` (reviewed at CR-PRT-012 VERIFY).
+- [ ] `diffModels` from `one_house_model()` to its second revision (Track 2's G4) gives exactly: one split (the wall, its larger part keeping the id), one rename and one material change.
+- [ ] An object without a Parti id whose CAD name changes is reported as one removed and one added.
+- [ ] Reading the same revision twice yields one `model-read` and no `model-revised`.
+- [ ] A failed read yields `model-read-failed`; `model` then returns the previous inventory marked stale with the fault.
+- [ ] After a revision removing a wall body, `followModel` marks the draft stale and names the surfaces made from that body's faces.
+- [ ] `history` after a read, a re-read with changes and a confirmation lists three entries in order, each with its cause.
+- [ ] Caller-existence: the gateway calls `followModel` after every `model-revised` (reviewed at CR-PRT-012 VERIFY).
 
 ## Estimated size
 
@@ -37,4 +59,5 @@ its cause (the zone resized inside, removed, or re-placed).
 
 ## Non-goals
 
-Versions of designs and comparisons between them (later, D19); changes in other layers.
+The design's forward chain and design versions (CR-PRT-007, 0.2.0); comparing two arbitrary revisions in the page
+(later, D19); revisions of the sources (CR-PRT-028's `source-revised`).

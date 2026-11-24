@@ -2,7 +2,7 @@
 
 **Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
 **Type:** feature
-**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.2.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.2.0 and rewritten then.
+**Re-targeted:** 2026-11-24, to the roadmap the owner approved (PRD-parti D33), as on the Crucible board: moved to 0.2.0 by the roadmap (PRD-parti D33); the text below is the draft, re-reviewed with the owner at the review before 0.2.0 and rewritten then. It also takes the design's forward chain (`followBuilding`, PRD-domain §6) from CR-PRT-009.
 **Priority:** High
 **Depends on:** CR-PRT-006
 **Labels:** domain, design
