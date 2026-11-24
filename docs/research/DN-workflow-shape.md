@@ -1,8 +1,9 @@
 # DN — The workflow's shape: a repeatable graph, extracted from the prototype
 
 **Date:** 2026-11-24
-**Status:** Proposed, for the owner's review. Feeds the Workflow context (`DN-runbook-domain-impact.md` §2b) and,
-later, the Workflow PRD and the harness's graph (D21).
+**Status:** Decided as D26 (owner, 24 November 2026), **provisional while the prototype runs**: each new Runbook version
+is checked against it (§11). Feeds the Workflow context (`DN-runbook-domain-impact.md` §2b), the Workflow PRD and the
+harness's graph (D21).
 **Author:** Parti orchestrator (vidushi-parti)
 **Source:** JohnnyHouse `docs/research/RUNBOOK.md` v0.3 (phases P0 to P12, 80 tasks), `progress/LOG.md` (279 rows),
 Sandesh #1660 (read in place)
@@ -12,10 +13,10 @@ Sandesh #1660 (read in place)
 The owner's direction (24 November 2026): extract the broader shape of the prototype's tasks and steps so that it can
 be matched into a **repeatable graph that holds for any architectural project**, not JohnnyHouse's. The prototype's
 80 tasks are particular (this house's columns, its louvre windows); underneath them a small number of **step kinds**
-repeat, wrapped in **one step cycle**, arranged in **stages**, with **two cross-cutting loops**. Those four things are
+repeat, wrapped in **one step cycle**, arranged in **phases**, with **two cross-cutting loops**. Those four things are
 the graph; a project supplies only the data.
 
-## 2. The step cycle (every step, every stage)
+## 2. The step cycle (every step, every phase)
 
 Every task in the prototype, from the first column to the last tile, ran the same cycle (RUNBOOK §0, §5):
 
@@ -62,27 +63,27 @@ replayed (RUNBOOK P12).
 
 | Gate kind | When | Prototype |
 |---|---|---|
-| **Review** | at the end of a stage: does it match the intent | G1 massing, G2 walls, G3 facade |
+| **Review** | at the end of a phase: does it match the intent | G1 massing, G2 walls, G3 facade |
 | **Option** | taste decides: options shown, the owner chooses (K10) | G5 colour schemes A to D; 15 questions put as options |
 | **Permission** | before a cost: a download (file, source, size), an hours-long render, a print | G6 films, every library download |
 | **Trial** | the owner tries what scripts cannot prove (K12) | G7 |
 
-## 5. The stages (a project's phases, generalised)
+## 5. The phases (a project's phases, generalised)
 
-The prototype's thirteen phases fold into seven stages; within each, the steps are instances of the kinds above,
+The prototype's thirteen phases fold into seven phases; within each, the steps are instances of the kinds above,
 coarse to fine. The order is data: the owner moved print preparation after the Blender scene.
 
-| Stage | Steps (kinds), in order | Gate | Prototype phases |
+| Phase | Steps (kinds), in order | Gate | Prototype phases |
 |---|---|---|---|
-| **S1 Intake** | sources (K1), parameters and data tables (K1) | review | P0, P2 (calibration) |
-| **S2 Model** | massing → structure → envelope and partitions per level → openings → vertical circulation → facade features → joinery, hardware, built-ins (each K2), consolidate (K3) | review after massing, walls, facade | P1, P3 to P8 |
-| **S3 Declare** | rooms and surfaces, parts and placements, motion, swings (K4) | — | P8 (T8.6), PA-1, P12 inputs |
-| **S4 Design** | catalogue intake (K1), choose (K10), place and set out (K7, K8), quantities (K8) | option | finish tool (0.1.0); tile browser; FL-1 to FL-3 |
-| **S5 Present** | transfer (K5), restore (K6), apply by rule (K7), compose the scene (K9), stills (K11), films (K11) | option, permission | P10, P11 |
-| **S6 World** | transfer (K5), restore (K6), parts and operable bodies (K4, K8), finishes by rule (K7), setting-out (K8), patches (K7), site (K9), collision (K6), trial (K12) | trial | P12 |
-| **S7 Deliver** | package the client viewer, print pieces (K11) | permission | P9, step 13 of §8A |
+| **Ph1 Intake** | sources (K1), parameters and data tables (K1) | review | P0, P2 (calibration) |
+| **Ph2 Model** | massing → structure → envelope and partitions per level → openings → vertical circulation → facade features → joinery, hardware, built-ins (each K2), consolidate (K3) | review after massing, walls, facade | P1, P3 to P8 |
+| **Ph3 Declare** | rooms and surfaces, parts and placements, motion, swings (K4) | — | P8 (T8.6), PA-1, P12 inputs |
+| **Ph4 Design** | catalogue intake (K1), choose (K10), place and set out (K7, K8), quantities (K8) | option | finish tool (0.1.0); tile browser; FL-1 to FL-3 |
+| **Ph5 Present** | transfer (K5), restore (K6), apply by rule (K7), compose the scene (K9), stills (K11), films (K11) | option, permission | P10, P11 |
+| **Ph6 World** | transfer (K5), restore (K6), parts and operable bodies (K4, K8), finishes by rule (K7), setting-out (K8), patches (K7), site (K9), collision (K6), trial (K12) | trial | P12 |
+| **Ph7 Deliver** | package the client viewer, print pieces (K11) | permission | P9, step 13 of §8A |
 
-S4 (Design) is Parti's own domain: the building declared in S3 is designed on, and S5 and S6 are **renderers of the
+Ph4 (Design) is Parti's own domain: the building declared in Ph3 is designed on, and Ph5 and Ph6 are **renderers of the
 design** (PRD-domain §3), so a design change reaches both without redoing them by hand.
 
 ## 6. The two cross-cutting loops
@@ -101,14 +102,14 @@ trigger ─► resolve the pointer to elements ─► find the cause in numbers 
      └─► the step's result is revised (D19): later steps invalidated by it become stale and are replayed
 ```
 
-- The step a correction lands in may be in an **earlier stage**: a fault seen in the walkthrough (S6) was fixed in CAD
-  (S2, `CP-126` to `CP-128`) and carried forward as a patch (K5).
+- The step a correction lands in may be in an **earlier phase**: a fault seen in the walkthrough (Ph6) was fixed in CAD
+  (Ph2, `CP-126` to `CP-128`) and carried forward as a patch (K5).
 - **Resolving the pointer** was the largest recurring cost and the cause of two wrong fixes: it is the loop's first
   node, never skipped.
 
 ### 6.2 The audit loop
 
-A systematic re-check of a stage against its sources, run on purpose (doorways level by level `CP-13b`; the structural
+A systematic re-check of a phase against its sources, run on purpose (doorways level by level `CP-13b`; the structural
 audit `SA-1`; the level audit `CP-06b`). Its findings enter the correction loop.
 
 ### 6.3 Variants
@@ -120,43 +121,56 @@ dropped by an option gate.
 
 ```mermaid
 flowchart LR
-  S1[S1 Intake] --> S2[S2 Model] --> S3[S3 Declare] --> S4[S4 Design]
-  S3 --> S5[S5 Present]
-  S4 --> S5
-  S3 --> S6[S6 World]
-  S4 --> S6
-  S5 --> S7[S7 Deliver]
-  S6 --> S7
-  S2 -. print branch .-> S7
-  C{{Correction loop}} -. lands in any step .-> S2 & S4 & S6
+  Ph1[Ph1 Intake] --> Ph2[Ph2 Model] --> Ph3[Ph3 Declare] --> Ph4[Ph4 Design]
+  Ph3 --> Ph5[Ph5 Present]
+  Ph4 --> Ph5
+  Ph3 --> Ph6[Ph6 World]
+  Ph4 --> Ph6
+  Ph5 --> Ph7[Ph7 Deliver]
+  Ph6 --> Ph7
+  Ph2 -. print branch .-> Ph7
+  C{{Correction loop}} -. lands in any step .-> Ph2 & Ph4 & Ph6
   A{{Audit loop}} -. findings .-> C
-  S6 -. owner points .-> C
-  S2 -. revision makes stale .-> S5 & S6
-  S4 -. revision makes stale .-> S5 & S6
+  Ph6 -. owner points .-> C
+  Ph2 -. revision makes stale .-> Ph5 & Ph6
+  Ph4 -. revision makes stale .-> Ph5 & Ph6
 ```
 
-Each stage is a subgraph of steps; each step is the step cycle (§2) specialised by its kind (§3); gates are
+Each phase is a subgraph of steps; each step is the step cycle (§2) specialised by its kind (§3); gates are
 interrupts; the stale edges are the invalidated-by edges of the step definitions.
 
 ## 8. What a project supplies, and what Parti supplies
 
 | Parti (the graph, the same for every project) | The target project (data) |
 |---|---|
-| stages, step kinds, the step cycle, gate kinds, the loops | its sources (drawings, schedules, renders) |
+| phases, step kinds, the step cycle, gate kinds, the loops | its sources (drawings, schedules, renders) |
 | the checks of each kind (exact volume and bounds; counts against a snapshot; none lost; layer area equals room area) | its data tables, declarations, rules (finish rules, layout rules) |
-| the translators per application, with their declared transforms and caveats | its choices: options picked, the stage order it changes, its gates passed |
+| the translators per application, with their declared transforms and caveats | its choices: options picked, the phase order it changes, its gates passed |
 | the standard caveats per kind ("lives in the world; replayed after an import") | its corrections, decisions and records (the workflow run) |
 
 ## 9. Checked against the prototype
 
-Every task of P0 to P12 (80) and every kind of log row maps onto a kind, a stage or a loop: CAD checkpoints (K2, K3),
+Every task of P0 to P12 (80) and every kind of log row maps onto a kind, a phase or a loop: CAD checkpoints (K2, K3),
 their lettered corrections (the correction loop), audits (the audit loop), `VAR-1` (variant), Blender steps (K5 to
 K11), Unreal steps (K4 to K12), the declaration for Parti (K4), the finishes database (K1, K7), setting-out and counts
 (K8). Nothing needed a project-specific node.
 
-## 10. For the owner
+## 10. Decided (D26)
 
-1. Are the twelve step kinds the right vocabulary, or should some merge (K6 into K7; K9 into K7)?
-2. Are the seven stages right, with Design (S4) between the declaration and the two renderers?
-3. Next: fold this and the refined Workflow context (`DN-runbook-domain-impact.md` §2b) into the glossary,
-   Architecture §4 and PRD §8A, then write the Workflow PRD.
+- The twelve step kinds stand as separate kinds: K6 (restore after transfer) and K7 (apply by rule) differ in their
+  checks (none lost, against a count touched), and K9 (compose the scene) carries the rendered-view gate.
+- *Phase*, not *stage*: "stage" already names Parti's deployment stages (`../Architecture.md` §7).
+- The seven phases stand, with Design (Ph4) between the declaration and the two renderers.
+- Folded into the glossary, Architecture §4 and PRD-parti §8A (FR-WF-11 to FR-WF-14). Next, the Workflow PRD, written
+  for the release that first ships the harness.
+
+## 11. Keeping it current while the prototype runs
+
+JohnnyHouse is still running (24 November 2026), so this shape will be revised. For each new Runbook version or log
+stretch: map every new task to a kind, a phase or a loop (§9); a task that maps onto nothing is a candidate new kind,
+raised to the owner; a reordering is a change of the phase order (data); a new check or caveat goes into its step
+kind. Each such revision is recorded in the change log below and lands in the workflow definition's next version.
+
+| Date | Runbook | Change |
+|---|---|---|
+| 2026-11-24 | v0.3 (P0 to P12, 279 log rows) | First extraction. |

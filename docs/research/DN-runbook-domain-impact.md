@@ -1,7 +1,9 @@
 # DN — What the prototype's Runbook means for Parti's domain model
 
 **Date:** 2026-11-24
-**Status:** Proposed, for the owner's decisions (§4). Nothing here changes the PRDs until decided.
+**Status:** §2a and §2b decided as D26 (owner, 24 November 2026): the Workflow context's shape, folded into the glossary,
+Architecture §4 and PRD-parti §8A. The rest of §3 (Building, Design, Catalogue, Session, World builder) are proposals,
+taken up with each context's PRD for the release that needs them. Provisional while the prototype runs.
 **Author:** Parti orchestrator (vidushi-parti)
 **Source:** JohnnyHouse `docs/research/RUNBOOK.md` v0.3 (read in place; Sandesh #1660), its LOG, and #1640 to #1658
 **Related:** `../Architecture.md` §4 (contexts), `PRD-parti.md` §8A (workflow outline), D17, D18, D19, D21, D24, Q17;

@@ -103,9 +103,23 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Participant | A user or an agent taking part in a session. | Session |
 | Client review session | A session in which the client walks the building and decides among the offered options, guided by menus and by the assistant in chat or by voice; it ends in a client selection. | Session |
 | Selection | What a participant has picked: an element, a surface, a zone or a group. | Session |
-| Step | One stage of the guided workflow (drawing intake, shell build, …, finishes, world building, and usually last, building and packaging the client viewer). | Workflow |
-| Gate | A point where the owner decides before the workflow goes on. | Workflow |
-| Checkpoint | A saved state of the target project after a step. | Workflow |
+| Workflow definition | The workflow as data, versioned: its phases, step definitions, checks, caveats and gates. The same for every architectural project; a target project may adapt it (D26). | Workflow |
+| Workflow run | What has happened in one target project's workflow: step runs, check results, corrections, decisions, variants and step records (D26). | Workflow |
+| Phase | A broad, ordered, gated part of the workflow: Intake, Model, Declare, Design, Present, World, Deliver. Its order is data the owner may change (D26). | Workflow |
+| Step | One unit of work within a phase, an instance of a step kind, run through the step cycle (D26). | Workflow |
+| Step kind | One of the twelve kinds every step is an instance of: intake, build from data, consolidate, declare, transfer, restore after transfer, apply by rule, derive, compose the scene, choose, render or package, trial (D26). | Workflow |
+| Step cycle | What every step does: read the sources, write the data, generate, apply, check against the expected numbers, checkpoint, record; on a failed check, fix the data, never the output (D26). | Workflow |
+| Check | A measurement that proves a step worked, with its pass rule (body count and bounds exact; layer area equals room area). | Workflow |
+| Check result | A check's outcome: pass or fail, the measured values, the worst offender, and what it did not prove. | Workflow |
+| Caveat | A known trap of a step or a tool, carried with it and stated with its results ("lives in the world; replayed after an import"). | Workflow |
+| Gate | A point where the owner decides before the workflow goes on, of one of four kinds: review, option, permission, trial (D26). | Workflow |
+| Decision | An owner's decision recorded in the workflow run: pointing at a fault, choosing an option, giving a rule, or choosing from the catalogue. | Workflow |
+| Pointer | What the owner refers to (a view, a selection, words, a picture), resolved to elements and confirmed before anything changes. | Workflow |
+| Correction | A revision of a step already done: its trigger, pointer, cause, fix, checks, and the step it lands in, which may be in an earlier phase. Its revision flows forward (D19, D26). | Workflow |
+| Audit | A systematic re-check of a phase against its sources, run on purpose; its findings become corrections. | Workflow |
+| Variant | An alternative kept beside the main line for comparison, never replacing it until chosen. (An option is what the client is offered; a variant is the designer's.) | Workflow |
+| Step record | The log entry a step run writes itself: asked, done, checked with numbers, not checked, files. | Workflow |
+| Checkpoint | A saved state of the target project after a step (a CAD file, a Blender scene, an Unreal level). Not the harness's own saved agent state. | Workflow |
 
 ## Change log
 
@@ -141,3 +155,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Finish widened to four kinds; added Source scan and Stain (DM-8). |
 | 2026-11-23 | Finish: fifth kind, metal. |
 | 2026-11-24 | Added Setting-out, Module, Counting rule; Shortlist with targets; Finish kinds exposed and glaze. |
+| 2026-11-24 | D26: Step narrowed to a unit within a phase; Gate gains its kinds; Checkpoint distinguished from the harness's state; added Workflow definition, Workflow run, Phase, Step kind, Step cycle, Check, Check result, Caveat, Decision, Pointer, Correction, Audit, Variant, Step record. |

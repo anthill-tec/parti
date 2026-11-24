@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -71,7 +71,7 @@ Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the 
 
 | Context | Aggregates and main data | Commands (examples) | Publishes |
 |---|---|---|---|
-| **Workflow** (frames the others) | Pipeline: steps, their inputs, outputs, checks, gates; a target project's progress | start step; record check; pass gate; checkpoint | step started / checked / completed |
+| **Workflow** (frames the others) | Workflow definition (versioned data): phases, step definitions of twelve step kinds with their checks, caveats and invalidated-by edges, gates of four kinds. Workflow run (per target project): step runs, check results, corrections, decisions, variants, step records (D26) | start step; record check; pass gate; record decision; raise, resolve correction; branch, choose variant; checkpoint | step started / checked / completed / stale; correction raised / resolved; decision recorded |
 | **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
 | **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
 | **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
@@ -85,7 +85,11 @@ Design refers to products and to building elements by id; it asks Catalogue and 
 is allowed through their published facts, never by reading their storage.
 
 Workflow frames the other contexts: a step's outputs (a building, a design) are what the later steps, the
-finish tool and the world builder work on.
+finish tool and the world builder work on. Its shape (D26, `research/DN-workflow-shape.md`): phases of steps, each step
+running one step cycle (sources → data → generate → apply → check → checkpoint → record), gates, and the correction and
+audit loops across every phase. A correction may land in an earlier phase's step; its revision then flows forward
+(D19). The harness compiles the workflow definition into its LangGraph graph; the graph's state is a projection of the
+workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's.
 
 ## 5. Components
 
@@ -206,6 +210,8 @@ also connects it to the target's Unreal project.
 | `research/DN-founding-design-record.md` | The original design discussion, including the Nai and EntityStore reviews and the stack findings. |
 | `research/DN-first-consumer-johnnyhouse.md` | The first consumer's data, Unreal project and needs. |
 | `research/DN-pipeline-prototype-johnnyhouse.md` | The pipeline as JohnnyHouse ran it by hand: steps, tools, scripts, faults. |
+| `research/DN-workflow-shape.md` | The workflow generalised into one repeatable graph (D26): step cycle, step kinds, gate kinds, phases, loops. Provisional while the prototype runs. |
+| `research/DN-runbook-domain-impact.md` | The prototype's Runbook mapped onto the domain model, context by context (D26). |
 | `changes/CR-PRT-NNN-*.md` | Implementation specs, filed on the Crucible board. |
 | `.lavish/<document>.html` | **Review pages.** An interactive copy of one specification, built by the orchestrator for the owner's review: annotations, questions and decisions are made there. Every decision is applied to the markdown and committed; the page is a working record on the orchestrator's machine, not versioned and not the source of truth. |
 
