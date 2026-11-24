@@ -47,13 +47,14 @@ openings and regions, by declared id.
 ### §S5 Steps (DM-7)
 
 A surface's optional `steps` are kept; `stepsCrossed(surface, rect)` returns the steps a rectangle crosses, for the
-design context's warnings.
+design context's warnings (its caller arrives with the design, CR-PRT-006, 0.2.0). A declaration derived from the model
+(CR-PRT-027) imports through the same `import-building`, under the same rules.
 
 ## Acceptance criteria
 
 ### §S2
 - [ ] Importing `oneBath` yields one `building-revised` event with revision 1 and five surfaces (`*.wall.N/E/S/W`, `*.floor`).
-- [ ] Importing `faulty` yields one refusal with exactly the three labelled faults (`duplicate-id` or `unknown-room`, `openings-overlap`, `anchor-reversed`), and the state stays at the previous revision.
+- [ ] Importing `makeFaulty()`'s declaration yields one refusal whose faults are exactly its `breaches` (`duplicate-id` or `unknown-room`, `openings-overlap`, `anchor-reversed`; CR-PRT-003), and the state stays at the previous revision.
 - [ ] An opening declared with `"frame": "world"` at a known world position lands at the expected face-frame x on an east wall and on a west wall (mirror check).
 - [ ] A declaration with `"scale": 10` and a width of 347 gives a surface width of 3470.
 ### §S3
