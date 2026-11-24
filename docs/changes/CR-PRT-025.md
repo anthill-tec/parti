@@ -74,7 +74,7 @@ re-read and CR-PRT-009 (G4), and a report in centimetres with its transform (G5)
 - [ ] `tag` then `read` gives the body's Parti id and class back; renaming the body and reading again keeps both; tagging it with another id is refused with `id-conflict`.
 - [ ] `watch` with the fake session calls `on_revision` once at start, once per revision change and once when the document id changes, and not when the revision is unchanged.
 - [ ] Live (`PARTI_LIVE=1`): `one_house()` built headless (CR-PRT-024) and read gives an inventory whose bodies, volumes and bounds equal CR-PRT-024's expectations within its tolerances.
-- [ ] Caller-existence: `read` and `watch` are called by `parti-axi model read` and `model watch` (CR-PRT-013), `tag` by the classification's write-back (CR-PRT-026 through CR-PRT-012), reviewed at their VERIFY.
+- [ ] Caller-existence: `read` and `watch` are called by `parti-axi model read` and `model watch` (CR-PRT-013), `tag` by `model watch` for the write-back the gateway sends (CR-PRT-012, CR-PRT-026), reviewed at their VERIFY.
 
 ## Estimated size
 

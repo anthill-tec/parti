@@ -78,7 +78,8 @@ model (gap 2). `parti.workflow.run_step(step, session, project)`:
 5. **checks**: the built-in and the project's checks against the expectations;
 6. **checkpoints** (gap 8) only when every check passes: the design saved as `<checkpoints>/CP-<n>.sc` and one row in
    the checkpoint log; no pictures; a clean-up removes only files this step made, never a kept file;
-7. **records** the **step record** (`parti.step-record/1`, one JSON line): asked, done, checked with numbers, not
+7. **records** the **step record** (`parti.step-record/1`, one JSON line appended to `parti/steps/records.ndjson`,
+   which the gateway reads for the workflow's checks, CR-PRT-012): asked, done, checked with numbers, not
    checked, the files written. On a failed check nothing is checkpointed and the record names the worst offender; the
    fix is made in the data and the step is run again.
 
