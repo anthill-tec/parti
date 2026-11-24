@@ -96,6 +96,12 @@ Drafted 24 November 2026 and **sent to Nai's Mainline over Sandesh as soon as Na
 | 30 Jun 2027 | 0.5.0 (CR-PRT-058; CR-PRT-075, project pipelines) | 8 (the IFC translator) |
 | 15 Aug 2027 | 0.6.0 (CR-PRT-064, telemetry) | 7 (D9's layer roles: telemetry and its distillation) |
 
+**To be finalised with Nai's orchestrator** (owner, 24 November 2026): how PRD-parti D34 to D39 meet Nai (the generic
+connectors, CloudEvents and `nairequestid`, the unwrapped payloads, the router and project pipelines, the Parti template,
+the registry's domains and subdomains, the connector instances and the shared main Nai process) is Parti's current
+understanding from Nai's documentation. Nai's orchestrator confirms or corrects each point in its answers, and Parti's
+decisions are finalised then.
+
 The items:
 
 1. **One generic WebSocket source and one generic WebSocket sink**, as CReqs (PRD-parti D35): clients that connect to

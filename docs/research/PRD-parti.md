@@ -12,6 +12,7 @@
 
 | Date | Change |
 |---|---|
+| 2026-11-24 | D34–D39: where they meet Nai, they are finalised with Nai's orchestrator's answers to DN-nai-readiness §5 (owner). |
 | 2026-11-24 | D39 revised: the Parti template is added to Nai's project-creation tool at Parti's request; it generates and registers the project's schemas (in a subdomain of Parti's domain in the registry) and its connector instances, which run separately with their own configuration; the main Nai process is shared (owner). |
 | 2026-11-24 | D38 revised: the router is part of Parti's main source, and Parti's repository is a Nai project; D39: target projects are Nai projects of Parti's kind and add their own pipelines; `parti-axi`'s scaffolder sets up the Nai part with Nai's tools (`nai new --template`, `nai check`, `nai test`) (owner). |
 | 2026-11-24 | D38: routing written in Nai's DSL by Parti, kept in Parti's repository (`nai/`), deployed to Nai (owner). |
