@@ -1,12 +1,12 @@
 # CR-PRT-005 — Catalogue context
 
-**Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
+**Status:** PENDING (spec drafted 2026-11-23, noted 2026-11-24 for DM-10; gap analysis not yet run)
 **Type:** feature
 **Priority:** High
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, catalogue
 **Phase:** 0.1.0 · wave 2
-**Design reference:** `docs/research/PRD-domain.md` §4 (all); `docs/research/PRD-parti.md` FR-CAT-1 to FR-CAT-6
+**Design reference:** `docs/research/PRD-domain.md` §4 (all), DM-10; `docs/research/PRD-parti.md` D32; `docs/research/PRD-parti.md` FR-CAT-1 to FR-CAT-6
 
 ## Context
 
@@ -54,6 +54,12 @@ is complementary (180° ± 30°) and whose strength passes the threshold, at mos
 - [ ] Colour-wheel order is non-decreasing in hue for the coloured products, and every product under the strength threshold comes after them.
 - [ ] `goesWith` lists set members first, then pairs, then complementary products, and never the product itself.
 - [ ] Caller-existence: `queryCatalogue` and `goesWith` are called from `packages/gateway/src` (reviewed at CR-PRT-012 VERIFY).
+
+## Record format (DM-10; owner, 24 November 2026)
+
+The product model (PRD-domain §4.2a, §4.4) structures the `Product` type as identity fields (now with its `class`, D32)
+plus **form**, **build-up**, **appearance** and **quantities**; the fields are those above, grouped. The size is to be
+re-estimated at the spec review (the owner).
 
 ## Estimated size
 

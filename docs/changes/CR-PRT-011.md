@@ -1,12 +1,12 @@
 # CR-PRT-011 — Catalogue build: the record formats and the library's tools
 
-**Status:** PENDING (spec drafted 2026-11-23, revised 2026-11-24; gap analysis not yet run)
+**Status:** PENDING (spec drafted 2026-11-23, revised 2026-11-24, noted 2026-11-24 for DM-10; gap analysis not yet run)
 **Type:** feature
 **Priority:** High
 **Depends on:** CR-PRT-005
 **Labels:** catalogue, schema, python, library
 **Phase:** 0.1.0 · wave 3
-**Design reference:** `docs/research/PRD-domain.md` §4.1, §4.2; `docs/research/PRD-parti.md` D27; `docs/Architecture.md` B3 (`parti.catalogue`)
+**Design reference:** `docs/research/PRD-domain.md` §4.1, §4.2, §4.2a, §4.4 (DM-10); `docs/research/PRD-parti.md` D27; `docs/Architecture.md` B3 (`parti.catalogue`)
 
 ## Context
 
@@ -57,6 +57,11 @@ synthetic example in the library's docstring and in Parti's catalogue skill (CR-
 - [ ] `read_shortlist` reads a synthetic file of three entries, one with a target.
 - [ ] (reviewed, not tested; workstation) JohnnyHouse's orchestrator's output in `parti.catalogue/1` builds, its report read; no file under the repository changes.
 - [ ] Caller-existence: `parti-axi catalogue build` calls `parti.catalogue.build`, and the gateway's shortlist import calls `read_shortlist` (reviewed at CR-PRT-013 and CR-PRT-012 VERIFY).
+
+## Record format (DM-10; owner, 24 November 2026)
+
+The product model (PRD-domain §4.2a, §4.4) structures `parti.catalogue/1`'s records as identity fields (with the `class`, D32) plus **form**, **build-up**, **appearance** and **quantities**; the fields are those above, grouped; `build` also checks each record's class against the Finishes branch. The size is to be
+re-estimated at the spec review (the owner).
 
 ## Estimated size
 

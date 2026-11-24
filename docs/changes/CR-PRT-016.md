@@ -1,6 +1,6 @@
 # CR-PRT-016 — Project Environment: the walkthrough (mock scene)
 
-**Status:** PENDING (spec drafted 2026-11-23; gap analysis not yet run)
+**Status:** PENDING (spec drafted 2026-11-23, reworded 2026-11-24 from the storyboard review; gap analysis not yet run)
 **Type:** feature
 **Priority:** High
 **Depends on:** CR-PRT-012
@@ -16,9 +16,9 @@ tested without Unreal (Q9). It speaks the same messages the Unreal plugin will (
 ## Scope
 
 `packages/mock-scene`: a browser page served by the gateway at `/scene`, connecting like any client, and shown in
-the Project Environment's **Walkthrough** tab (CR-PRT-021, storyboard 5). It draws each
+the Project Environment's **walkthrough view** (`show walkthrough`, opened by the step *Trial in the walkthrough*, CR-PRT-022; storyboard 5). It draws each
 room's surfaces unfolded (floor in the middle, walls around it), each zone filled with its placement's swatch colour,
-and a status line (selection, time, weather). Clicking a surface or a zone sends `select` with its id. It sends an
+and a status line (selection, time, weather). Clicking a surface or a zone sends `select` with its id, and a `pointed` interaction event naming it (CR-PRT-022). It sends an
 acknowledgement message `scene-applied` with the revision it has drawn (added to the schema by this CR as the first
 of Q17's acknowledgements).
 
@@ -28,7 +28,7 @@ of Q17's acknowledgements).
 - [ ] Clicking a zone in the scene selects it in the page (the page's selection shows the zone id).
 - [ ] After each design change the scene sends `scene-applied` with the design's new revision.
 - [ ] The status line shows `rain` after `set-weather rain`.
-- [ ] The Walkthrough tab shows the scene, and a click in it selects the zone in the Design tab.
+- [ ] The walkthrough view shows the scene, and a click in it selects the zone in the surface editor and sends a `pointed` event naming the zone.
 - [ ] Caller-existence: the gateway serves the scene at `/scene` (reviewed at VERIFY).
 
 ## Estimated size

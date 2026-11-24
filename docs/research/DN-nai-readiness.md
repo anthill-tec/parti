@@ -76,3 +76,10 @@ To be sent once Nai's Mainline is active on Sandesh with a cross-project grant (
 5. EntityStore: the status of R1 (durable consumer-group offsets) and R2 (`version`, `schemaVersion` on change events).
 6. Q13: how much of Parti's backend processing the DSL can carry (propagation and projections; the domain's own rules).
 7. The earlier open items: queries outside a pipeline, the event store for D19, D9's layer roles.
+8. **The IFC translator** as a CReq (owner, 24 November 2026; PRD-parti D32): Parti's objects transformed to and from
+   IFC-based objects (IFC 4.3, ISO 16739-1:2024), each product class mapped to an IFC entity type and predefined type
+   (0.1.0's Finishes branch to `IfcCovering`) and Parti's attributes to IFC property sets by a declared mapping Parti
+   provides; for the releases that connect BIM tools, structural and services models, cost estimating and facility
+   management. Its timing, and whether it runs as a pipeline on the bus.
+9. **Interaction events** (`parti.interaction.*/1`; D29): accepted into the bus for the agents' context and, with D9,
+   telemetry, but outside the design's history.
