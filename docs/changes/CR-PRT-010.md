@@ -11,8 +11,11 @@
 
 ## Context
 
-0.1.0 stores events as JSON lines and snapshots in the target project (PRD-domain §8), behind ports so Nai replaces
-the store later without touching the domain or the gateway.
+0.1.0 stores events as JSON lines and snapshots in the target project (PRD-domain §8, v0.4), behind ports so Nai
+replaces the store later without touching the domain or the gateway (CR-PRT-031 adds the Nai adapter behind the same
+ports). The logs of 0.1.0 are `building`, `workflow`, `sources` and `model`; its snapshot is the model inventory
+(`model/inventory.json`). The design's logs and snapshots (`design.ndjson`, `design.json`, `shortlist.json`) come with
+the design in 0.2.0 (CR-PRT-007), through the same adapter.
 
 ## Scope
 
@@ -27,7 +30,7 @@ expectedSequence, events): Promise<AppendResult>; read(aggregate, fromSequence?)
 `packages/adapters-local/src/json-store.ts`: `JsonEventStore(root)` writes `events/<aggregate>.ndjson`, one event per
 line; `append` refuses with `sequence-conflict` when the log's last sequence differs from `expectedSequence`; an append
 is atomic (the new file content written to a temporary file in the same folder, then renamed). `JsonSnapshotStore`
-writes `design.json` and `shortlist.json` the same way. A torn last line (a crash during a write by an older version or
+writes snapshots by path (in 0.1.0 `model/inventory.json`) the same way. A torn last line (a crash during a write by an older version or
 by hand) is reported as `corrupt-log` with its line number, never silently skipped.
 
 ### §S3 Rebuild
@@ -40,7 +43,8 @@ deleting the snapshots and rebuilding gives identical files.
 - [ ] Module tests run the same port contract suite against `JsonEventStore` (in a temporary folder) and an in-memory store: append, read back in order, read from a sequence, `sequence-conflict` on a stale append.
 - [ ] Killing the process between the temporary write and the rename (simulated by a failing rename) leaves the previous log intact.
 - [ ] A log with a torn last line is reported as `corrupt-log` at that line.
-- [ ] Deleting `design.json` and running `rebuildSnapshots` produces a file byte-identical to the one deleted.
+- [ ] Deleting `model/inventory.json` and running `rebuildSnapshots` over a synthetic `model` log (two reads, the second with changes) produces a file byte-identical to the one deleted.
+- [ ] The four logs of 0.1.0 (`building`, `workflow`, `sources`, `model`) are appended and read through the one adapter, each in its own file.
 - [ ] Caller-existence: the gateway constructs `JsonEventStore` at start-up (reviewed at CR-PRT-012 VERIFY).
 
 ## Estimated size
