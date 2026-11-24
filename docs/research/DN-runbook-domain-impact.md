@@ -57,6 +57,66 @@ result revised by corrections**, where a correction may land in an earlier phase
 the revision chain (D19). The correction is the most frequent unit of work in the whole project, so it must be
 first-class, not a free-text log line.
 
+## 2b. The Workflow context, refined (proposal)
+
+The owner's aim (24 November 2026): the Workflow context, which Parti embeds in its LangGraph harness (D21), is to be
+designed around what the prototype shows; the approved model needs refining, not replacing. Today it has Pipeline, Step,
+Gate, Checkpoint, Stale and Follow-up action, and §8A lists 13 "steps" that are, in the prototype's terms, **phases**.
+
+### The model
+
+Two aggregates, kept apart as definition and history:
+
+- **Workflow definition** (versioned; Parti ships one for architectural projects, a target project may adapt it):
+  - **Phase**: an ordered, gated group of steps (drawing intake, shell build, …, world building, packaging); §8A's 13
+    rows become phases. The order is data, and an owner decision may change it (the prototype moved print preparation).
+  - **Step definition**: inputs, outputs (which aggregate it revises: the building, a plan, the world), the tools it
+    calls, its **checks**, its **standard caveats**, and its **invalidated-by** edges ("building revised" makes the
+    world-only steps stale).
+  - **Check definition**: what is measured and the pass rule (body count and bounding box exact; layer area equals room
+    area; a door between two different rooms).
+  - **Gate**: where the owner decides, of a kind: review, trial (the owner tries it: play mode, feel), option (taste,
+    with options shown), permission (a download, a long render).
+- **Workflow run** (one per target project, event-sourced like every aggregate, R6):
+  - **Step run**: started, checked, completed, stale; its **checkpoint** (the saved state of the target project).
+  - **Check result**: pass or fail, the measured values, the worst offender, and **what was not checked**.
+  - **Correction**: a revision of a completed step's result. It records its **trigger** (the agent re-reading the
+    sources, the owner pointing, seen in a view, an audit, a failing check), the **pointer** and the elements it
+    resolved to, the **cause** in numbers, the **fix** (a rule or a data change, with what it touched), its check
+    results, and the **step it lands in**, which may belong to an earlier phase. Its revision flows forward (D19):
+    later step runs whose definitions are invalidated by it become stale, and their re-runs are follow-up actions.
+  - **Decision**: an owner decision, of one of the four kinds seen (point at a fault, choose an option, give a rule,
+    choose from the catalogue), linked to the step or correction it closed.
+  - **Variant**: an alternative kept beside the main line for comparison (`VAR-1`), never replacing it until chosen.
+  - **Step record**: the log row (asked, done, checked with numbers, not checked, files), written by the run itself from
+    the events above, never typed.
+
+### How it maps onto the harness (D21)
+
+| Domain | LangGraph |
+|---|---|
+| Workflow definition | the graph, compiled from it; the domain stays the source of truth |
+| Phase | a subgraph |
+| Step definition | a node that calls domain commands and the application translators (FR-WF-6) |
+| Check | a node after the step; its result routes the edge: pass → next, fail → the correction loop |
+| Gate | an `interrupt`; the owner's answer is a Decision event |
+| Correction | the **correction loop**, a subgraph entered from a failing check, an owner pointer or an audit: resolve the pointer → find the cause in numbers → fix by rule → check → say what was not checked → the owner tries it (trial gate) → record |
+| Invalidated-by edges | on a revision event, the stale step runs are queued as follow-up actions and the graph replays them |
+| Workflow run | the graph's state is a projection of it; LangGraph's own checkpointer holds the agent's state only |
+
+**Two "checkpoints" must not be confused:** a workflow **Checkpoint** is a saved state of the target project (a `.sc`, a
+`.blend`, a level); LangGraph's checkpointer saves the agent's graph state. The glossary keeps the word for the first.
+
+### What changes in the approved documents
+
+- Glossary: Step (narrowed to the unit within a phase); new Phase, Check, Check result, Correction, Decision, Variant,
+  Caveat, Step record, Pointer; Gate gains its kinds; Checkpoint distinguished from the harness's checkpointer.
+- Architecture §4, Workflow row: aggregates Workflow definition and Workflow run, as above.
+- PRD-parti §8A: its 13 rows renamed phases; FR-WF-1 (steps within phases), FR-WF-2 (the step record), FR-WF-4 (check
+  results with "not checked"), FR-WF-7 (caveats on the step definition), FR-WF-9 (gate kinds) restated; a new
+  FR-WF for corrections.
+- D19: a correction is a revision like any other, and may land upstream of the step being worked.
+
 ## 3. The mapping
 
 Each prototype concept, the Parti context it belongs to, whether Parti already has it, and the proposal.
