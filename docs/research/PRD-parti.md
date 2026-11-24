@@ -35,6 +35,7 @@
 | 2026-11-23 | D18: the motion library's purpose (fewer agent tokens), metadata and telemetry in Parti's backends; Q16 (its language: editor Python, run-time C++ or Blueprint). |
 | 2026-11-23 | D18: direction for a motion library of generic motion primitives the agent composes into interactive scripts (owner). |
 | 2026-11-23 | FR-CAT-5: wood veneer, laminate and paint finishes in 0.1.0 (owner; JohnnyHouse #1648). |
+| 2026-11-24 | §8A: the prototype's Runbook P12 recorded as evidence for step 12 and the workflow system (#1660). |
 | 2026-11-24 | T4: doors and French windows as Blueprints; agent-interface evidence recorded (#1655 to #1657); setting-out and quantities in 0.1.0 (#1658, owner). |
 | 2026-11-23 | T4 item 2: procedural materials arrive white through glTF; check after import; finishes rebuilt from the catalogue (#1653). |
 | 2026-11-23 | T4: the per-part route repeated by script for three parts and eight placements; finishes on imported meshes are lost at re-import (#1649). |
@@ -315,6 +316,33 @@ client bundle are marked stale and their re-rendering or republishing is raised 
 rendering) behind an owner gate. **World editing is a separate chain:** the world (site, lighting, scenarios, moving
 parts) is built in the Unreal editor, with Parti collaborating through Unreal's MCP (D18, D21); how edits made directly
 in the editor reach Parti is for the world builder's PRD.
+
+**Evidence for step 12: the prototype's Runbook P12** (JohnnyHouse #1660, RUNBOOK v0.3, read in place). The owner's
+intent: JohnnyHouse is the prototype on which this workflow is being found, so that Parti's own harness with an embedded
+workflow (D21) can cut the agent's token use for any architectural project. P12 gives step 12 as eleven sub-steps in
+the order that worked: building in; materials lost on import rebuilt from the catalogue by rule; moving sub-assemblies
+as Blueprints; moving bodies that are not sub-assemblies (cabinet fronts, gates), motion inferred; activation at the
+handle; finishes by rule, recorded with where they are used; tiles set out room by room, with counts; face patches;
+site corrections; collision; and faults found in the walkthrough sent back to CAD and returned as a patch of the
+changed bodies. What the workflow system takes from it, to be designed with the workflow's and the world builder's
+PRDs:
+- **Invalidation edges:** sub-steps that live only in the world (materials, finishes, setting-out, face patches) are
+  made stale by a new building import and replayed (the glossary's Stale and Follow-up action).
+- **A check per step, as a built-in gate:** every body on its counterpart; swing and slide measured; open-and-return; no
+  material lost; a door between two different rooms; layer area equals room area; a ball stopped by walls and shut
+  doors; the level unsaved before a save and not after.
+- **The owner's gate:** scripted checks prove position and motion, not feel: every moving element is tried by the
+  owner in play; taste decisions are put as options. The owner's decisions were of four kinds: pointing at a fault,
+  choosing among options, giving a rule, choosing from the catalogue.
+- **The loop:** owner points (a screenshot) → resolve the pointer to elements → find the cause in numbers → scripted
+  fix with a table of what it touches → check by measurement → say what was not checked → owner tries it → one log
+  row. **Resolving the owner's pointer** was the largest recurring cost and the cause of two wrong fixes: a step of its
+  own at the head of the loop (D24's resolve-by-embeddings, Q17's interaction capture).
+- **Standard caveats per step** ("saved; not tried in play; lives in Unreal, re-run after import"), attached to the step
+  instead of written out each time; and the Unreal caveats (RUNBOOK §4) carried by the harness.
+- **Seeds:** the script index by subsystem (§3.2; the `bp_*.dsl` graphs act on tags only and are the first motion
+  primitives, D18), the tile browser's gaps as an asset browser (§3.1: a target per choice, every kind of asset,
+  library search with licence, choosing inside the walkthrough), and seven skill candidates (§6).
 
 - **FR-WF-10 Nothing of one house in the tools.** Names, dimensions and material choices of JohnnyHouse are data of that target project (NFR-10).
 
