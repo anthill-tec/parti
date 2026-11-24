@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape) and D27 (the `parti` library). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape), D27 (the `parti` library) and D28 (the ecosystem). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -11,7 +11,19 @@ repeat them.
 
 ## 1. What Parti is
 
-Parti is a guided workflow, installed into a *target project* (a project that owns a building model), that
+Parti is an **ecosystem in which architects and interior designers create their projects with agentic help** (D28).
+Parti provides the coding and logical framework; the **project agent** (the orchestrator agent in each target project)
+concentrates on the project's own logic (translating its data into Parti's formats, its rules, its own steps); and the
+architects and designers, domain experts rather than programmers, work in their own terms and are never asked to write
+code, data or commands.
+
+| Who | Provides |
+|---|---|
+| Parti | the domain model and its formats; the workflow (D26); the `parti` library, its tools and translators (D27); the harness (D21); `parti-axi`; the skills and agent definitions; the finish tool, the world builder, the client viewer |
+| The project agent | the project's translation into Parti's formats; its rules and data tables; the steps particular to the project, as extensions of the step kinds |
+| The architect or interior designer | intent, in their own terms: pointing at things, choosing among options, stating rules, approving at the gates |
+
+At its centre Parti is a guided workflow, installed into a *target project* (a project that owns a building model), that
 takes a building from the architect's drawings to a CAD model, a rendered Blender scene and an Unreal
 walkthrough. A user and an agent work through its steps together, and each step has tested tools (owner,
 22 November 2026). It has three parts:

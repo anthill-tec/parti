@@ -27,6 +27,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Term | Meaning | Context |
 |---|---|---|
 | Target project | A building project Parti is installed into. It owns the building, its drawings, its Unreal project and its data. | — |
+| Project agent | The agent working in one target project with Parti's framework: it turns the architect's or designer's intent into data, rules and tool calls, and writes the project's own logic (D28). | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
 | Room use | What a room is for (bedroom, bathroom, porch, kitchen), with the names people call it by (aliases). | Building |
@@ -156,3 +157,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-23 | Finish: fifth kind, metal. |
 | 2026-11-24 | Added Setting-out, Module, Counting rule; Shortlist with targets; Finish kinds exposed and glaze. |
 | 2026-11-24 | D26: Step narrowed to a unit within a phase; Gate gains its kinds; Checkpoint distinguished from the harness's state; added Workflow definition, Workflow run, Phase, Step kind, Step cycle, Check, Check result, Caveat, Decision, Pointer, Correction, Audit, Variant, Step record. |
+| 2026-11-24 | Added Project agent (D28). |

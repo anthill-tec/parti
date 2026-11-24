@@ -21,7 +21,9 @@ output, a dry run, and a flag for every question.
   writes `<dir>/parti.toml` (folder, display units with D25's defaults, gateway port, the working models' scales,
   empty) and `<dir>/parti/` with its sub-folders; writes Parti's skills (`.agents/skills/parti-*`: in 0.1.0, using
   `parti-axi` and the finish tool, and translating the project's own records into Parti's formats with the library
-  and building the catalogue) and agent definitions; records the
+  and building the catalogue) and agent definitions. The skills teach the project agent D28's division: it speaks to
+  the architect or designer in the glossary's terms and display units, offers options and pictures, and never asks
+  them to write code, data or commands; records the
   project's dependencies on `parti` and `parti-axi` (D27); and appends Parti's section to the target project's
   `AGENTS.md` (created if absent). Re-running is safe: existing values are kept unless a flag changes them.
 - `parti-axi doctor` checks Bun, the configuration, the declaration's validity and the catalogue's presence, one line
