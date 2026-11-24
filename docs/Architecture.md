@@ -207,7 +207,9 @@ Q13).
 ## 9. Installing into a target project
 
 Once scaffolded, the architect or designer opens the Project Environment in the browser (served by the gateway); it is
-their workspace until the Unreal walkthrough is generated, which then joins it (D22).
+their workspace until the Unreal walkthrough is generated, which then joins it (D22). The first thing the project agent
+guides there is the import of the project's sources, such as floor plan drawings (the Intake phase, D26); imports from
+other design tools come later, each through its own translator.
 
 `parti-axi init --target <dir>` writes into the target project its configuration, Parti's skills and agent definitions
 (which teach the agent to use the `parti` library and `parti-axi`), the agent notes, and the project's dependencies on
