@@ -17,8 +17,9 @@ output, a dry run, and a flag for every question.
 
 ### §S1 Commands
 
-- `parti-axi init --target <dir> [--parti-dir parti] [--area-unit sq-ft|m2] [--length-unit ft-in|mm|m] [--yes]`
-  writes `<dir>/parti.toml` (folder, display units with D25's defaults, gateway port, the working models' scales,
+- `parti-axi init --target <dir> [--type residential/single-family-home] [--parti-dir parti] [--area-unit sq-ft|m2] [--length-unit ft-in|mm|m] [--yes]`
+  writes `<dir>/parti.toml` (the project type and its template, D30: 0.1.0 ships one, residential single-family home,
+  finishes layer only, an unknown type refused with the list of known ones; folder, display units with D25's defaults, gateway port, the working models' scales,
   empty) and `<dir>/parti/` with its sub-folders; writes Parti's skills (`.agents/skills/parti-*`: in 0.1.0, using
   `parti-axi` and the finish tool, and translating the project's own records into Parti's formats with the library
   and building the catalogue) and agent definitions. The skills teach the project agent D28's division: it speaks to
@@ -48,6 +49,7 @@ summary in the display units. Exit codes: 0 ok, 1 refused or failed check, 2 usa
 
 - [ ] `init --yes` on an empty temporary folder creates `parti.toml` with `area_unit = "sq-ft"` and `length_unit = "ft-in"`, the `parti/` sub-folders of PRD-domain §8, and an `AGENTS.md` with the Parti section, the `parti-*` skills and agent definitions; a second run changes nothing (files byte-identical).
 - [ ] `init --dry-run` creates nothing and lists the files it would write.
+- [ ] `init --type commercial/office` exits 2 and lists `residential/single-family-home`; without `--type`, `parti.toml` records `type = "residential/single-family-home"` and `layers = ["finishes"]`.
 - [ ] (integration) `open --no-browser` on a scaffolded project starts the gateway and prints an address whose page answers 200.
 - [ ] (integration) `gateway start`, then `building import` of `oneBath`, then `state --query building --json` returns five surfaces; `gateway stop` leaves no process (pid gone).
 - [ ] `building import` of `faulty` exits 1 and its `--json` output lists the three faults.

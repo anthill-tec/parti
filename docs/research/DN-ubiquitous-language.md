@@ -27,6 +27,8 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Term | Meaning | Context |
 |---|---|---|
 | Target project | A building project Parti is installed into. It owns the building, its drawings, its Unreal project and its data. | — |
+| Project type | The kind of building project: residential (single-family home, apartment block, …) or commercial (its sub-types); it decides which layers and bills of materials a project has (D30). | — |
+| Project template | The configuration a project type brings at scaffolding: its workflow's phases and steps, its layers, catalogues, default rules and gates; adaptable afterwards (D30). | — |
 | Project agent | The agent working in one target project with Parti's framework: it turns the architect's or designer's intent into data, rules and tool calls, and writes the project's own logic (D28). | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
@@ -165,3 +167,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | Added Consumer; Client viewer is the consumer's (D28). |
 | 2026-11-24 | Added Guided chat, Asset browser; Designer edition through them (D22). |
 | 2026-11-24 | Added Project Environment; Guided chat follows the workflow and guides the design (D22). |
+| 2026-11-24 | Added Project type, Project template (D30). |

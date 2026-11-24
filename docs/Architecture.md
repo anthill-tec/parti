@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape), D27 (the `parti` library) and D28 (the ecosystem). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Updated 24 November 2026 for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -91,7 +91,7 @@ Names follow the glossary, `research/DN-ubiquitous-language.md` (revised in the 
 | **Building** | Building: levels, rooms, elements, surfaces; each element's 3D object and 2D drawing elements | declare, revise, retire element or surface | element declared / revised / retired |
 | **Design** (core: layer planning) | Design: per layer a plan; per surface its zones (area, panel, band, border, …); per zone its placement; schemes; shortlist; offers of options for the client, and the client's selections (D22) | define, resize, remove zone; place, clear product; save, apply scheme | zone defined / resized / removed; product placed / cleared; scheme saved / applied |
 | **Catalogue** | Product (per layer); maker; set; matching facts (colour, suitable use) | (queries) filter, search, "goes with" | product added / changed / withdrawn |
-| **Quantities** (computational module) | Quantities per plan; bill of materials per work-contract role; cost estimates later | (queries) quantities, bill of materials | — (derived from plans) |
+| **Quantities** (computational module) | The engine behind every product layer's bills of materials (construction, finishes, lighting, furnishing, plumbing, appliances, D30): quantities per plan; bill of materials per work-contract role; estimates later | (queries) quantities, bill of materials | — (derived from plans) |
 | **World builder** (module) | Scenario: setting (time, date, weather, light, site), moving parts, experience mode, routes, viewpoints | choose scenario; set time; set weather; animate moving part; choose experience mode | setting changed; scenario changed |
 | **Session** | Session: participants (users and agents), selection, viewpoint | join, leave; select element / surface / zone / group; clear selection | participant joined / left; selection changed |
 | **Asset delivery** | Mapping from a product to what a scene can draw; the client bundle, per client project and revision (D22) | prepare product for a scene | product ready / failed |
@@ -117,7 +117,7 @@ workflow run, and LangGraph's own checkpointer holds the agent's state only, nev
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
 | `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, the **Parti Project Environment**: the **guided chat** with the project agent (through the harness, D21; it follows the embedded workflow and guides the design workflow) beside the workflow view, the **asset browser** (0.1.0: the catalogue browser, detail and shortlist), the zone editor and the setting controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
-| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
+| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.connectors` (the bus subscribers per application, D29); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
 | `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
 | `client-viewer` | Unreal (packaged app) | its client bundle only | Deferred until after 1.0.0 (D22, D23). Self-contained walkthrough viewer (monitor or VR) with the offered options, stills and films; Windows and Linux; built and downloaded from the designer edition. Licence first (PRD Q12). |
 | `unreal-plugin` | C++ | `schema` (generated C++ types) | **Deferred** until Model B supports a C++ stack (D5). Scene adapter, pick, zone master material, finish assets, overlay; the Unreal side of the world builder (D18). |
@@ -136,6 +136,14 @@ Assigning a finish, version one:
 6. A link that joins late receives a snapshot, then events from that sequence number.
 
 The same path serves the CLI: `parti-axi` sends the command and prints the events or the refusal.
+
+**The message bus and the applications (D29).** The fan-out of step 4 is the bus. Per application (SolidCraft,
+Blender, Unreal Engine) a **connector** subscribes to it and applies what it can apply deterministically, with no agent
+and no tokens: a placement changed sets the material on the faces tagged with that surface's id. Each application's
+objects carry Parti's ids (a CAD attribute, a Blender custom property, an Unreal actor tag), so references resolve both
+ways. Events from the applications (a pick, a CAD revision) come back through the connector as commands. Work that
+needs judgment goes through the harness's agent loop and the applications' MCP servers (D21) instead. In 0.1.0 the
+gateway's WebSocket fan-out is the bus; later Nai converts and dispatches the state changes (§8).
 
 ## 7. Where things run, by stage
 
@@ -195,7 +203,7 @@ implementation. Until then only the local adapters exist.
 | Layer | What runs there | How |
 |---|---|---|
 | Interaction (near real time) | The validation rules (the domain, R1), the agentic workflows and skills (D21), and the work with the CAD system, Blender and Unreal Engine | The applications' Python APIs, alongside their MCP servers, driven through the LangChain SDK |
-| Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
+| Operations | Queued operations kept consistent in time: the forward chain's follow-up actions (D19), the message bus between Parti and the applications (D29), background RAG and data-preprocessing pipelines | Nai: its queues and ordering per key, pipelines in its DSL |
 | Data | The system of record, retrieval, the knowledge base, session context, the file catalogue, geospatial data, telemetry events (usage, timings such as NFR-11's responsiveness, agent runs) | Nai and EntityStore |
 
 Nai treats all its data as schema-based events. Parti's own changes are already events defined by one versioned schema
@@ -260,4 +268,6 @@ architects, designers or users.
 | Aggregate | A unit of state with its own id, changed only through `decide` and `evolve`. |
 | `decide`, `evolve` | `decide(state, command) → events`; `evolve(state, event) → state`. |
 | Parti library (SDK) | The `parti` Python package (D27) that target projects import: the workflow, the harness and the tools. |
+| Message bus | The channel the domain's events travel on, to the page, the scene and the applications' connectors (D29). The gateway in version one; Nai later. |
+| Connector | A bus subscriber for one application that applies events deterministically and returns the application's events as commands (D29). |
 | Projection, snapshot | A view of state built from events; a saved copy of state at a sequence number. |
