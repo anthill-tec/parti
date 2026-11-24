@@ -82,3 +82,34 @@ This note said the Unreal export had not started. It had: the 16 November model 
 17 November (glTF binary through Interchange), and site and planting were rebuilt in Unreal by editor scripts. The
 CP-123 model replaced it on 23 November. JohnnyHouse corrected itself on Sandesh (#1637); the findings are in
 `PRD-parti.md` §11, T4.
+
+## What the step cycle must also cover (JohnnyHouse, 24 November 2026)
+
+JohnnyHouse's orchestrator agreed to move its `cad/gen` scripts onto the `parti` SDK once CR-PRT-024 merges, on its own
+schedule; its migrated run is the on-the-workstation acceptance of each SDK CR, and live tests may read its files in
+place (Sandesh #1675, the owner's agreement). It named what the step cycle (sources, data, generate, apply, check,
+checkpoint, record) would miss, from its working knowledge of the scripts; CR-PRT-024's spec takes each up, or names
+the CR that does:
+
+1. **Part files and their placements.** Movable things (louvres, doors, the garage gate, a skylight vent) are separate
+   part files linked into the building at many positions (28 today). A step can span several files: rebuild a part,
+   relink it, check it **at every placement**, with the part file backed up before it is rebuilt.
+2. **More than one output per step.** The same generators write the motion tables, the placements and the building
+   declaration from the same data tables; the step generates every target together and its record names them all, so
+   nothing drifts from the model.
+3. **Project-defined checks** beside the built-in ones (volume, bounds, body count, interference): walls meeting at
+   their ends, each door joining its two rooms, beams reaching their columns (three fixes on 24 November were beams
+   stopping short that volume and bounds had passed). Each returns pass or fail with its worst value.
+4. **Corrections pointed out live.** The user selects a face or shows a view in the running application; the agent
+   reads the selection and the view, finds the data-table row behind the body, edits it and regenerates only what
+   depends on it. The cycle needs this entry as well as the one from the sources (with CR-PRT-025's live read).
+5. **Picks by world point.** Fillets, cuts and face operations pick an edge or face by a world point that snaps to the
+   nearest; the check after a pick is that the volume changed as expected (a cut that leaves it unchanged missed).
+6. **Setting-out is not CAD.** The floor and wall setting-out scripts work from a survey of the Unreal level and from
+   the declaration; they belong with setting-out and quantities (CR-PRT-019, CR-PRT-020), not the SolidCraft
+   translator.
+7. **Headless or in the application.** JohnnyHouse's runs go through the running application's MCP server (the
+   command-line runner is not allowed in its sessions); its acceptance exercises that path, and the headless path is
+   Parti's own live test.
+8. **Its checkpoint conventions:** a `.sc` file and a log row, no pictures; some kept files must never be removed by a
+   clean-up (a clean-up step removes only what the step itself made).
