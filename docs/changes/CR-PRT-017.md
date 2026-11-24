@@ -17,6 +17,10 @@
 
 ### §S1 E2E suite
 
+This CR sets up the **e2e tier** (CR-PRT-001 leaves it out, owner 2026-11-24): `tests/e2e/__init__.py` and its
+`*_tests` folder, the root script `test:e2e` if a Bun e2e test is added, and its run in CI once a browser is
+provisioned there (DN-test-strategy).
+
 `tests/e2e/test_release_0_1_0.py` (driven by the Python client, a real browser through Playwright): `parti-axi init`
 on a temporary target project, then `parti-axi open`; synthetic catalogue built; `oneBath` imported; then, through
 the Project Environment: filter, shortlist,
