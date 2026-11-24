@@ -94,6 +94,7 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | Navigation data | A project's walkable areas, collision, stairs and levels, doors as passages, viewpoints, routes, teleport points and no-go areas, derived from the building. | World builder |
 | Edition | A packaging of Parti for one kind of user: the designer edition or the client viewer (D22). | — |
 | Designer edition | Parti for architects and interior designers: the full workflow and authoring, through the guided chat and components such as the asset browser. | — |
+| Suggestion | A one-click prompt the guided chat offers at each point of the workflow (a next action, a gate's option), so the user types little (D22). | — |
 | Project Environment | The designer edition's main interface, where the architect or interior designer works: the guided chat beside the workflow view, the asset browser, the design workspace, quantities, the walkthrough, views, offers and the project (D22). | — |
 | Guided chat | The Project Environment's conversation with the project agent: it follows the embedded workflow and guides the design workflow, puts each decision as options with pictures, in the user's own terms (D22). | — |
 | Asset browser | Where every kind of asset is found and chosen: finishes, later furniture and fittings, and library assets not yet acquired, each choice made for a target (D22). | Catalogue |
@@ -168,3 +169,4 @@ are listed in `Architecture.md` §11 and are never needed to discuss the product
 | 2026-11-24 | Added Guided chat, Asset browser; Designer edition through them (D22). |
 | 2026-11-24 | Added Project Environment; Guided chat follows the workflow and guides the design (D22). |
 | 2026-11-24 | Added Project type, Project template (D30). |
+| 2026-11-24 | Added Suggestion (D22). |
