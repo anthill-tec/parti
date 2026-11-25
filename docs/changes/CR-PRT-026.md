@@ -69,5 +69,5 @@ object on request, and the unclassified list.
 ## Non-goals
 
 Model revisions and their changes (CR-PRT-009); the derived declaration (CR-PRT-027); the agent proposing classes and
-labels (the harness's labelling skill, CR-PRT-029); classes below the first level of each branch (later, with the
+labels (the orchestrator's label-and-classify skill, CR-PRT-081); classes below the first level of each branch (later, with the
 catalogue's growth, D32).

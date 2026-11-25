@@ -63,7 +63,7 @@ From 0.2.0, SolidCraft's push (`design.changed` through the native server, D34) 
 `selection.get`: bodies, faces and edges with their points), each mapped to its model object and face id by the last
 inventory, with a **picture** of the current view (`screenshot`) when the session has a window. With CR-PRT-024's
 provenance it names the table row behind each selected body, so a correction the user points out starts there and
-regenerates only what depends on it (the harness's build-from-data skill, CR-PRT-029). Read-only: it changes nothing
+regenerates only what depends on it (the CAD builder's correct-from-a-pointer skill, CR-PRT-081). Read-only: it changes nothing
 in the design.
 
 ### §S6 Test data (Track 2's F2, G4, G5)

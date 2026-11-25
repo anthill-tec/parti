@@ -33,7 +33,9 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Target project | A building project Parti is installed into. It owns the building, its drawings, its Unreal project and its data. | — |
 | Project type | The kind of building project: residential (single-family home, apartment block, …) or commercial (its sub-types); it decides which layers and bills of materials a project has (D30). | — |
 | Project template | The configuration a project type brings at scaffolding: its workflow's phases and steps, its layers, catalogues, default rules and gates; adaptable afterwards (D30). | — |
-| Project agent | The agent working in one target project with Parti's framework: it turns the architect's or designer's intent into data, rules and tool calls, and writes the project's own logic (D28). | — |
+| Project agent | The agent working in one target project with Parti's framework: it turns the architect's or designer's intent into data, rules and tool calls, and writes the project's own logic (D28). It is the **orchestrator** the user talks to in the guided chat: it follows the workflow and calls up the role agents at their steps (D43). | — |
+| Agent role | A kind of agent the project agent calls up for a set of tasks, with its own context, tools and rights: the sheet reader, the CAD builder, the model checker, and so on through the phases. A checker never shares a maker's reasoning (D43). | — |
+| Skill | One useful step an agent can take: it wraps one or more tools and changes the state of one thing the project holds (a source's calibration, a data table, a feature group in the model, a check result, the declaration) (D43). | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
 | Room use | What a room is for (bedroom, bathroom, porch, kitchen), with the names people call it by (aliases). | Building |
@@ -210,3 +212,4 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | 2026-11-24 | Added Workspace, Workspace command, View, Editor, Interaction event, Clip, Palette; Project Environment, Asset browser, Selection, Pointer, Bill of materials (BOM) sharpened (D22). |
 | 2026-11-24 | Rule 7: the language is the schema. |
 | 2026-11-24 | Added Drawing sheet, Data table, Feature group and Model inventory (the building from CAD, D33; CR-PRT-003's gap analysis); Asset browser restated as the central feature (D40). |
+| 2026-11-25 | Added Agent role, Skill; Project agent is the orchestrator (D43). Added Human-use check, Check figure, Widening survey (D42). |

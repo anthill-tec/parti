@@ -191,6 +191,12 @@ How Parti is built and run: the technical components are defined here, not in Pa
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
 
+**Roles and skills** (owner, 25 November 2026; PRD D43): the harness runs **role agents** (sub-agents), each with its own context, tools and
+write rights, under the **orchestrator**, the project agent in the guided chat; the orchestrator briefs a role at its step and keeps
+only its report. A maker and a checker per phase (the CAD builder and the model checker, the scene builder and checker, the world
+builder and checker), readers for outside material (the sheet reader, catalogue intake) and an auditor; a **skill** wraps one or more
+tools into one useful step that changes the state of one thing the project holds.
+
 The harness compiles the workflow definition (A6) into its LangGraph graph; the graph's state is a projection of the
 workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's. Ports (R2) are
 implemented by adapters: local files in version one, EntityStore and Nai later (B6).

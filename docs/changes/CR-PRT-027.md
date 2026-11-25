@@ -69,5 +69,5 @@ wrote itself still imports; `compareDeclarations(written, derived)` lists the di
 ## Non-goals
 
 Polygonal floors and sloped faces (PRD-domain §2.3's 0.1.0 limits); regions, guides and steps derived from the model
-(declared or added by correction in 0.1.0); the agent's labelling (CR-PRT-029); the Building view where the user
+(declared or added by correction in 0.1.0); the agent's labelling (CR-PRT-081); the Building view where the user
 confirms (CR-PRT-033).

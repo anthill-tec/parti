@@ -66,5 +66,5 @@ for confirmation*, *The draft is older than the model: derive again*.
 
 ## Non-goals
 
-Reading values off a sheet automatically (the harness's skill, CR-PRT-029); skewed or non-uniform scans (CR-PRT-065,
+Reading values off a sheet automatically (the sheet reader, CR-PRT-081); skewed or non-uniform scans (CR-PRT-065,
 0.6.0); polygonal floors and sloped faces (later); a 3D view of the building.

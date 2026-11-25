@@ -22,7 +22,7 @@ runner's). It opens in the workspace like any editor (CR-PRT-021, the workspace 
 Shown in order: **Project** (name, type and template; read only in 0.1.0), **Units and display** (area and length
 units, D25; the calibration tolerance), **CAD** (the application, SolidCraft; how the library reaches it, the running
 application or headless; its units and the declared transform, D25), **Agent** (the model runner: the Claude Code
-runner or an API provider, with the name of the environment variable holding its key, never the key; CR-PRT-029),
+runner or an API provider, with the name of the environment variable holding its key, never the key; CR-PRT-081),
 **Bus** (`nai` or `local`, CR-PRT-031; Nai's address, shown with the connection's state), **Layout** (reset the panels).
 Sections for the design, the world and telemetry arrive with their releases.
 

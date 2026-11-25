@@ -35,17 +35,18 @@ Added to the schema (CR-PRT-002's pattern, registry names `parti.<context>.<mess
 
 `packages/domain/src/workflow/`: the **workflow definition** as data, shipped with the template
 `residential/single-family-home` (D30): the seven phases (D26) and, in 0.1.0, the steps of the first three, each with
-its step kind, its checklist and the view or editor it opens:
+its step kind, the **agent role** that runs it (D43; validated against the harness's role catalogue), its checklist and
+the view or editor it opens:
 
-| Phase | Step | Kind | Opens | Checklist (checked by the domain: ✓) |
-|---|---|---|---|---|
-| Plan onboarding | Intake the sources | K1 | `sources` | every source registered with its kind ✓; licences and provenance noted |
-| Plan onboarding | Calibrate the sheets | K1 | `calibration` | every drawing sheet calibrated ✓; each calibration's check dimension within tolerance ✓ |
-| Plan onboarding | Record the data tables | K1 | `project` (data tables) | every table valid against `parti.tables/1` ✓; every row cites a calibrated sheet ✓ |
-| Model | Build from data | K2 | `model` | one item per feature group, ticked when its step record's checks pass ✓ |
-| Model | Consolidate | K3 | `model` | model read, revision current ✓; no object unclassified ✓, or each one noted |
-| Declare | Derive the declaration | K4 | `declaration` | a draft derived from the current model ✓; labels proposed |
-| Declare | Confirm the declaration | review gate | `building` | every surface confirmed ✓; the gate approved |
+| Phase | Step | Kind | Role (D43) | Opens | Checklist (checked by the domain: ✓) |
+|---|---|---|---|---|---|
+| Plan onboarding | Intake the sources | K1 | orchestrator | `sources` | every source registered with its kind ✓; licences and provenance noted |
+| Plan onboarding | Calibrate the sheets | K1 | orchestrator, with the sheet reader | `calibration` | every drawing sheet calibrated ✓; each calibration's check dimension within tolerance ✓ |
+| Plan onboarding | Record the data tables | K1 | sheet reader, then CAD builder | `project` (data tables) | every table valid against `parti.tables/1` ✓; every row cites a calibrated sheet ✓ |
+| Model | Build from data | K2 | CAD builder, then model checker | `model` | one item per feature group, ticked when its step record's checks pass ✓ |
+| Model | Consolidate | K3 | CAD builder, then model checker; orchestrator (classify) | `model` | model read, revision current ✓; no object unclassified ✓, or each one noted |
+| Declare | Derive the declaration | K4 | orchestrator | `declaration` | a draft derived from the current model ✓; labels proposed |
+| Declare | Confirm the declaration | review gate | the user (orchestrator prepares) | `building` | every surface confirmed ✓; the gate approved |
 
 A project that imports a declaration it wrote itself shows the three phases done (PRD-domain §11).
 

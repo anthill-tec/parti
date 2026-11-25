@@ -27,7 +27,7 @@ A target project is also a Nai project of Parti's kind, set up with Nai's own to
   the calibration tolerance, 0.5 %; the bus, `nai` or `local` with `--no-nai`, CR-PRT-031; the harness's model runner,
   CR-PRT-029) and `<dir>/parti/` with the sub-folders of PRD-domain §8 and `steps/`; writes
   Parti's skills (`.agents/skills/parti-*`: using `parti-axi`, writing data tables and steps with the library, labelling
-  and classifying; the harness's own skills come with CR-PRT-029) and agent definitions. The skills teach D28's
+  and classifying; the harness's roles and skills come with CR-PRT-081) and agent definitions. The skills teach D28's
   division: the agent speaks to the architect or designer in the glossary's terms and display units, offers options
   and pictures, and never asks them to write code, data or commands. It records the project's dependencies on `parti`
   and `parti-axi` (D27) and appends Parti's section to the project's `AGENTS.md` (created if absent).

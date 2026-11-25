@@ -75,4 +75,4 @@ the record: they are what the workflow's checklist reports (CR-PRT-022).
 
 Reading or rendering the sheets (the Sources view, CR-PRT-033); the PDF format converters and skewed or non-uniform
 scans (CR-PRT-065, 0.6.0); the data tables' format and validation (CR-PRT-024); the agent reading values off a sheet (the
-harness's skills, CR-PRT-029).
+sheet reader, CR-PRT-081).

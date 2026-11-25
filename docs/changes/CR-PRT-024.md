@@ -45,7 +45,7 @@ named by §S1's rule. `expected(tables, group) -> Expectations`: body count, eac
 the tables alone, independently of SolidCraft. **Provenance:** each body maps back to its table and row, and
 `dependents(tables, changed_rows)` names the groups a change touches (a wall's group and the openings in it), so a
 correction regenerates only what depends on it (JohnnyHouse's gap 4; what the user points at in the CAD is read
-by CR-PRT-025's `pointed`, and the harness starts the correction from it, CR-PRT-029).
+by CR-PRT-025's `pointed`, and the CAD builder starts the correction from it, CR-PRT-081).
 
 ### §S3 Applying it
 
