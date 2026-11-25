@@ -5,7 +5,7 @@
 **Priority:** High
 **Depends on:** CR-PRT-022, CR-PRT-024, CR-PRT-025, CR-PRT-026, CR-PRT-027, CR-PRT-028
 **Labels:** harness, python, agent, skills
-**Phase:** 0.1.0 · wave 3
+**Phase:** 0.1.0 · wave 2
 **Design reference:** `docs/research/PRD-parti.md` D21, D26, D28, D42, D43; `docs/research/DN-workflow-shape.md` §2, §6.1; `docs/Architecture.md` B3 (`parti.harness`)
 
 ## Context
