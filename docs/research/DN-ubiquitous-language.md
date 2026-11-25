@@ -146,6 +146,9 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Step kind | One of the twelve kinds every step is an instance of: intake, build from data, consolidate, declare, transfer, restore after transfer, apply by rule, derive, compose the scene, choose, render or package, trial (D26). | Workflow |
 | Step cycle | What every step does: read the sources, write the data, generate, apply, check against the expected numbers, checkpoint, record; on a failed check, fix the data, never the output (D26). | Workflow |
 | Check | A measurement that proves a step worked, with its pass rule (body count and bounds exact; layer area equals room area). | Workflow |
+| Human-use check | A check that people can use the building as modelled: the clear width and height of doorways, passages and stairs, measured on the built model against the check figure and pass figures (D42). | Workflow |
+| Check figure | The person the human-use checks are made for, declared by the project with its source (an adult about 1.80 m tall, slightly portly); the walkthrough's character is the same figure (D42). | Workflow |
+| Widening survey | What comes with a failed human-use check: how far the opening or passage can grow, and what stops it (a column, a fixture, a screen, a wall end, the open leaf) (D42). | Workflow |
 | Check result | A check's outcome: pass or fail, the measured values, the worst offender, and what it did not prove. | Workflow |
 | Caveat | A known trap of a step or a tool, carried with it and stated with its results ("lives in the world; replayed after an import"). | Workflow |
 | Gate | A point where the owner decides before the workflow goes on, of one of four kinds: review, option, permission, trial (D26). | Workflow |

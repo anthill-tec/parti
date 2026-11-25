@@ -177,3 +177,4 @@ kind. Each such revision is recorded in the change log below and lands in the wo
 |---|---|---|
 | 2026-11-24 | v0.3 (P0 to P12, 279 log rows) | First extraction. |
 | 2026-11-24 | — | Ph1 renamed Plan onboarding; renders as texture and style cues; format converters (owner). |
+| 2026-11-25 | T5.4, T12.12 (#1690) | Human-use checks (D42): a new check family inside K2's step cycle, run after the openings (P5) and again after the joinery (P8), measured on the built bodies; a failure carries a widening survey and opens a review gate, so it is a finding on the design, not on accuracy. No new step kind. The walkthrough's character is the same check figure (Ph6, K12). |

@@ -7,7 +7,7 @@
 **Depends on:** CR-PRT-012, CR-PRT-024, CR-PRT-027, CR-PRT-028
 **Labels:** cli, python, installer, nai
 **Phase:** 0.1.0 · wave 3
-**Design reference:** `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25, D28, D30, D33, D39; `docs/Architecture.md` B3 (`parti-axi`), B7; `docs/research/PRD-domain.md` §1, §2.3a, §2.6, §2.7, §8
+**Design reference:** the AXI standard (https://axi.md/); `docs/research/PRD-parti.md` FR-AXI-1 to FR-AXI-6, D16, D25, D28, D30, D33, D39; `docs/Architecture.md` B3 (`parti-axi`), B7; `docs/research/PRD-domain.md` §1, §2.3a, §2.6, §2.7, §8
 
 ## Context
 
@@ -58,14 +58,30 @@ A target project is also a Nai project of Parti's kind, set up with Nai's own to
 - **Declare:** `declare derive` (with the data tables' rooms), `declare confirm [--surface <id>] [--set field=value]`,
   `declare compare <file>` (a declaration the project wrote itself); `building import [--file <path>]` still imports
   one.
-- `parti-axi state [--query <name>]` and `parti-axi command <name> --json <payload>` send queries and commands.
+- `parti-axi state [--query <name>]` and `parti-axi command <name> --data <payload>` send queries and commands.
 
-### §S4 Output
+### §S4 Output, to the AXI standard (D16, FR-AXI-4)
 
-Every command takes `--json`, printing one JSON object (`ok`, the result or the faults); without it, a short human
-summary in the display units. Exit codes: 0 ok, 1 refused or failed check, 2 usage error. `--dry-run` on `init`,
-`building import`, `declare confirm` and `command` prints what would change and changes nothing. Every message is a
-CloudEvent on the gateway's endpoint (CR-PRT-012), validated with `parti.schema` before it is sent.
+`parti-axi` follows the published AXI standard (https://axi.md/, its ten principles as its `axi` skill specifies them),
+through a small output module `parti.axi` in the library that the complete scripts (CR-PRT-080) share:
+
+- **TOON on stdout by default** (the `toon-format` encoder, MIT), `--format json` for programs; each list item carries
+  three or four fields by default, `--fields` adds more; long text is truncated with its size and a `--full` escape.
+- **Aggregates and empty states:** a list states its total and counts by status (`sheets: 2, calibrated: 1`); an empty
+  result says so (`sources: 0`), never prints nothing.
+- **Next steps:** every output ends with `help[]`, the commands that follow from it (after `sources add`, `sheet
+  calibrate …`); refusals and faults carry theirs too.
+- **Errors:** a refusal or failed check is a structured `error` (its fault code, what it names, the fix) with exit 1; a
+  usage error exits 2 and names the flag; unknown flags are refused. Commands are idempotent (a repeated command id is a
+  no-op, CR-PRT-012), and nothing reads the keyboard (FR-AXI-3).
+- **Content first:** `parti-axi` with no arguments shows the project's live state (phase and step, sources and their
+  calibration, the model's revision, the declaration's state) with its next steps, not the help text; `<command>
+  --help` is a concise reference for that command.
+- **Display units:** lengths in the project's display units, with the unit (`650 mm`, `2' 1"`); `--format json` keeps
+  millimetres.
+
+`--dry-run` on `init`, `building import`, `declare confirm` and `command` prints what would change and changes nothing.
+Every message is a CloudEvent on the gateway's endpoint (CR-PRT-012), validated with `parti.schema` before it is sent.
 
 ## Acceptance criteria
 
@@ -74,11 +90,12 @@ CloudEvent on the gateway's endpoint (CR-PRT-012), validated with `parti.schema`
 - [ ] `init --type commercial/office` exits 2 and lists `residential/single-family-home`.
 - [ ] With a fake `nai` on the path, `init --yes` runs `nai new <project> --template <template>` then `nai check`, in that order, and writes no file under the paths Nai generates; a fake `nai check` failing stops `init` with exit 1 and its message.
 - [ ] (integration) `open --no-browser` on a scaffolded project starts the gateway and prints an address whose page answers 200; `gateway stop` leaves no process.
-- [ ] (integration) `sources add` of CR-PRT-003's plan, then `sheet calibrate` from its sidecar's dimension lines, then `state --query sources --json` shows the sheet calibrated with its check within tolerance.
-- [ ] (integration, the fake CAD session) `model build L0.walls` prints a step record whose checks pass; `model read` then `state --query model --json` lists the level-0 wall objects classified by the rule `L0.walls → structure.wall`.
+- [ ] (integration) `sources add` of CR-PRT-003's plan, then `sheet calibrate` from its sidecar's dimension lines, then `state --query sources --format json` shows the sheet calibrated with its check within tolerance.
+- [ ] (integration, the fake CAD session) `model build L0.walls` prints a step record whose checks pass; `model read` then `state --query model --format json` lists the level-0 wall objects classified by the rule `L0.walls → structure.wall`.
 - [ ] (integration) `declare derive` then `declare confirm` on `one_house()` gives a building revision equal to the G6 oracle.
-- [ ] `building import` of `makeFaulty()`'s declaration exits 1 and its `--json` output lists exactly its `breaches`.
-- [ ] `command import-building --json '{...}'` prints the `building-revised` event; an unknown command name exits 2.
+- [ ] `building import` of `makeFaulty()`'s declaration exits 1 and its `--format json` output lists exactly its `breaches`.
+- [ ] `command import-building --data '{...}'` prints the `building-revised` event; an unknown command name exits 2 with a structured `error` and `help[]`.
+- [ ] `parti-axi` with no arguments in a scaffolded project prints its live state as TOON ending in `help[]`; `sources list` on a project with no sources prints `sources: 0`; an unknown flag exits 2 naming it; no command reads stdin.
 - [ ] Caller-existence: `parti_axi` calls `parti.schema.validate_message` before sending, `parti.workflow.run_step` in `model build`, and `parti.translators.solidcraft.watch` and `tag` in `model watch`.
 
 ## Estimated size
@@ -87,6 +104,7 @@ CloudEvent on the gateway's endpoint (CR-PRT-012), validated with `parti.schema`
 
 ## Non-goals
 
-The Pi plugin and agents joining a live session by a wake-up (FR-AXI-8, FR-AXI-9; with the harness, CR-PRT-029); the
+Adopting an existing project and installing the complete scripts (CR-PRT-080); the Pi plugin and agents joining a live
+session by a wake-up (FR-AXI-8, FR-AXI-9; with the harness, CR-PRT-029); the
 catalogue build (CR-PRT-011, 0.2.0); Nai's template itself (Nai's, requested in CR-PRT-031); publishing to PyPI (a
 release step).
