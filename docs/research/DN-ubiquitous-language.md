@@ -35,6 +35,10 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Project template | The configuration a project type brings at scaffolding: its workflow's phases and steps, its layers, catalogues, default rules and gates; adaptable afterwards (D30). | — |
 | Project agent | The agent working in one target project with Parti's framework: it turns the architect's or designer's intent into data, rules and tool calls, and writes the project's own logic (D28). It is the **orchestrator** the user talks to in the guided chat: it follows the workflow and calls up the role agents at their steps (D43). | — |
 | Agent role | A kind of agent the project agent calls up for a set of tasks, with its own context, tools and rights: the sheet reader, the CAD builder, the model checker, and so on through the phases. A checker never shares a maker's reasoning (D43). | — |
+| Authoring skill | A skill by which an agent writes code the project needs, within its role, against the library's extension points, tested and reviewed by a checker before use (D44). | — |
+| Project tool | Code written for one project by an authoring skill, checked and registered in the project, so later steps call it instead of writing it again (D44). | — |
+| Product catalogue | The products a project uses, each with its type, maker, model, sources, assumptions and every place it is used, so the bills of materials count from placements (D45). | Catalogue |
+| Size source | Where a size in the data tables came from: read from a sheet, taken from a rule, or an assumption for the owner to ratify (D42). | Workflow |
 | Skill | One useful step an agent can take: it wraps one or more tools and changes the state of one thing the project holds (a source's calibration, a data table, a feature group in the model, a check result, the declaration) (D43). | — |
 | Building | The architectural model of one building: its geometry, referenced through labelled elements. The base every layer sits on. (Replaces "Model", which had three meanings.) | Building |
 | Room | A declared space of the building (a bathroom, a bedroom), with its id, name, storey and floor level. Rooms are declared before their surfaces. | Building |
@@ -213,3 +217,4 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | 2026-11-24 | Rule 7: the language is the schema. |
 | 2026-11-24 | Added Drawing sheet, Data table, Feature group and Model inventory (the building from CAD, D33; CR-PRT-003's gap analysis); Asset browser restated as the central feature (D40). |
 | 2026-11-25 | Added Agent role, Skill; Project agent is the orchestrator (D43). Added Human-use check, Check figure, Widening survey (D42). |
+| 2026-11-26 | Added Authoring skill, Project tool (D44), Product catalogue (D45), Size source (D42). |

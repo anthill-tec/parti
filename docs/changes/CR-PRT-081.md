@@ -75,4 +75,5 @@ no credential is stored by Parti.
 
 The orchestrator, the graph and the gates (CR-PRT-029); the later phases' roles (catalogue intake CR-PRT-077 and the
 design checker CR-PRT-037 in 0.2.0, the scene roles CR-PRT-045, the world roles CR-PRT-052, the auditor CR-PRT-063, the
-packager CR-PRT-066); what a project may change or add to the roles (decided last, D43); role agents running in parallel.
+packager CR-PRT-066); the authoring skills, by which the roles write project code (CR-PRT-082, D44); what a project may change or add to the
+roles (decided last, D43); role agents running in parallel.

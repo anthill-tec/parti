@@ -52,8 +52,8 @@ back), so a step reading a sheet uses the same scale; both sides read the calibr
 
 `record-data-table` names a data table file, its hash and, per row, the sheets it cites (passed in by the caller, which
 reads the file with CR-PRT-024's library). It yields `data-table-recorded`, listing as faults the rows citing a sheet
-that is not registered (`unknown-source`), not calibrated or stale (`uncalibrated-source`). The faults do not refuse
-the record: they are what the workflow's checklist reports (CR-PRT-022).
+that is not registered (`unknown-source`), not calibrated or stale (`uncalibrated-source`), and lists the sizes whose source is a rule or an assumption (D42) as
+**to ratify**. The faults do not refuse the record: they are what the workflow's checklist reports (CR-PRT-022).
 
 ## Acceptance criteria
 

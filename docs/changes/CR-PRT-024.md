@@ -30,7 +30,10 @@ route), read by `parti.tools.tables`:
   level, outline, thickness, top at the level's z); **openings** (id, wall, offset along it, width, height, sill);
   **rooms** (id, name, level, `floor_z`, outline); **placements** (a part file at a position and rotation, §S6).
 - **feature groups**: each names the rows it builds (`L0.walls`, `L0.slabs`, …); a row belongs to one group.
-- per row, optionally, the **sheets it cites** (CR-PRT-028).
+- per row, optionally, the **sheets it cites** (CR-PRT-028), and per size its **size source** (D42): `sheet` (the sheet
+  and its dimension line), `rule` (the rule's name, from the project's rules) or `assumption` (for the owner to ratify);
+  a size with none is reported by the validator as `size-source-missing`, so a rule is never repeated as if read from the
+  plans.
 
 **Joints (Track 2's G1):** at an L or T joint the wall listed first runs through and the other stops at its face, so no
 two bodies overlap by construction and a group's expected volume is the sum of its rows' volumes less their openings.
@@ -87,7 +90,10 @@ model (gap 2). `parti.workflow.run_step(step, session, project)`:
 
 A step may target a **part file** linked into the building at several **placements** (louvres, doors, a gate, a vent):
 it backs up the part file, rebuilds it, relinks it at every placement, and runs the part's checks **at every
-placement**; a placement failing fails the step, naming it.
+placement**; a placement failing fails the step, naming it. Every catalogue product, and all cabinetry and furniture, is
+such a part with its own script and file, linked at its placements; only what belongs to the building (cut-outs,
+rebates, boxings, counters) stays in the building's groups, and placements are kept apart from geometry (D45). A
+placement in an opening is checked against the opening's drawn size by CR-PRT-079.
 
 ### §S7 Test data (moved here from CR-PRT-003)
 

@@ -1,7 +1,7 @@
 # Parti — Architecture
 
 **Date:** 2026-11-22
-**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates); updated from the storyboard review for D22's interaction model, D29's event stream, D31 (products classified in the model) and D32 (the product classification). The architecture and features for 1.0.0 are covered (owner, 24 November 2026). Structure is settled where a decision number (D…) is cited; the rest is proposed.
+**Status:** Reviewed by the owner on 22 November 2026: every section agreed, and the review's decisions applied (D16 to D19 in `research/PRD-parti.md` §3). Restructured 24 November 2026 into the logical (Part A) and system (Part B) architecture, and updated for D26 (the workflow's shape), D27 (the `parti` library), D28 (the ecosystem), D29 (the message bus) and D30 (project types and templates); updated from the storyboard review for D22's interaction model, D29's event stream, D31 (products classified in the model) and D32 (the product classification). The architecture and features for 1.0.0 are covered (owner, 24 November 2026). Updated 26 November 2026 for the roadmap's re-plan (D33: four Tracks, 1.0.0 by 31 March 2027), the three uses of Nai's DSL (D41), the AXI standard for `parti-axi` and Parti's scripts (D16), the complete scripts and adoption (D27, FR-AXI-2), the human-use checks (D42), agent roles and skills (D43), authoring skills and project tools (D44), and products as linked part files (D45). Structure is settled where a decision number (D…) is cited; the rest is proposed.
 **Author:** antonyj (owner)
 **Co-author:** JohnnyHouse session agent (first consumer of Parti)
 
@@ -43,8 +43,12 @@ walkthrough. A user and an agent work through its steps together, and each step 
 
 Parti's Python side is one library, `parti` (D27, LGPL-3.0-only): the architectural SDK every target project imports,
 holding the workflow, the harness, the catalogue tools and the pipeline tools generalised from the prototype's scripts;
-the scaffold gives each project Parti's skills and agent definitions, `parti-axi` and the library. Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow definition, with Parti's agent
-definitions and skills, driving the CAD system, Blender and Unreal through their Python APIs and MCP servers. It is
+the scaffold gives each project Parti's skills and agent definitions, `parti-axi`, the library and its complete scripts
+(AXI tools, D16, D27). Parti ships its own agent harness (D21): a workflow graph built from the domain's Workflow
+definition, run by an **orchestrator** (the project agent in the guided chat) that calls up **role agents** at their
+steps, a maker and a checker per phase, each with its own context, tools and rights (D43); roles write the code a
+project needs through **authoring skills**, checked and registered as project tools (D44); the agents drive the CAD
+system, Blender and Unreal through their Python APIs and MCP servers. It is
 released in two editions from one domain (D22, B5): the **designer edition**, the full workflow for architects and
 interior designers, which 1.0.0 delivers through 0.x releases (D23); and the **client viewer**, a self-contained
 walkthrough viewer for the consumer, packaged with a client bundle.
@@ -123,7 +127,11 @@ Workflow frames the other contexts: a step's outputs (a building, a design) are 
 finish tool and the world builder work on. Its shape (D26, `research/DN-workflow-shape.md`): phases of steps, each step
 running one step cycle (sources → data → generate → apply → check → checkpoint → record), gates, and the correction and
 audit loops across every phase. A correction may land in an earlier phase's step; its revision then flows forward
-(D19). How the harness runs it is Part B's (B3, the `parti` library).
+(D19). Each step names the **agent role** that runs it (D43): a maker builds, a checker that never shares the maker's
+reasoning checks, and the orchestrator brings what needs judgment to the user at the gates. The checks include the
+**human-use checks** on the built model (D42), which tell a tight design from a model that departs from its drawing, so
+every size the model is built from records its source. Products, cabinetry and furniture are separate linked parts,
+placed apart from their geometry (D45). How the harness runs it is Part B's (B3, the `parti` library).
 
 ## A7. Project types and templates
 
@@ -180,8 +188,8 @@ How Parti is built and run: the technical components are defined here, not in Pa
 | `adapters-local` | TypeScript | ports | Catalogue from the target project's records; designs as an event log and a snapshot in a file. |
 | `page` | TypeScript, VanJS | `schema` | One page, two presentations (D22): in the designer edition, the **Parti Project Environment**: the **guided chat** with the project agent (through the harness, D21; it follows the embedded workflow and guides the design workflow) beside the workflow view, the **asset browser** (0.1.0: the catalogue browser, detail and shortlist), the zone editor and the conditions controls; in the client viewer, the offered options as an in-world panel with smart menus. Its state is a projection of the shared state. Works as overlay, VR panel and plain browser tab. |
 | `mock-scene` | TypeScript | `schema` | Stands in for Unreal: draws surfaces and zones, reports picks. The test partner. |
-| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21: the LangGraph builder that compiles a workflow definition, Parti's agent definitions, including the Nai agents (D29), MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.converters` (plan onboarding: incoming designs into Parti's metadata, D26); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
-| `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold, agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Structured output, dry run, a flag for every question. |
+| `parti` (library, D27) | Python, LGPL-3.0-only | `schema` (the generated Python types and validation) | The architectural SDK every target project imports. Modules: `parti.workflow` (the workflow-definition model, step kinds, step cycle, checks and check results, gates, the correction loop, D26); `parti.harness` (D21, D43, D44: the LangGraph builder that compiles a workflow definition; the orchestrator, which briefs the role agents at their steps and keeps their reports; the role catalogue (sheet reader, CAD builder, model checker in 0.1.0; a maker and a checker per later phase; catalogue intake; the auditor; the Nai agents, D29), each role's skills, tools and write rights; the authoring skills; the model runner port; MCP client connections to SolidCraft, Blender and Unreal; checkpoints and memory behind ports); `parti.project_tools` (D44: a project's own checks, generators and readers, written by the roles, reviewed by a checker and registered); `parti.axi` (D16: the AXI output shared by `parti-axi` and the scripts); `parti.scripts` (D27: the complete scripts installed into a project); `parti.catalogue` (catalogue tools: validate and build from records in Parti's format, which the project's own agent translates its records into; colour tags, thumbnails, picture orientation); `parti.tools` (generalised from the prototype's scripts: declared transforms (D25), selectors, rule tables with counts, checks with the worst value, the human-use checks (D42), declarations); `parti.translators` (one per application: SolidCraft, Blender, Unreal, the PDF reader); `parti.converters` (plan onboarding: incoming designs into Parti's metadata, D26); `parti.templates` (project types and templates, D30); `parti.units` (D25). A project customises by data and by extending step kinds, never by forking. |
+| `parti-axi` | Python (installed with `uv`) | `parti` library; gateway (over its local interface and agent API) | Installer, scaffold (and adoption of an existing project in place, FR-AXI-2), agent commands, workflow guide; session verbs (state, watch, command) and a Pi plugin that wakes the agent (D16, FR-AXI-8, FR-AXI-9). Follows the AXI standard (<https://axi.md/>, D16): TOON output, next steps after every output, structured errors and exit codes, no prompts, live state with no arguments, a dry run and a flag for every question. |
 | `plugins/solidcraft` (D34; 0.2.0) | Rust: a WebAssembly component and a native server | `schema`, the endpoint definition | Parti's SolidCraft plugin: the component inside SolidCraft (ids and classes as plugin data, checks, table import, one-step builds) and the native WebSocket server beside it, SolidCraft's endpoint on the bus, driving the running application through its control protocol. |
 | `plugins/blender` (D37; 0.3.0) | Python, a Blender extension | `schema`, the `parti` library's Blender translator, the endpoint definition | Blender's endpoint, served in process on the main thread (timers with a window, its own loop headless); transfer, restore, apply by rule, compose, stills and films, variants. |
 | `plugins/unreal` (D36; 0.4.0) | C++, an Unreal plugin (Runtime and Editor modules); licence per Q12 | `schema`, the endpoint definition | Unreal's endpoint, served in process; picks, actors moved and the selection out; placements, conditions and scene loading in. |
@@ -191,11 +199,26 @@ How Parti is built and run: the technical components are defined here, not in Pa
 
 The repository layout that realises this (workspace packages, test folders) is the orchestrator's to propose.
 
-**Roles and skills** (owner, 25 November 2026; PRD D43): the harness runs **role agents** (sub-agents), each with its own context, tools and
-write rights, under the **orchestrator**, the project agent in the guided chat; the orchestrator briefs a role at its step and keeps
-only its report. A maker and a checker per phase (the CAD builder and the model checker, the scene builder and checker, the world
-builder and checker), readers for outside material (the sheet reader, catalogue intake) and an auditor; a **skill** wraps one or more
-tools into one useful step that changes the state of one thing the project holds.
+**Roles and skills** (owner, 25 and 26 November 2026; PRD D43, D44): the harness runs **role agents** (sub-agents), each with its own
+context, tools and write rights, under the **orchestrator**, the project agent in the guided chat; the orchestrator gives a role a
+**brief** at its step and keeps only its **report**, so no agent carries the whole project in its context. A maker and a checker per
+phase (the CAD builder and the model checker, the scene builder and checker, the world builder and checker), readers for outside
+material (the sheet reader, catalogue intake), a packager and an auditor; a checker's brief never carries the maker's reasoning. A
+**skill** wraps one or more tools into one useful step that changes the state of one thing the project holds. Where using a tool
+needs the project's context and custom code, a role's **authoring skill** writes that code against the library's extension points,
+with tests; another agent of the checking role reviews it, and it is registered as a **project tool** (`parti/project/`), so later
+runs call it instead of writing it again; a generic part is offered back to Parti.
+
+| Phase | Maker | Checker | Release |
+|---|---|---|---|
+| Plan onboarding | sheet reader (read only) | — (the orchestrator brings its readings to the user) | 0.1.0 |
+| Model | CAD builder (SolidCraft) | model checker (incl. the human-use checks, D42) | 0.1.0 |
+| Declare | the orchestrator's skills | the user, at the gate | 0.1.0 |
+| Design | catalogue intake (product drafts only, D41) | design checker | 0.2.0 |
+| Present | scene builder (Blender) | scene checker | 0.3.0 |
+| World | world builder (Unreal) | world checker | 0.4.0 |
+| Deliver | packager | the scene and world checkers | 0.6.0 |
+| Every phase | — | auditor (the audit loop) | 0.6.0 |
 
 The harness compiles the workflow definition (A6) into its LangGraph graph; the graph's state is a projection of the
 workflow run, and LangGraph's own checkpointer holds the agent's state only, never the project's. Ports (R2) are
@@ -241,8 +264,8 @@ and versions stay clean. The workspace is driven the same way: the workflow step
 
 | Stage | Page | Gateway and domain | Stores | Scene |
 |---|---|---|---|---|
-| A. First release | browser tab | local Bun process | files in the target project | mock scene |
-| B. Unreal | overlay inside the Unreal app | local Bun process | files | Unreal plugin |
+| A. Local, 0.1.0 to 1.0.0 (D33) | browser tab | local Bun process | files in the target project; EntityStore from 0.2.0 | the CAD (SolidCraft) from 0.1.0; Blender 0.3.0; the mock scene, then Unreal, 0.4.0 |
+| B. Unreal | overlay inside the Unreal app | local Bun process | as A | Unreal plugin |
 | C. VR | panel in the 3D scene | same | same | same |
 | D. Data service | same | local, or served | EntityStore (records), Nai (pipelines, sessions, embeddings) | same |
 | E. Streamed | browser, around a streamed picture | served | same as D | Unreal on servers |
@@ -289,10 +312,13 @@ What Nai lacks today for the interactive loop, and the requests this makes to it
 `research/DN-founding-design-record.md`. The owner's assessment (22 November 2026): a WebSocket connector is not a
 major issue, since Nai already has HTTP in and out connectors. Nai supports custom connectors that talk to Parti over
 WebSockets where needed, usually built with the LangChain agentic SDK, the same toolkit as the agent harness (D21;
-owner, 23 November 2026). Neither is used in 0.1.0 (D9). They come in with the first release that connects a real application (Blender or
-Unreal connectors, the message bus of D29), after a spike once Nai's team confirms the source and sink connectors and
-the schema registry (D9, reconsidered by the owner, 24 November 2026); retrieval (RAG) and the knowledge base move as
-soon as the agent harness exists. 0.1.0's event schemas are registry-ready, so the move changes adapters only.
+owner, 23 November 2026). **Nai comes early** (D33): in 0.1.0 it carries the messages between the gateway and the harness
+(CR-PRT-031), after the validation spike confirms Nai's generic WebSocket source and sink and the schema registry
+(DN-nai-readiness §4); Parti's local bus stays behind the same ports for offline work and tests, and is 0.1.0's bus
+if Nai's connectors are late. EntityStore comes with 0.2.0 for the design and the catalogue (CR-PRT-038), with the
+derived views (D41, CR-PRT-076); each application joins the bus with its endpoint (SolidCraft 0.2.0, Blender 0.3.0,
+Unreal 0.4.0); retrieval (RAG) and the knowledge base move as soon as the agent harness exists. The event schemas are
+registry-ready from 0.1.0, so each move changes adapters only.
 
 **What runs where** (owner, 23 November 2026), in three layers:
 
@@ -375,8 +401,12 @@ imports from other sketch and drawing tools come later. Format converters and da
 pipelines later) turn the incoming design into Parti's own metadata.
 
 `parti-axi init --target <dir>` writes into the target project its configuration, Parti's skills and agent definitions
-(which teach the agent to use the `parti` library and `parti-axi`), the agent notes, and the project's dependencies on
-`parti` and `parti-axi` (D27), and nothing else. The target keeps its data where it is; Parti reads it in place and writes only where the
+(which teach the agent to use the `parti` library and `parti-axi`), the agent notes, the complete scripts
+(`parti/scripts/`, Parti-managed AXI tools refreshed on upgrade, D27), and the project's dependencies on `parti` and
+`parti-axi`, and nothing else. A project made by hand is **adopted in place** (FR-AXI-2): `init` surveys what is there,
+maps it into the configuration, moves and overwrites none of the project's files, and reports what is left to migrate.
+The project's own code lives in `parti/project/`: the **project tools** its role agents write, check and register (D44),
+apart from Parti's managed files. The target keeps its data where it is; Parti reads it in place and writes only where the
 configuration says (saved designs, the step log, checkpoints). When the Unreal plugin exists, the scaffold
 also connects it to the target's Unreal project.
 
@@ -392,6 +422,9 @@ architects, designers or users.
 | Gateway | The local Bun process the page, the scene adapter, `parti-axi` and agents connect to. |
 | Scene adapter | Whatever connects a 3D scene to the gateway: the mock scene, or the Unreal plugin. |
 | Agent API | The gateway's local interface through which an agent takes part in a session (D16). |
+| Brief, report | What the orchestrator gives a role agent at a step (the step, its goal, what it may read by reference, the checklist), and what the role returns (what it changed as commands, its findings, what needs the user), the only part of its work the orchestrator keeps (D43). |
+| Extension point | A place in the `parti` library a project's own code may extend (a check, a feature group's generator, a sheet reader); the only places an authoring skill writes to (D44). |
+| AXI | Agent eXperience Interface (<https://axi.md/>): the standard Parti's command-line tools follow for agents (TOON output, next steps, structured errors, no prompts; D16). |
 | Adapter | Code that connects the domain to one outside system; in (a link) or out (a store). |
 | Port | The domain-named interface an adapter sits behind. |
 | Translator | An adapter that maps an outside system's words and shapes into the domain's (anti-corruption layer). |
