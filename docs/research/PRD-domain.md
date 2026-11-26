@@ -16,6 +16,7 @@ release. Items marked **DM-n** are decisions for the owner; the text shows the r
 | 2026-11-23 | First draft, for 0.1.0. |
 | 2026-11-24 | **Version 0.4, re-sliced for the roadmap** (PRD-parti D33, owner): 0.1.0 is the building from CAD. §1 rewritten; §2.6 the model and its inventory (DM-12); §2.7 the derived declaration; §2.1a labels from the model; §4.4 0.1.0 ships the first level of every branch; §6 model revisions; §7 and §8 the new message families and logs; §11 widened to the first three phases. The design (§3), the finishes catalogue (§4.1 to §4.3), setting-out and quantities move to 0.2.0, the conditions to 0.4.0; their text stays as the draft for those releases, re-reviewed before each. |
 | 2026-11-24 | From the storyboard review (owner): elements and labels (§2.1a); zones defined by a selection and labelled (§3.2); the product model and the classification (§4.4, DM-10, PRD-parti D32), so 0.1.0's finish records are structured as form, build-up, appearance and quantities; interaction events (§5, §7); the Workflow context's 0.1.0 slice (§11, DM-11); version 0.3. |
+| 2026-11-26 | §4.4: animatable products and their motion definitions, kept with the product (PRD-parti D46, owner). |
 | 2026-11-24 | "Setting" renamed "Conditions" (owner). |
 | 2026-11-23 | DM-3 and DM-6 decided as recommended. |
 | 2026-11-23 | §2.3a units (D25). |
@@ -431,6 +432,12 @@ near one of them, whatever its kind. Results can be narrowed to a **product clas
   One schema per aspect, shared by every product layer; attributes are **optional, with defaults**, so a static product
   carries few physical attributes and an object one can pick up carries them all. Most state changes are updates of
   these attributes.
+- **Animatable** (owner, 26 November 2026; PRD-parti D46): a product's core attributes carry `animatable`, defaulted by
+  its class (appliances, cabinetry and furniture, doors and gates, mechanisms), and a product that is animatable carries
+  its **motion definition**: its motion table (which bodies move, the motion primitive, direction, travel, pivot or hinge
+  line and sense, what rides along, the stops), measured from the CAD once and kept with the product, so every placement
+  and every project reuses it. Applications realise it (Unreal through Blueprint templates per motion primitive). 0.1.0
+  carries the flag and an empty motion slot; the definitions come with the world builder (0.4.0).
 - **Applications only realise it:** a CAD material, a Blender or Unreal shader is its translator's realisation of the
   material, finish and texture, kept linked by id (PRD-parti D29).
 - **Plain words** ("light UV-filtered pane glass", "red stainless-steel water bottle"), from the user, a drawing note or a

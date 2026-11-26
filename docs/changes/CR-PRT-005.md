@@ -7,7 +7,7 @@
 **Depends on:** CR-PRT-002, CR-PRT-003
 **Labels:** domain, catalogue, schema
 **Phase:** 0.1.0 · wave 1
-**Design reference:** `docs/research/PRD-domain.md` §4.2a, §4.4 (DM-10), §2.6 (DM-12); `docs/research/PRD-parti.md` D31, D32, D33, D40; FR-CAT-1
+**Design reference:** `docs/research/PRD-domain.md` §4.2a, §4.4 (DM-10), §2.6 (DM-12); `docs/research/PRD-parti.md` D31, D32, D33, D40, D46; FR-CAT-1
 
 ## Context
 
@@ -53,7 +53,8 @@ The branch roots carry no IFC mapping of their own. An object the project's rule
 `packages/domain/src/catalogue/`, per PRD-domain §4.4 and §4.2a:
 
 - **`Product`**: identity (`id`, `class`, `name`, maker or source and `licence`, `series`, `set`, maker's code, suitable
-  use and surfaces), **`form`** (shape and dimensions; for tiles `sizeIncludesJoint`, `piecesPerBox`), **`buildUp`**
+  use and surfaces), **`animatable`** (a core attribute, defaulted by the class: true for appliances, cabinetry and
+  furniture, doors and gates; D46) with its **`motion`** slot (a motion definition's reference, empty in 0.1.0), **`form`** (shape and dimensions; for tiles `sizeIncludesJoint`, `piecesPerBox`), **`buildUp`**
   (materials, coatings and finishes from the core outwards, each naming its `Material`), and **`aspects`**:
   `appearance` (colour, sheen, finish class, `scan` and `stain`, `effect`, `metallic`, `roughness`, images and asset
   references, never data), `quantities` (counting unit, pieces per box, coverage), and `physical` and `interaction`,
@@ -94,6 +95,7 @@ value appears" is testable; the classes drawn cover every first-level class of e
 - [ ] Version 1's class ids are pinned in a test: adding, removing or renaming a class fails it until the version and the pinned set change together (a new class is the owner's change, D32).
 - [ ] A Python test loads the same file through `parti.schema` and gets the same class ids and IFC mappings as the TypeScript test (a shared expected list).
 - [ ] `effective(teak, { sheen: "gloss" })` gives teak's colour and a gloss sheen; with the override removed, teak's sheen.
+- [ ] A product of an animatable class (`openings.door`, an appliance, furniture) is `animatable` by default and one of `finishes.tile` is not; a product may override its class's default; a `motion` reference on a product that is not animatable is invalid (`not-animatable`).
 - [ ] A product naming an unknown class is invalid (`unknown-class`); a paint whose class is `finishes.tile` is invalid (`class-mismatch`).
 - [ ] A paint without `sheen` is invalid (`missing-field`); a metal with `metallic` 1.5 is invalid (`invalid-value`); a paint `effect` of one colour is invalid (`invalid-value`).
 - [ ] Two veneers sharing a scan with different stains are two products whose main colours are their stains' colours, naming the same `scan.id`; a laminate with a colour and no scan is valid and `provisional`, and with a scan is not.
@@ -107,5 +109,6 @@ value appears" is testable; the classes drawn cover every first-level class of e
 ## Non-goals
 
 The finishes catalogue, its build, queries, palette and *goes with* (CR-PRT-011, 0.2.0); the asset browser (CR-PRT-014,
-0.2.0); levels below the first and the physical and interaction attributes (with their layers and the world builder);
+0.2.0); levels below the first and the physical and interaction attributes (with their layers and the world builder); the
+motion definitions themselves (CR-PRT-050, 0.4.0, D46);
 classifying a model's objects (CR-PRT-026); the IFC translator (CR-PRT-058, through Nai).

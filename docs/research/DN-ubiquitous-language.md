@@ -106,7 +106,9 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | Site | The land and surroundings of the building in its world: terrain, neighbours, roads, vegetation, built from geospatial data and map providers. | World builder |
 | Moving part | A part of the building or its world that can be animated: door, drawer, gate, louvre. | World builder |
 | Sub-assembly | A moving part built as its own CAD part (a louvre window, a sliding door, the garage gate), brought into Unreal once as its own component and placed in the building from the CAD's placement tables. | World builder |
-| Motion table | The kinematics of a sub-assembly, computed from the same CAD generators that build it: which bodies turn or slide, about which axis, driven by one input; a composition of motion primitives. | World builder |
+| Motion table | The kinematics of a sub-assembly, computed from the same CAD generators that build it: which bodies turn or slide, about which axis, driven by one input; a composition of motion primitives. A product's motion table is kept with it as its motion definition (D46). | World builder |
+| Animatable | Said of a product that can move (an appliance, a cabinet, furniture, a door or gate, a mechanism): a core attribute, defaulted by its product class; an animatable product carries a motion definition (D46). | Catalogue |
+| Motion definition | An animatable product's motion, kept with the product and reused wherever it is placed: which bodies move, how (a motion primitive), which way, how far, about which pivot, what rides along, where it stops; measured from the CAD once (D46). | Catalogue |
 | Motion primitive | A generic, reusable motion with its parameters and limits: hinge, slide, follower or linkage, gear or ratio, lift and fold, telescope, continuous rotation. | World builder |
 | Motion library | The world builder's set of motion primitives, which the agent composes into a sub-assembly's motion and its interactive scripts in Unreal. | World builder |
 | Experience mode | How a person experiences a scenario: a VR walkthrough, or a monitor with keyboard, mouse or gamepad. | World builder |
@@ -218,3 +220,4 @@ are listed in `Architecture.md` B8 and are never needed to discuss the product.
 | 2026-11-24 | Added Drawing sheet, Data table, Feature group and Model inventory (the building from CAD, D33; CR-PRT-003's gap analysis); Asset browser restated as the central feature (D40). |
 | 2026-11-25 | Added Agent role, Skill; Project agent is the orchestrator (D43). Added Human-use check, Check figure, Widening survey (D42). |
 | 2026-11-26 | Added Authoring skill, Project tool (D44), Product catalogue (D45), Size source (D42). |
+| 2026-11-26 | Added Animatable, Motion definition; Motion table kept with the product (D46). |
