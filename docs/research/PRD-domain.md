@@ -436,8 +436,10 @@ near one of them, whatever its kind. Results can be narrowed to a **product clas
   its class (appliances, cabinetry and furniture, doors and gates, mechanisms), and a product that is animatable carries
   its **motion definition**: its motion table (which bodies move, the motion primitive, direction, travel, pivot or hinge
   line and sense, what rides along, the stops), measured from the CAD once and kept with the product, so every placement
-  and every project reuses it. Applications realise it (Unreal through Blueprint templates per motion primitive). 0.1.0
-  carries the flag and an empty motion slot; the definitions come with the world builder (0.4.0).
+  and every project reuses it. It also carries **interlocks** (a body moves only while another body's motion is within a
+  range: `lock: [other body, lowest, highest]`) and **mechanisms** (one input driving linked motions). Applications
+  realise it (Unreal through Blueprint templates per motion primitive, a mechanism as one Blueprint). 0.1.0 carries the
+  flag and an empty motion slot; the definitions come with the world builder (0.4.0).
 - **Applications only realise it:** a CAD material, a Blender or Unreal shader is its translator's realisation of the
   material, finish and texture, kept linked by id (PRD-parti D29).
 - **Plain words** ("light UV-filtered pane glass", "red stainless-steel water bottle"), from the user, a drawing note or a
